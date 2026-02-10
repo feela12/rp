@@ -86,3 +86,21 @@
     
     window.__promo = { goTo, next, prev };
     })();
+
+    const container = document.querySelector('.products');
+container.addEventListener('mousemove', e => {
+  // Zjisti jestli je kurzor na .image-card nebo na mezere mezi nimi
+  const isOnCard = e.target.classList.contains('image-card');
+  
+  if (isOnCard) {
+    container.classList.add('hover-on-card');
+    container.classList.remove('hover-on-gap');
+  } else {
+    container.classList.add('hover-on-gap');
+    container.classList.remove('hover-on-card');
+  }
+});
+
+container.addEventListener('mouseleave', () => {
+  container.classList.remove('hover-on-card', 'hover-on-gap');
+});

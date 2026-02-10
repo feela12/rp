@@ -181,6 +181,7 @@ a {
   width: 700px;
   cursor: pointer;
   transition: transform 0.3s ease;
+  justify-content: space-between;
 }
 
 .image-card img {
@@ -451,6 +452,10 @@ nav {
    font-size:150px;
    text-align:center;
    margin-top:20px;
+}
+
+#mezera{
+  font-size:30px;
 }
 
   

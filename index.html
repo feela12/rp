@@ -30,9 +30,16 @@
 
 
 <!--ACCOUNT A KOŠÍK-->
-<a href="externprklk.html" class="acc">
-  <img src="images\user.png", height="50px", width="55px">
-</a>  
+<a href="#popup" class="acc">
+    <img src="images/user.png" height="50" width="55">
+</a>
+
+<div id="popup" class="popup">
+    <div class="popup-content">
+        <p>YOU ARE SIGNED IN ✓</p>
+        <a href="#" class="close">OK</a>
+    </div>
+</div>
   <a href="externprklk.html" class="kos">
     <img src="images\sc.png", height="50px", width="60px">
   </a>  
@@ -112,7 +119,7 @@
   <div class="hero-overlay">
   <div class="arrow-group">
   <img src="images/Eo_circle_red_arrow-down.svg.png" height="60px" width= "60px" alt="šipka dolů" class="sipka" onclick="scrollToSection()" />
-  <h1 class="clickable-heading" onclick="scrollToSection()">
+  <h1 class="clickable-heading" onclick="scrollToSection(addEventListener)">
           2025 FALL COLLECTION
   </h1>
   <img src="images/Eo_circle_red_arrow-down.svg.png" height="60px" width= "60px" alt="šipka dolů" class="sipka" onclick="scrollToSection()" />
@@ -123,7 +130,7 @@
   <section id="uvod" class="content">
     <h2>HIGH-DEMAND</h2>
     <h3>CUSTOMER FAVORITE</h3>
-
+<div class="products">
     <div class="image-gallery">
       <div class="image-card" onclick="toggleText(this)">
         <a href = "product1.html">
@@ -154,7 +161,9 @@
           </a>
         </div>
       </div>
-
+<div id="mezera">
+  <a>&nbsp;aaaa</a>
+</div>
       <div class="image-card" onclick="toggleText(this)">
         <a href = "product2.html">
         <model-viewer 
@@ -198,6 +207,7 @@
 >
 </model-viewer>
 </a>
+
         <div class="image-paragraph">
          <a href = "product3.html">
           <p>
@@ -211,6 +221,7 @@
       </div>
     </div>
   </section>
+</div>
 
   <footer class="footer">
     <hr class="line">

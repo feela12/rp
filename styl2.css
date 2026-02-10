@@ -75,3 +75,102 @@
 
   /* small accessibility helpers */
   .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+.popup {
+    position: fixed;
+    inset: 0; 
+    background: rgba(0, 0, 0, 0.6);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s ease;
+    z-index: 999999
+}
+
+
+.popup:target {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.popup-content {
+    background: white;
+    padding: 30px 40px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 60px;
+    font-family:'League Gothic';
+}
+
+.close {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 8px 200px;
+    background: #222;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-family:'League Gothic';
+    font-size:40px;
+}
+
+.products {
+    position: relative;
+}
+
+.products::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s ease;
+    z-index: 5;
+}
+
+.products:hover::after {
+    opacity: 1;
+}
+
+.products:hover .image-card {
+    opacity: 1;
+    filter: blur(4px);
+}
+
+/* objekt na kterem je myska zustane svetly */
+.image-card:hover {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: scale(1.2);
+    z-index: 20;
+}
+
+.products.hover-on-gap .image-card {
+  opacity: 1;
+  filter: none;
+  transform: none;
+  z-index: auto;
+}
+
+.products.hover-on-gap::after {
+  opacity: 0;
+}
+
+.products.hover-on-card:hover {
+  /* efekt pro kartu */
+  opacity: 1;
+  filter: none;
+  transform: scale(1.2);
+  z-index: 20;
+}
+
+.products.hover-on-card::after {
+  opacity: 1;
+  background: rgba(0,0,0,0.6);
+  filter: blur(4px);
+}
