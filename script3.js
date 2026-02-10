@@ -14,7 +14,6 @@
     let autoplayId = null;
     
     
-    // build dots
     slides.forEach((_, i)=>{
     const d = document.createElement('button');
     d.className = 'promo-dot';
@@ -48,7 +47,7 @@
     prevBtn.addEventListener('click', prev);
     
     
-    // keyboard support
+    // keyboard podpora
     document.addEventListener('keydown', (e)=>{
     if(e.key === 'ArrowLeft') prev();
     if(e.key === 'ArrowRight') next();
@@ -58,19 +57,19 @@
     // autoplay
     function startAutoplay(){
     stopAutoplay();
-    autoplayId = setInterval(()=> next(), autoplayInterval);
+    autoplayId = setInterval(()=> next(),autoplayInterval);
     }
     function stopAutoplay(){ if(autoplayId) clearInterval(autoplayId); autoplayId = null; }
     function restartAutoplay(){ stopAutoplay(); startAutoplay(); }
     
     
-    // pause on hover / focus
+    // pauza na hover/fokus
     const carousel = document.querySelector('.promo-carousel');
     ['mouseenter','focusin'].forEach(ev=> carousel.addEventListener(ev, stopAutoplay));
     ['mouseleave','focusout'].forEach(ev=> carousel.addEventListener(ev, startAutoplay));
     
     
-    // swipe support
+    // podpora swipu
     let startX = 0, moveX = 0, isTouching=false;
     const threshold = 40; // px
     track.addEventListener('touchstart', (e)=>{ isTouching=true; startX = e.touches[0].clientX; stopAutoplay(); }, {passive:true});
@@ -82,12 +81,8 @@
     startAutoplay();
     });
     
-    
-    // init
     update();
     startAutoplay();
     
-    
-    // expose for debugging (optional)
     window.__promo = { goTo, next, prev };
     })();

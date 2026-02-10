@@ -58,8 +58,7 @@ const dracoLoader = new DRACOLoader();
 dracoLoader.setDecoderPath(
   "https://www.gstatic.com/draco/versioned/decoders/1.5.7/"
 );
-// Pokud chceš čistě JS dekodér (méně kompatibilní a pomalejší), můžeš:
-// dracoLoader.setDecoderConfig({ type: 'js' });
+
 gltfLoader.setDRACOLoader(dracoLoader);
 
 // Ukázka načtení GLTF modelu
