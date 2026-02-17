@@ -345,14 +345,23 @@ margin-bottom: 50px
   z-index: 9999; 
   top:82px;
 }
-.search{
-  text-align: right;
-  position:fixed;
-  right:250px;  
-  z-index: 9999; 
-  top:82px;
-
+.search {
+  position: fixed;
+  right: 250px;     /* Výchozí pozice */
+  top: 82px;
+  z-index: 9999;
+  cursor: pointer;
+  /* transition musí být u hlavního prvku! */
+  transition: all 0.5s ease-in-out; 
 }
+
+/* Tato třída se přidá pomocí JS */
+.search.move {
+  /* Zkusíme teď přímo změnit 'right', aby to bylo jistější */
+  right: 600px; /* Posune se o 100px víc doleva od kraje */
+}
+
+
 .kosprod{
   text-align: right;
   position:fixed;
@@ -365,8 +374,7 @@ model-viewer {
   --progress-bar-color: transparent;
 }
 
-:root{
-}
+
 
 
 /* responsive height */
@@ -456,6 +464,13 @@ nav {
 
 #mezera{
   font-size:30px;
+}
+
+.logo{
+  width:90px;
+  height:90px;
+  text-align:center;
+  margin:0 auto;
 }
 
   

@@ -43,13 +43,14 @@
   <a href="externprklk.html" class="kos">
     <img src="images\sc.png", height="50px", width="60px">
   </a>  
-  <a href="externprklk.html" class="search">
-    <img src="images\search.png", height="50px", width="50px">
-  </a>  
+<div class="search" id="mysearch" onclick="this.classList.toggle('move')">
+    <img src="images/search.png" alt="Search" width="50" height="50">
+</div>
 
 
 <!--3D-LOGO-->
-<a href="index.html">
+<div class="logo">
+<a href="index.html" >
   <model-viewer 
   src="https://feela12.github.io/Z-v-re-n--projekt-SAP/base_basic_pbr_logo.glb"
   alt="3D logo"
@@ -57,13 +58,13 @@
   auto-rotate-delay="0"
   rotation-per-second="800%"
   shadow-intensity="2"
-  style="width: 400px; height: 100px; margin: 0 auto; display: block;"
+  style="width: 100px; height: 100px; margin: 0 auto; display: flex;"
   style="pointer-events: none;"
   camera-orbit="0deg 80deg 100m"
 >
 </model-viewer>
 </a>
-
+</div>
 
 <!-- Promo carousel start -->
 <section class="promo-carousel" aria-label="Promo akce — carousel">
@@ -145,6 +146,7 @@
   style="width: 650px; height: 400px; margin: left; display: flex;"
   a href = "product1.html"
   style="pointer-events: none;"
+ 
 >
 
 </model-viewer>
@@ -161,9 +163,7 @@
           </a>
         </div>
       </div>
-<div id="mezera">
-  <a>&nbsp;aaaa</a>
-</div>
+<hr>
       <div class="image-card" onclick="toggleText(this)">
         <a href = "product2.html">
         <model-viewer 
@@ -191,6 +191,7 @@
           </a>
         </div>
       </div>
+<hr>
 
       <div class="image-card" onclick="toggleText(this)">
         <a href = "product3.html">
@@ -204,9 +205,12 @@
   style="width: 650px; height: 400px; margin: right; display: flex;"
   style="pointer-events: none;"
   rotation-per-second="400%"
+  
+  
 >
 </model-viewer>
 </a>
+
 
         <div class="image-paragraph">
          <a href = "product3.html">

@@ -134,7 +134,7 @@
 }
 
 .products:hover::after {
-    opacity: 1;
+    opacity: 0;
 }
 
 .products:hover .image-card {
@@ -151,7 +151,7 @@
 }
 
 .products.hover-on-gap .image-card {
-  opacity: 1;
+  opacity: 0;
   filter: none;
   transform: none;
   z-index: auto;
@@ -163,14 +163,16 @@
 
 .products.hover-on-card:hover {
   /* efekt pro kartu */
-  opacity: 1;
+  opacity: 1.2;
   filter: none;
   transform: scale(1.2);
   z-index: 20;
 }
 
 .products.hover-on-card::after {
-  opacity: 1;
+  opacity: 22;
   background: rgba(0,0,0,0.6);
   filter: blur(4px);
 }
+
+

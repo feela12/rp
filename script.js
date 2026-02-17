@@ -75,4 +75,12 @@ gltfLoader.load(
   }
 );
 
+const searchElement = document.getElementById('mysearch');
+
+  searchElement.onclick = function() {
+    // Tohle vypíše do konzole (F12), jestli se na to kliklo
+    console.log("Kliknuto na lupu!"); 
+    this.classList.toggle('move');
+  };
+
 
