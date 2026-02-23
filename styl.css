@@ -133,7 +133,7 @@ a {
 .content p {
   max-width: 600px;
   margin: 0 auto;
-  font-size: 1rem;
+  font-size: 2rem;
   line-height: 1.5;
 }
 
@@ -198,16 +198,17 @@ a {
 .image-paragraph {
   
   
-  font-size: 20000px;
+  
   margin-top: 20px;
   
-  font-family: 'Gill Sans', Calibri, sans-serif;
+  
+  font-family: 'League Gothic';
 }
 
 .image-card.active .image-paragraph {
   max-height: 4000px;
   opacity: 1;
-  font-size: 2000px;
+  font-size: 10px;
 }
 
 #uvod {
@@ -358,7 +359,7 @@ margin-bottom: 50px
 /* Tato třída se přidá pomocí JS */
 .search.move {
   /* Zkusíme teď přímo změnit 'right', aby to bylo jistější */
-  right: 600px; /* Posune se o 100px víc doleva od kraje */
+  right: 500px; /* Posune se o 100px víc doleva od kraje */
 }
 
 

@@ -146,14 +146,14 @@
 .image-card:hover {
     opacity: 1 !important;
     filter: none !important;
-    transform: scale(1.2);
+    transform: scale(-1);
     z-index: 20;
 }
 
 .products.hover-on-gap .image-card {
   opacity: 0;
   filter: none;
-  transform: none;
+  transform: scale(10000);
   z-index: auto;
 }
 
