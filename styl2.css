@@ -146,7 +146,7 @@
 .image-card:hover {
     opacity: 1 !important;
     filter: none !important;
-    transform: scale(-1);
+    transform: scale(1.2);
     z-index: 20;
 }
 
