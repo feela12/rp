@@ -416,10 +416,10 @@ display:block;
 
 /* overlay content (title / CTA) */
 .promo-overlay{
-position:absolute;left:1.25rem;bottom:1.25rem;z-index:3;color:white;text-shadow:0 6px 18px rgba(0,0,0,0.6);
+position:absolute;left:1.25rem;bottom:1.25rem;z-index:3;color:rgb(0, 0, 0);text-shadow:0 6px 18px rgba(0,0,0,0.6);
 max-width:60%;
 }
-.promo-title{font-size:1.25rem;margin:0 0 .3rem}
+.promo-title{font-size:1.25rem;margin:0 0 .3rem; color:white;}
 @media(min-width:900px){ .promo-title{font-size:2rem} }
 .promo-cta{display:inline-block;padding:.6rem .9rem;background:var(--controls-bg);color:var(--accent);border-radius:8px;font-weight:600;text-decoration:none; font-size:90px; button-radius:8px}
 
