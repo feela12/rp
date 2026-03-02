@@ -83,4 +83,42 @@ const searchElement = document.getElementById('mysearch');
     this.classList.toggle('move');
   };
 
+  const searchElement = document.getElementById('mysearch');
+
+searchElement.onclick = function() {
+  this.classList.toggle('move');
+};
+
+document.addEventListener("DOMContentLoaded", function() {
+
+  const searchElement = document.getElementById('mysearch');
+  const input = document.querySelector('.search-input');
+
+  searchElement.addEventListener("click", function() {
+    this.classList.toggle('move');
+
+    if(this.classList.contains('move')){
+      input.focus();
+    }
+  });
+
+});
+
+const wrapper = document.getElementById("mysearch");
+const input = document.querySelector(".search-input");
+
+wrapper.addEventListener("click", function() {
+  wrapper.classList.toggle("move");
+
+  
+});
+
+const searchElement = document.getElementById('mysearch');
+
+searchElement.onclick = function() {
+  console.log("Kliknuto na lupu!");
+  this.classList.toggle('move');
+};
+
+
 

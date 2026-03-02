@@ -353,20 +353,22 @@ margin-bottom: 50px
 }
 .search {
   position: fixed;
-  right: 250px;     /* Výchozí pozice */
-  top: 82px;
+  right: 250px;
+  top: 86px;
   z-index: 9999;
   cursor: pointer;
-  /* transition musí být u hlavního prvku! */
+  transform-origin: right center;
+
+  display: flex;          /* DŮLEŽITÉ */
+  align-items: center;
+  flex-direction: row-reverse;    /* vystředí na výšku */
+
   transition: all 0.5s ease-in-out; 
 }
 
 /* Tato třída se přidá pomocí JS */
-.search.move {
-  /* Zkusíme teď přímo změnit 'right', aby to bylo jistější */
-  right: 500px; /* Posune se o 100px víc doleva od kraje */
-  
-  transform: rotate(720deg);
+.search img {
+  order: 2;
 }
 
 
@@ -421,7 +423,7 @@ max-width:60%;
 }
 .promo-title{font-size:1.25rem;margin:0 0 .3rem; color:white;}
 @media(min-width:900px){ .promo-title{font-size:2rem} }
-.promo-cta{display:inline-block;padding:.6rem .9rem;background:var(--controls-bg);color:var(--accent);border-radius:8px;font-weight:600;text-decoration:none; font-size:90px; button-radius:8px}
+.promo-cta{display:inline-block;padding:2rem .9rem;background:var(--controls-bg);color:var(--accent);border-radius:20px;font-weight:600;text-decoration:none; font-size:90px;}
 
 
 /* arrows */
@@ -531,5 +533,42 @@ nav {
   
   z-index: 1000;
 }
+
+.search-input {
+  width: 0;
+  opacity: 0;
+  padding: 15px;
+  border: 3px solid black;
+  order: 1; /* input vlevo */
+  
+  
+  
+   
+  height: 35px;
+  
+  box-sizing: border-box;
+  transition: all 0.5s ease;
+}
+
+/* když se přidá .move */
+.search.move .search-input {
+  width: 200px;
+  opacity: 1;
+  transition-delay: 0.5s;
+}
+
+.search.move {
+  width: 200px;
+  transition: width 0.3s;
+}
+
+.search img {
+  transition: transform 0.5s ease-in-out;
+}
+
+.search.move img {
+  transform: rotate(720deg);
+}
+
   
   
