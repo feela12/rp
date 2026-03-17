@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="styl.css" />
     <link rel="stylesheet" href="styl2.css" />
   <link href='https://fonts.googleapis.com/css?family=League Gothic' rel='stylesheet'>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
 <body>
@@ -48,9 +51,10 @@
     <img src="images\sc.png", height="50px", width="60px">
   </a>  
 <div class="search" id="mysearch" onclick="this.classList.toggle('move')">
+    <input type="text" class="search-input" placeholder="Search..." onclick="event.stopPropagation()">
     <img src="images/search.png" alt="Search" width="50" height="50">
 </div>
-  </a>
+  
 </section>
     <p class="nadpisc">&nbsp &nbsp A GREAT CHAOS CHAIN - REPLICA&nbsp</p>
     <p class="ricktext"> 
