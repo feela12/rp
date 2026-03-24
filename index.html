@@ -16,24 +16,31 @@
 <body>
   
 <!--HEADER-->
-  <header class="navbar">
-    <div class="nav-left">
-    <a href="#uvod">IN-STOCK &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</a>
-    <a href="qfullwomen.html">WOMEN</a>
-    </div>
-    <div class="nav-center">
-    <a href="index.html">
-    </a>
-    </div>
-    <div class="nav-right">
-    <a href="qfullmen.html">MEN &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</a>
-    <a href="">2025 COLLECTION</a>
-    </div>
-  </header>
+  
 
 
 <!--ACCOUNT A KOŠÍK-->
-<a href="#popup" class="acc">
+<header>
+    
+  <section class="fixed-section">
+     <a href="index.html" >
+    <model-viewer 
+    src="https://feela12.github.io/Z-v-re-n--projekt-SAP/base_basic_pbr_logo.glb"
+    alt="3D logo"
+    auto-rotate
+    auto-rotate-delay="0"
+    rotation-per-second="0%"
+    shadow-intensity="2"
+    style="width: 400px; height: 100px; margin: auto; top:39px; z-index:1000000"
+    camera-orbit="270deg 80deg 100m"
+    style="pointer-events: none;"
+    top="1000px;"
+    
+    
+  >
+     </a>
+  </model-viewer>
+  <a href="#popup" class="acc">
     <img src="images/user.png" height="50" width="55">
 </a>
 
@@ -46,29 +53,13 @@
   <a href="externprklk.html" class="kos">
     <img src="images\sc.png", height="50px", width="60px">
   </a>  
-  <div class="search" id="mysearch" onclick="this.classList.toggle('move')">
+<div class="search" id="mysearch" onclick="this.classList.toggle('move')">
     <input type="text" class="search-input" placeholder="Search..." onclick="event.stopPropagation()">
     <img src="images/search.png" alt="Search" width="50" height="50">
 </div>
+</header>
+</section>
 
-
-<!--3D-LOGO-->
-<div class="logo">
-<a href="index.html" >
-  <model-viewer 
-  src="https://feela12.github.io/Z-v-re-n--projekt-SAP/base_basic_pbr_logo.glb"
-  alt="3D logo"
-  auto-rotate
-  auto-rotate-delay="0"
-  rotation-per-second="800%"
-  shadow-intensity="2"
-  style="width: 100px; height: 100px; margin: 0 auto; display: flex;"
-  style="pointer-events: none;"
-  camera-orbit="0deg 80deg 100m"
->
-</model-viewer>
-</a>
-</div>
 
 <!-- Promo carousel start -->
 <section class="promo-carousel" aria-label="Promo akce — carousel">
@@ -77,7 +68,9 @@
     <article class="promo-slide" role="group" aria-roledescription="slide" aria-label="Sleva 50 procent">
       <video autoplay muted loop id="videoslid" class= "video-container" href=externprklk.html src="videos/1slide.mp4" alt="Sleva 50% — módní kategorie" loading="fazy">
       </video>
-      <div class="promo-middle-text" href="externprklk.html">VIEW</div>
+      <div class="promo-middle-text" >
+        <a href="externprklk.html">VIEW</a>
+      </div>
     </article>
 
 <!-- Slide 2 -->
@@ -91,7 +84,9 @@
 <!-- Slide 3 -->
     <article class="promo-slide" role="group" aria-roledescription="slide" aria-label="FREE DELIVERY">
       <img src="images\3chaos.png?q=80&w=1600&auto=format&fit=crop" alt="Doprava zdarma" loading="lazy">
-     <div class="promo-middle-text" href="externprklk.html">VIEW</div>
+     <div class="promo-middle-text" >
+        <a href="externprklk.html">VIEW</a>
+      </div>
     </article>
   </div>
 
@@ -111,6 +106,20 @@
 </section>
 
 <script src="script3.js"></script>
+<header class="navbar">
+    <div class="nav-left">
+    <a href="#uvod">IN-STOCK &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</a>
+    <a href="qfullwomen.html">WOMEN</a>
+    </div>
+    <div class="nav-center">
+    <a href="index.html">
+    </a>
+    </div>
+    <div class="nav-right">
+    <a href="qfullmen.html">MEN &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</a>
+    <a href="">2025 COLLECTION</a>
+    </div>
+  </header>
 
   
   <section class="main" id="home">
@@ -126,24 +135,10 @@
   </section>
 
   <section class="moje-sekce">
-    <h2>PLACEHOLDER</h2>
-    <p>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    </p>
+    <h2>VIBE OF THE MONTH</h2>
+    <div>
+
+    </div>
   </section>
 
   <section id="uvod" class="content">

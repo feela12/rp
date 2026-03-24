@@ -230,6 +230,7 @@ a {
   font-size: 40px;
   font-family: 'League Gothic';
   border-bottom:3px solid #000;
+  z-index:1000;
   
   
 }
@@ -326,13 +327,12 @@ text-transform: uppercase;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-family:"unifrakturcook", cursive;
-  font-weight: 700;
-  font-style: normal;
-  text-align: center;
+  font-family:"League Gothic";
+  font-weight: 1000;
+  
   
  
-  margin-right: 234px;
+  margin-right: 280px;
   
   float:right;
 }
@@ -508,19 +508,27 @@ nav {
 .moje-sekce {
   width: 100%;
   height:800px;
-  max-width: 1200px;   /* jak moc široká může být */
+  max-width: 1400px;   /* jak moc široká může být */
   margin: 0 auto;      /* vycentrování na stránce */
   padding: 40px;
-  background-color: #f2f2f2;
+  backdrop-filter: blur(1px);
   text-align:center;
+  font-family:"League Gothic";
+  font-size:50px;
+  border-color:black;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 20px;
+
 }
 
 .gallery {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  justify-content:bottom;
   gap: 10px;
-  margin: 60px 0;
-  margin-left:-1000px;
+  margin:90px 0;
+  margin-left:500px;
+
  
 }
 
@@ -541,19 +549,48 @@ nav {
   top: 20px; /* Vzdálenost od horního okraje */
   left: 50%; /* Vycentrování na střed */
   transform: translateX(-50%); /* Posun na střed */
-  z-index: 1000; /* Zajištění, že bude nad ostatními prvky */
+  z-index: 0; /* Zajištění, že bude nad ostatními prvky */
 }
 .fixed-section{
   
-  position: fixed; /* Sekce zůstane na místě */
-  top: 0; /* Umístění nahoře */
+  
+  
+  position:fixed; /* Sekce zůstane na místě */
+  top: -70px; /* Umístění nahoře */
   left: 0;
   width: 100%; /* Šířka přes celou obrazovku */
-  padding: 80px;
+  padding: 20px;
   background-color: rgba(255, 255, 255, 0.8); /* Průhledné pozadí */
   backdrop-filter: blur(1px); /* Rozmazání pozadí */
   
   z-index: 1000;
+  border-radius: 20px;
+  border-color:black;
+  border-style: solid;
+  border-width: 2px;
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+  @keyframes slideDown {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+  }
+  @keyframes slideUp {
+    from { transform: translateY(0); }
+    to { transform: translateY(-100%); }
+  }
+  @keyframes liquid {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  
 }
 
 .search-input {
@@ -649,4 +686,8 @@ nav {
 .promo-slide:hover .promo-middle-text {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
+}
+
+.producttest{
+  display:inline-block;
 }
