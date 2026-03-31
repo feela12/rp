@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="carousel-wrapper">
+  <div class="carousel" id="carousel">
+    <div class="slide"><img src="https://picsum.photos/800/400?random=1" alt="Slide 1"></div>
+    <div class="slide"><img src="https://picsum.photos/800/400?random=2" alt="Slide 2"><a>Kanye</a></div>
+    <div class="slide"><img src="https://picsum.photos/800/400?random=3" alt="Slide 3"></div>
+  </div>
+
+  <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+  <button class="next" onclick="moveSlide(1)">&#10095;</button>
+
+  <style>.carousel-wrapper {
+  position: relative;
+  max-width: 800px;
+  margin: auto;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  
+  scrollbar-width: none; 
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+}
+
+.slide img {
+  width: 100%;
+  display: block;
+}
+
+/* Buttons */
+button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.prev { left: 0; }
+.next { right: 0; }</style>
+
+    <script>
+        let currentIndex = 0;
+        const carousel = document.getElementById('carousel');
+        const slides = document.querySelectorAll('.slide');
+    
+        function moveSlide(direction) {
+        currentIndex += direction;
+        if (currentIndex < 0) currentIndex = slides.length - 1;
+        if (currentIndex >= slides.length) currentIndex = 0;
+        carousel.scrollTo({
+            left: carousel.clientWidth * currentIndex,
+            behavior: 'smooth'
+        });
+        }
+    </script>
+</div>
+</body>
+</html>

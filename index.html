@@ -134,12 +134,40 @@
   </div>
   </section>
 
-  <section class="moje-sekce">
+  <section class="moje-sekce" >
+    
+    <!-- Slide 1 -->
     <h2>FAMOUS PEOPLE WEARING OUR ITEMS</h2>
-    <div>
-
-    </div>
+    <div class="carousel-wrapper">
+  <div class="carousel" id="carousel">
+    <div class="slide"><img src="images/ye.jpg" alt="Slide 1" height="600" width="70"></div>
+    <div><a>YE</a></div>
+    <div class="slide"><img src="images/ken.jpg" alt="Slide 2" height="600" width="70"></div>
+    <div><a>YE</a></div>
+    <div class="slide"><img src="images/ye.jpg" alt="Slide 3" height="600" width="70">
+      <div>
+      <a>YE wearing</a>
+      </div>
+      <div>
+      <a>Maison Marigela Futures</a>
+      </div>  
+  </div>
   </section>
+  <script>
+ const carousel = document.getElementById('carousel');
+
+setInterval(() => {
+  const slideWidth = carousel.clientWidth;
+  const maxScroll = carousel.scrollWidth - slideWidth;
+
+  // If we are at the end, go back to the start. Otherwise, move to the next slide.
+  if (carousel.scrollLeft >= maxScroll - 5) { 
+    carousel.scrollLeft = 0;
+  } else {
+    carousel.scrollLeft += slideWidth;
+  }
+}, 4000);
+</script>
 
   <section id="uvod" class="content">
     <h2>HIGH-DEMAND</h2>
@@ -254,7 +282,8 @@
     <hr class="line">
     <p>&copy; 2025 FILIP VÁPENÍK. Všechna práva vyhrazena.</p>
     <p>Help & Support &nbsp; |
-      Terms &nbsp;| Privacy &nbsp;| Do not sell my personal information &nbsp;| Cookie &nbsp;| Choices</p>
+      Terms &nbsp;| Privacy &nbsp;| Do not sell my personal information &nbsp;| Cookies &nbsp;| Choices</p>
+    
     <a href="https://instagram.com">
     <img src="images/ig.png" height="50px" width="65px">
   </a>

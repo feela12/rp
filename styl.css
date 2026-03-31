@@ -691,3 +691,55 @@ nav {
 .producttest{
   display:inline-block;
 }
+
+.celebrity-image {
+  width: 300px;
+  height: auto;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  backdrop-filter: inset(0 0 0 100px rgba(255, 255, 255, 0.5));
+
+}
+
+.prodhref{
+  text-decoration:underline;
+  font-style:italic;
+  color: purple;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.carousel-wrapper {
+  position: relative;
+  max-width: 800px;
+  margin: auto;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  /* Hides scrollbars */
+  -ms-overflow-style: none;  
+  scrollbar-width: none; 
+}
+
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+}
+
+.slide img {
+  width: 200px;
+  height: 300px;
+  object-fit: cover;
+  display: block;
+}
