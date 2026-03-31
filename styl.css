@@ -519,6 +519,7 @@ nav {
   border-style: solid;
   border-width: 2px;
   border-radius: 20px;
+  box-shadow: 0 4px 400px rgba(0,0,0,1);
 
 }
 
@@ -705,8 +706,10 @@ nav {
 .prodhref{
   text-decoration:underline;
   font-style:italic;
-  color: purple;
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  color: #1c0333;
+  font-family:"league Gothic";
+  font-size:50px;
+  z-index: 5;
 }
 
 .carousel-wrapper {
@@ -716,6 +719,17 @@ nav {
   overflow: hidden;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+.carousel-wrapper2 {
+  position: relative;
+  max-width: 800px;
+  margin: auto;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  margin: center;
+  max-height:800px;
+  margin-top:250px;
 }
 
 .carousel {
@@ -740,6 +754,53 @@ nav {
 .slide img {
   width: 200px;
   height: 300px;
+  border-radius:30px;
+  box-shadow: 0 4px 15px rgba(0,0,0,1);
   object-fit: cover;
-  display: block;
+  display: inline-block;
+}
+
+
+
+.category-bar {
+  display: flex;
+  justify-content: space-between; /* 🔑 rozprostře položky */
+  align-items: center;
+
+  max-width: 900px;
+  margin: 0 auto; /* 🔑 vycentruje celek */
+
+  padding: 15px 20px;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+
+  flex-wrap: wrap;
+}
+
+.category-bar a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  font-size: 40px;
+  letter-spacing: 1px;
+  font-family:"league Gothic";
+  
+  backdrop-filter: inset(0 0 0 20px rgba(0, 0, 0, 0.5));
+}
+
+@media (max-width: 600px) {
+  .category-bar {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+.category-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 🔑 4 stejné sloupce */
+  text-align: center;
+
+  padding: 15px 0;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
 }

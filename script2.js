@@ -31,3 +31,4 @@ function openModal(imgElement) {
     function scrollToSection() {
       document.getElementById('uvod').scrollIntoView({ behavior: 'smooth' });
     }
+    

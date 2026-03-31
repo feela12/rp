@@ -5,33 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="styl.css" />
+    <link rel="stylesheet" href="styl2.css" />
   <link href='https://fonts.googleapis.com/css?family=League Gothic' rel='stylesheet'>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
 <body>
-  <header>
+  <section class="fixed-section">
+    <a href="index.html" >
+   <model-viewer 
+   src="https://feela12.github.io/Z-v-re-n--projekt-SAP/base_basic_pbr_logo.glb"
+   alt="3D logo"
+   auto-rotate
+   auto-rotate-delay="0"
+   rotation-per-second="0%"
+   shadow-intensity="2"
+   style="width: 400px; height: 100px; margin: auto; top:39px; z-index:1000000"
+   camera-orbit="270deg 80deg 100m"
+   style="pointer-events: none;"
+   top="1000px;"
+   
+   
+ >
+    </a>
+ </model-viewer>
+ <a href="#popup" class="acc">
+   <img src="images/user.png" height="50" width="55">
+</a>
 
-    <div class="nav-center">
-      <a href="index.html">
-      
-      </a>
+<div id="popup" class="popup">
+   <div class="popup-content">
+       <p>YOU ARE SIGNED IN ✓</p>
+       <a href="#" class="close">OK</a>
    </div>
-  </header>
-  <a href="index.html" class="logoborder">
-    <model-viewer 
-    src="https://feela12.github.io/Z-v-re-n--projekt-SAP/base_basic_pbr_logo.glb"
-    alt="3D logo"
-    auto-rotate
-    auto-rotate-delay="0"
-    rotation-per-second="0%"
-    shadow-intensity="2"
-    style="width: 400px; height: 100px; margin: 0 auto; display: block;"
-    camera-orbit="270deg 80deg 100m"
-    style="pointer-events: none;"
-    
-  >
-  </model-viewer>
-  </a>
+</div>
+ <a href="externprklk.html" class="kos">
+   <img src="images\sc.png", height="50px", width="60px">
+ </a>  
+<div class="search" id="mysearch" onclick="this.classList.toggle('move')">
+   <input type="text" class="search-input" placeholder="Search..." onclick="event.stopPropagation()">
+   <img src="images/search.png" alt="Search" width="50" height="50">
+</div>
+</header>
+</section>
     <p class="nadpisc">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspRICK OWENS DRKSHDW&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</p>
     <p class="ricktext"> 
   Tyto ikonické high-top boty ve stylu DRKSHDW od Ricka Owense přinášejí unikátní kombinaci avantgardního designu a každodenní nositelnosti. Charakteristické jsou výrazné, krémové šněrování vedené přes celou přední část boty, které vytváří typický „webbed“ efekt dodávající siluetu, jakou si okamžitě všimnete. Kontrast mezi robustní černou konstrukcí a světlou gumovou špicí podtrhuje industriální estetiku, pro kterou je Owens známý. Díky masivní podrážce a vysokému jazyku boty poskytují maximální komfort a ikonický vzhled. Perfektní volba pro ty, kdo chtějí do svého outfitu vnést odvážnou, futuristickou energii.

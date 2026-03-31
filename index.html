@@ -106,20 +106,13 @@
 </section>
 
 <script src="script3.js"></script>
-<header class="navbar">
-    <div class="nav-left">
-    <a href="#uvod">IN-STOCK &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</a>
-    <a href="qfullwomen.html">WOMEN</a>
-    </div>
-    <div class="nav-center">
-    <a href="index.html">
-    </a>
-    </div>
-    <div class="nav-right">
-    <a href="qfullmen.html">MEN &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</a>
-    <a href="">2025 COLLECTION</a>
-    </div>
-  </header>
+
+<section class="category-bar">
+  <a href="#">IN-STOCK</a>
+  <a href="#">2026 COLLECTION</a>
+  <a href="#">MEN</a>
+  <a href="#">WOMEN</a>
+</section>
 
   
   <section class="main" id="home">
@@ -133,41 +126,64 @@
   </div>
   </div>
   </section>
-
-  <section class="moje-sekce" >
-    
-    <!-- Slide 1 -->
+<!-- FAMOUS PEOPLE -->
+  <section class="moje-sekce" > 
     <h2>FAMOUS PEOPLE WEARING OUR ITEMS</h2>
-    <div class="carousel-wrapper">
-  <div class="carousel" id="carousel">
-    <div class="slide"><img src="images/ye.jpg" alt="Slide 1" height="600" width="70"></div>
-    <div><a>YE</a></div>
-    <div class="slide"><img src="images/ken.jpg" alt="Slide 2" height="600" width="70"></div>
-    <div><a>YE</a></div>
-    <div class="slide"><img src="images/ye.jpg" alt="Slide 3" height="600" width="70">
-      <div>
-      <a>YE wearing</a>
-      </div>
-      <div>
-      <a>Maison Marigela Futures</a>
-      </div>  
+      <div class="carousel-wrapper">
+        <div class="carousel" id="carousel">
+    <!-- Slide 1 -->
+    <div class="slide">
+        <img src="images/ye.jpg" alt="1 image" height="600" width="70">
+        <img src="images/futures.jpg" alt="2 image" height="600" width="70">
+        <img src="images/ye2.png" alt="3 image" height="600" width="70">
+            <div><a>Kanye West f.k.a YE</a></div>
+            <div><a>Wearing</a></div>
+            <div><a href="product4.html" class="prodhref">Maison Margiela Futures</a></div>
+            <div><a>During his YEEZUS tour</a></div>
+    </div>
+    
+    <!-- Slide 2 -->
+    <div class="slide">
+        <img src="images/ken.jpg" alt="Slide 2" height="600" width="70">
+        <img src="images/ken2.jpg" alt="Slide 2" height="600" width="70">
+        <img src="images/ken3.png" alt="Slide 2" height="600" width="70">
+            <div><a>Ken Carson</a></div>
+            <div><a>Wearing</a></div>
+            <div><a href="product1.html" class="prodhref">Great Chaos Chain</a></div>
+            <div><a>During his GREAT CHAOS tour</a></div>
+    </div>
+    
+    <!-- Slide 3 -->
+    <div class="slide">
+        <img src="images/ricko.jpg" alt="Slide 3" height="600" width="70">
+        <img src="images/ricko2.jpg" alt="Slide 3" height="600" width="70">
+        <img src="images/ricko3.jpg" alt="Slide 3" height="600" width="70">
+            <div><a>Rick Owens</a></div>
+            <div><a>Presenting his</a></div>
+            <div><a href="product3.html" class="prodhref">DRKSHDW collection</a></div>
+            <div><a>During his SS20 show in Paris</a></div>
+            
+    </div>
+      
+    
+
   </div>
   </section>
   <script>
- const carousel = document.getElementById('carousel');
+    const carousel = document.getElementById('carousel');
+   
+   setInterval(() => {
+     const slideWidth = carousel.clientWidth;
+     const maxScroll = carousel.scrollWidth - slideWidth;
 
-setInterval(() => {
-  const slideWidth = carousel.clientWidth;
-  const maxScroll = carousel.scrollWidth - slideWidth;
+     if (carousel.scrollLeft >= maxScroll - 5) { 
+       carousel.scrollLeft = 0;
+     } else {
+       carousel.scrollLeft += slideWidth;
+     }
+   }, 4000);
+  </script>
 
-  // If we are at the end, go back to the start. Otherwise, move to the next slide.
-  if (carousel.scrollLeft >= maxScroll - 5) { 
-    carousel.scrollLeft = 0;
-  } else {
-    carousel.scrollLeft += slideWidth;
-  }
-}, 4000);
-</script>
 
   <section id="uvod" class="content">
     <h2>HIGH-DEMAND</h2>
@@ -192,21 +208,17 @@ setInterval(() => {
 >
 
 </model-viewer>
-        </a>
+</a>
     
         
 
-        <div class="image-paragraph">
-          <a href = "product1.html">
-          <p>
-           A GREAT CHAOS CHAIN
-          </p>
-          <p>
-            1000 €
-          </p>
-          </a>
-        </div>
-      </div>
+<div class="image-paragraph">
+  <a href = "product1.html">
+    <p>A GREAT CHAOS CHAIN</p>
+    <p>1000 €</p>
+  </a>
+</div>
+</div>
 <hr>
       <div class="image-card" onclick="toggleText(this)">
         <a href = "product2.html">
@@ -272,28 +284,43 @@ setInterval(() => {
 </div>
 <section class="moje-sekce">
     <h2>REVIEWS</h2>
-    <div>
-      
+    <div class="carousel-wrapper">
+    <div><a>PLACEHOLDER 1 </a></div>
+    </div>
 
+    <div class="carousel-wrapper">
+      <div><a>PLACEHOLDER 1 </a></div>
+      </div>
+      
+      <div class="carousel-wrapper">
+        <div><a>PLACEHOLDER 1 </a></div>
+        </div>
+      
+        <div class="carousel-wrapper">
+          <div><a>PLACEHOLDER 1 </a></div>
+          </div>
+      
+    
     </div>
   </section>
 
   <footer class="footer">
     <hr class="line">
     <p>&copy; 2025 FILIP VÁPENÍK. Všechna práva vyhrazena.</p>
-    <p>Help & Support &nbsp; |
-      Terms &nbsp;| Privacy &nbsp;| Do not sell my personal information &nbsp;| Cookies &nbsp;| Choices</p>
-    
+      <a href="#index">
+        <img src="images/favikon.png" height="50px" width="65px">
+      </a>
     <a href="https://instagram.com">
-    <img src="images/ig.png" height="50px" width="65px">
+    <img src="images/ig.png" height="52px" width="65px">
   </a>
   <a href="https://facebook.com">
-    <img src="images/fb.png" height="50px" width="50px">
+    <img src="images/fb.png" height="49px" width="50px">
   </a>
   </footer>
 
   <script src="script.js"></script>
   <script src="script2.js"></script>
   <script src="script3.js"></script>
+  
 </body>
 </html>
