@@ -804,3 +804,8 @@ nav {
   border-top: 1px solid black;
   border-bottom: 1px solid black;
 }
+
+.dark {
+  background: #121212;
+  color: white;
+}
