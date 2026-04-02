@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="styl2.css" />
   <link href='https://fonts.googleapis.com/css?family=League Gothic' rel='stylesheet'>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <script src="https://kit.fontawesome.com/649771f08a.js" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@
   
 
 
-<!--ACCOUNT A KOŠÍK-->
+<!--ACCOUNT, LOGO, DARK MODE A KOŠÍK-->
 <header>
     
   <section class="fixed-section">
@@ -44,7 +44,7 @@
      </a>
   </model-viewer>
   <a href="#popup" class="acc">
-    <img src="images/user.png" height="50" width="55">
+    <img src="images/user.svg" height="50" width="55">
 </a>
 
 <div id="popup" class="popup">
@@ -54,32 +54,40 @@
     </div>
 </div>
   <a href="externprklk.html" class="kos">
-    <img src="images\sc.png", height="50px", width="60px">
+    <img src="images/kosik.svg" height="50px" width="60px">
   </a>  
 <div class="search" id="mysearch" onclick="this.classList.toggle('move')">
     <input type="text" class="search-input" placeholder="Search..." onclick="event.stopPropagation()">
-    <img src="images/search.png" alt="Search" width="50" height="50">
+    <img src="images/lupa.svg" alt="Search" width="50" height="50">
 </div>
-<button onclick="toggleDarkMode()">Dark mode</button>
+<div class="sunmoon">
+<img id="icon" src="images/moon.svg" height="50px" width="50px" top="50px" onclick="toggleDarkMode()">
+</div>
 <script>
   function toggleDarkMode() {
-    document.body.classList.toggle("dark");
-  }
-  </script>
-<script>
-  function toggleDarkMode() {
+    const icon = document.getElementById("icon");
+  
     document.body.classList.toggle("dark");
   
     if (document.body.classList.contains("dark")) {
       localStorage.setItem("mode", "dark");
+      icon.src = "images/sun.svg";
     } else {
       localStorage.setItem("mode", "light");
+      icon.src = "images/moon.svg";
     }
   }
   
   // při načtení stránky
-  if (localStorage.getItem("mode") === "dark") {
-    document.body.classList.add("dark");
+  window.onload = function () {
+    const icon = document.getElementById("icon");
+  
+    if (localStorage.getItem("mode") === "dark") {
+      document.body.classList.add("dark");
+      icon.src = "images/sun.svg";
+    } else {
+      icon.src = "images/moon.svg";
+    }
   }
   </script>
 </header>
@@ -336,10 +344,13 @@
         <img src="images/favikon.png" height="50px" width="65px">
       </a>
     <a href="https://instagram.com">
-      <img class="fa-brands fa-instagram" style="color: rgb(0, 0, 0);">
+      <img class="inv" src="images/ig.svg" height="50px" width="50px">
   </a>
+  <a href="https://x.com">
+    <img class="inv" src="images/x.svg" height="50px" width="50px">
+</a>
   <a href="https://facebook.com">
-    <img src="images/fb.png" height="49px" width="50px">
+      <img class="inv" src="images/fb.svg" height="50px" width="50px">
   </a>
   </footer>
 
