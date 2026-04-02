@@ -62,6 +62,7 @@ a {
   top:30px;
   font-size:20px;
   
+  
 }
 
 .background-img,
@@ -91,7 +92,7 @@ a {
   justify-content: center;
   align-items: center;
   text-align: center;
-  color: rgb(0, 0, 0);
+  color: white;
   padding: 20px;
   text-shadow: 2px 2px 4px #000;
   font-family:"cinzel";
@@ -771,7 +772,7 @@ nav {
   margin: 0 auto; /* 🔑 vycentruje celek */
 
   padding: 15px 20px;
-  border-top: 1px solid black;
+  
   border-bottom: 1px solid black;
 
   flex-wrap: wrap;
@@ -806,6 +807,57 @@ nav {
 }
 
 .dark {
-  background: #121212;
+  background-color:black;
   color: white;
+  
+  section{
+    background: #000;
+  }
+  category-bar a{
+    backdrop-filter: inset(0 0 0 20px rgba(255, 255, 255, 0.5));
+  }
+  .moje-sekce{
+    border-color:white;
+    box-shadow: 0 4px 400px rgba(255,255,255,1);
+  }
+  #uvod{
+    background-color:black;
+  }
+  #uvod h2{
+    color:white;
+  }
+  body{
+    background-color:black;
+  }
+  footer{
+    color:white;
+    background:black;
+  }
+  .fixed-section{
+  background-color: rgba(0, 0, 0, 0.8); /* Průhledné pozadí */
+  backdrop-filter: blur(1px); /* Rozmazání pozadí */
+  }
+  .fixed-section img{
+    filter: invert(1);
+  }
+  .slide img{
+    box-shadow: 0 4px 15px rgb(255, 255, 255);
+  }
+  .image-gallery{
+    background: #000;
+  }
+  .carousel-wrapper{
+    box-shadow: 0 4px 400px rgba(255,255,255,1);
+  }
+   .category-bar a{
+    color: white;
+  }
+  .category-bar{
+    
+    border-bottom: 1px solid white;
+  }
+  .arrow-group h1 {
+    color: white;
+  }
+  
 }
