@@ -17,8 +17,6 @@ a {
   font-weight: bold;
 }
 
-
-
 .hamburger {
   position: fixed;
   top: 20px;
@@ -164,7 +162,7 @@ a {
 }
 
 .clickable-heading:hover {
-  color: rgb(30, 30, 30);
+  color: rgb(47, 46, 46);
   
 }
 
@@ -219,7 +217,7 @@ a {
   background: #ffffff;
   min-height: 100vh;
   padding: 60px 20px;
-  font-size:20000px;
+  font-size:20000px; 
 }
 
 .navbar {
@@ -351,7 +349,7 @@ text-transform: uppercase;
 .kos{
   text-align: right;
   position:fixed;
-  right:110px;  
+  right:89px;  
   z-index: 9999; 
   top:82px;
 }
@@ -369,11 +367,9 @@ text-transform: uppercase;
   z-index: 9999;
   cursor: pointer;
   transform-origin: right center;
-
-  display: flex;          /* DŮLEŽITÉ */
+  display: flex;          
   align-items: center;
-  flex-direction: row-reverse;    /* vystředí na výšku */
-
+  flex-direction: row-reverse;    
   transition: all 0.5s ease-in-out; 
 }
 
@@ -516,11 +512,11 @@ nav {
   text-align:center;
   font-family:"League Gothic";
   font-size:50px;
-  border-color:black;
-  border-style: solid;
+  
+  text-shadow: 1px 0px #000000;
   border-width: 2px;
   border-radius: 20px;
-  box-shadow: 0 4px 400px rgba(0,0,0,1);
+  box-shadow: 0 20px 500px rgba(0,0,0,1);
 
 }
 
@@ -604,10 +600,8 @@ nav {
   height: 35px;
   box-sizing:border-box;
   transition: all 0.5s ease;
-  position:static;
   margin-right:15px;
-  overflow:hidden;
-  pointer-events:none;
+  z-index:9999999;
 }
 
 /* když se přidá .move */
@@ -618,7 +612,7 @@ nav {
 }
 
 .search.move {
-  width: 10px;
+  width: 290px;
   transition: width 0.3s;
 }
 
@@ -721,7 +715,7 @@ nav {
   margin: auto;
   overflow: hidden;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 400px rgba(0,0,0,0.2);
 }
 .carousel-wrapper2 {
   position: relative;
@@ -729,7 +723,7 @@ nav {
   margin: auto;
   overflow: hidden;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 400px rgba(0,0,0,0.2);
   margin: center;
   max-height:800px;
   margin-top:250px;
@@ -862,9 +856,18 @@ nav {
   .inv{
     filter: invert(1);
   }
-  
-   
-  
+  .clickable-heading:hover {
+    color: rgb(168, 168, 168);
+    
+  }
+  .hero-overlay{
+    color: white;
+    text-shadow: 2px 2px 4px #fff;
+  }
+  .sipka{
+    filter:invert(1);
+  }
+ 
   
 }
 .sunmoon{
