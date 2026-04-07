@@ -55,6 +55,36 @@
     <input type="text" class="search-input" placeholder="Search..." onclick="event.stopPropagation()">
     <img src="images/search.png" alt="Search" width="50" height="50">
 </div>
+<div class="sunmoon">
+<img id="icon" src="images/moon.svg" height="50px" width="50px" top="50px" onclick="toggleDarkMode()">
+</div>
+<script>
+  function toggleDarkMode() {
+    const icon = document.getElementById("icon");
+  
+    document.body.classList.toggle("dark");
+  
+    if (document.body.classList.contains("dark")) {
+      localStorage.setItem("mode", "dark");
+      icon.src = "images/sun.svg";
+    } else {
+      localStorage.setItem("mode", "light");
+      icon.src = "images/moon.svg";
+    }
+  }
+  
+  
+  window.onload = function () {
+    const icon = document.getElementById("icon");
+  
+    if (localStorage.getItem("mode") === "dark") {
+      document.body.classList.add("dark");
+      icon.src = "images/sun.svg";
+    } else {
+      icon.src = "images/moon.svg";
+    }
+  }
+  </script>
 </header>
 </section>
 <section class="producttest">
@@ -105,17 +135,21 @@
 
 
 <footer class="footer">
-  <hr class="line">
-  <p>&copy; 2025 Filip Vápeník. Všechna práva vyhrazena.</p>
-  <p>Help & Support &nbsp; |
-      Terms &nbsp;| Privacy &nbsp;| Do not sell my personal information &nbsp;| Cookie &nbsp;| Choices</p>
-  <a href="https://instagram.com">
-  <img src="images/ig.png" height="50px" width="65px">
+    <hr class="line">
+    <p>&copy; 2025 FILIP VÁPENÍK. Všechna práva vyhrazena.</p>
+      <a href="#index">
+        <img src="images/favikon.png" height="50px" width="65px">
+      </a>
+    <a href="https://instagram.com">
+      <img class="inv" src="images/ig.svg" height="50px" width="50px">
+  </a>
+  <a href="https://x.com">
+    <img class="inv" src="images/x.svg" height="50px" width="50px">
 </a>
-<a href="https://facebook.com">
-  <img src="images/fb.png" height="50px" width="50px">
-</a>
-</footer>
+  <a href="https://facebook.com">
+      <img class="inv" src="images/fb.svg" height="50px" width="50px">
+  </a>
+  </footer>
     
 <script src="script.js"></script>
 </body>

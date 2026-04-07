@@ -11,9 +11,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://kit.fontawesome.com/649771f08a.js" crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
   
@@ -50,7 +53,7 @@
         <a href="#" class="close">OK</a>
     </div>
 </div>
-  <a href="externprklk.html" class="kos">
+  <a href="kosik.html" class="kos">
     <img src="images/kosik.svg" height="50px" width="60px">
   </a>  
 <div class="search" id="mysearch" onclick="this.classList.toggle('move')">
@@ -75,7 +78,7 @@
     }
   }
   
-  // při načtení stránky
+  
   window.onload = function () {
     const icon = document.getElementById("icon");
   
@@ -140,19 +143,19 @@
 <section class="category-bar">
   <a href="#">IN-STOCK</a>
   <a href="#">2026 COLLECTION</a>
-  <a href="#">MEN</a>
-  <a href="#">WOMEN</a>
+  <a href="qfullmen.html">MEN</a>
+  <a href="qfullwomen.html">WOMEN</a>
 </section>
 
   
   <section class="main" id="home">
   <div class="hero-overlay">
   <div class="arrow-group">
-  <img src="images/sipka.svg" height="60px" width= "60px" alt="šipka dolů" class="sipka" onclick="scrollToSection()" />
+  <img src="images/sipka.png" height="60px" width= "60px" alt="šipka dolů" class="sipka" onclick="scrollToSection()" />
   <h1 class="clickable-heading" onclick="scrollToSection(addEventListener)">
           POPULAR ITEMS
   </h1>
-  <img src="images/sipka.svg" height="60px" width= "60px" alt="šipka dolů" class="sipka" onclick="scrollToSection()" />
+  <img src="images/sipka.png" height="60px" width= "60px" alt="šipka dolů" class="sipka" onclick="scrollToSection()" />
   </div>
   </div>
   </section>
@@ -166,7 +169,7 @@
         <img src="images/ye.jpg" alt="1 image" height="600" width="70">
         <img src="images/futures.jpg" alt="2 image" height="600" width="70">
         <img src="images/ye2.png" alt="3 image" height="600" width="70">
-            <div><a>Kanye West f.k.a YE</a></div>
+            <div><a>Ye f.k.a Kanye West</a></div>
             <div><a>Wearing</a></div>
             <div><a href="product4.html" class="prodhref">Maison Margiela Futures</a></div>
             <div><a>During his YEEZUS tour</a></div>
@@ -216,7 +219,9 @@
 
 
   <section id="uvod" class="content">
+    <div class="nadpishigh">
     <h2>HIGH-DEMAND</h2>
+    </div>
     <h3>CUSTOMER FAVORITE</h3>
 <div class="products">
     <div class="image-gallery">
@@ -244,8 +249,8 @@
 
 <div class="image-paragraph">
   <a href = "product1.html">
-    <p>A GREAT CHAOS CHAIN</p>
-    <p>1000 €</p>
+    <p class="paragraph-text"><div class="paragraph-text">A GREAT CHAOS CHAIN</div></p>
+    <p  class="paragraph-text"><div class="paragraph-text">1000 €</div></p>
   </a>
 </div>
 </div>
@@ -268,12 +273,17 @@
 </a>
         <div class="image-paragraph">
         <a href = "product2.html">
-          <p>
+          <p >
+            <div class="paragraph-text">
             RICK OWENS BRUTALIST NECKLACE
+            </div>
           </p>
-          <p>
+          <p >
+            <div class="paragraph-text">
             1200 €
+            </div>
           </p>
+
           </a>
         </div>
       </div>
@@ -299,35 +309,38 @@
 
 
         <div class="image-paragraph">
-         <a href = "product3.html">
+         <a href = "product3.html" class="paragraph-text">
           <p>
+            <div class="paragraph-text">
             RICK OWENS DRKSHDW
+            </div>
           </p>
           <p>
+            <div class="paragraph-text">
             2500 €
+            </div>
           </p>
           </a>
         </div>
       </div>
-    </div>
   </section>
 </div>
 <section class="moje-sekce">
     <h2>REVIEWS</h2>
     <div class="carousel-wrapper">
-    <div><a>PLACEHOLDER 1 </a></div>
+    <div><a>Review 1 </a></div>
     </div>
 
     <div class="carousel-wrapper">
-      <div><a>PLACEHOLDER 1 </a></div>
+      <div><a>Review 2 </a></div>
       </div>
       
       <div class="carousel-wrapper">
-        <div><a>PLACEHOLDER 1 </a></div>
+        <div><a>Review 3 </a></div>
         </div>
       
         <div class="carousel-wrapper">
-          <div><a>PLACEHOLDER 1 </a></div>
+          <div><a>Review 4 </a></div>
           </div>
       
     

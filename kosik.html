@@ -8,11 +8,13 @@
   <link href='https://fonts.googleapis.com/css?family=League Gothic' rel='stylesheet'>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <link rel="stylesheet" href="styl2.css" />
-    <title>ICZZ|Women</title>
+    <title>ICZZ|Cart</title>
 </head>
-<header>
+<body>
+ <header>
     
   <section class="fixed-section">
+   
      <a href="index.html" >
     <model-viewer 
     src="https://feela12.github.io/Z-v-re-n--projekt-SAP/base_basic_pbr_logo.glb"
@@ -31,7 +33,7 @@
      </a>
   </model-viewer>
   <a href="#popup" class="acc">
-    <img src="images/user.png" height="50" width="55">
+    <img src="images/user.svg" height="50" width="55">
 </a>
 
 <div id="popup" class="popup">
@@ -40,12 +42,12 @@
         <a href="#" class="close">OK</a>
     </div>
 </div>
-  <a href="externprklk.html" class="kos">
-    <img src="images\sc.png", height="50px", width="60px">
+  <a href="kosik.html" class="kos">
+    <img src="images/kosik.svg" height="50px" width="60px">
   </a>  
 <div class="search" id="mysearch" onclick="this.classList.toggle('move')">
     <input type="text" class="search-input" placeholder="Search..." onclick="event.stopPropagation()">
-    <img src="images/search.png" alt="Search" width="50" height="50">
+    <img src="images/lupa.svg" alt="Search" width="50" height="50">
 </div>
 <div class="sunmoon">
 <img id="icon" src="images/moon.svg" height="50px" width="50px" top="50px" onclick="toggleDarkMode()">
@@ -79,10 +81,31 @@
   </script>
 </header>
 </section>
-
 <p class="gnadpis">
-  WOMEN
+  SHOPPING CART
 </p>
+
+<section class="moje-sekce2">
+<div>
+<a>ITEMS</a>
+<section class="itemcart">
+<a>ITEM</a>
+</section>
+<section class="itemcart">
+<a>ITEM</a>
+</section>
+<section class="itemcart">
+<a>ITEM</a>
+</section>
+</div>
+</section>
+<section>
+    <button class="checkout">checkout</button>
+</section>
+
+
+
+
 <footer class="footer">
     <hr class="line">
     <p>&copy; 2025 FILIP VÁPENÍK. Všechna práva vyhrazena.</p>
@@ -99,6 +122,4 @@
       <img class="inv" src="images/fb.svg" height="50px" width="50px">
   </a>
   </footer>
-    
-</body>
-</html>
+<html>
