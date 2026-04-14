@@ -285,6 +285,7 @@ text-transform: uppercase;
   font-size: 14px;
   margin-top: 40px;
   font-family:"iBM Plex Mono", monospace, bold;
+  font-style: bold;
 }
 
 model-viewer {
@@ -872,74 +873,93 @@ nav {
   .moje-sekce{
     border-color:white;
     box-shadow: 0 4px 400px rgba(255,255,255,1);
+    
   }
   .moje-sekce2{
     border-color:white;
+    
     
   }
   .itemcart{
     
     border-style:solid white;
     
+    
   }
   #uvod{
     background-color:black;
+    
   }
   #uvod h2{
     color:white;
+    
   }
   body{
     background-color:black;
+    
   }
   footer{
     color:white;
     background:black;
+    
   }
   .fixed-section{
   background-color: rgba(0, 0, 0, 0.8); /* Průhledné pozadí */
   backdrop-filter: blur(1px); /* Rozmazání pozadí */
   border-color:white;
+  
   }
   .fixed-section img{
     filter: invert(1);
+    
   }
   .slide img{
     box-shadow: 0 4px 15px rgb(255, 255, 255);
+    
   }
   .image-gallery{
     background: #000;
+    
   }
   .carousel-wrapper{
     box-shadow: 0 4px 400px rgba(255,255,255,1);
+    
   }
    .category-bar a{
     color: white;
+    
   }
   .category-bar{
     
     border-bottom: 1px solid white;
+    
   }
   .arrow-group h1 {
     color: white;
+    
   }
   .inv{
     filter: invert(1);
+    
   }
   .clickable-heading:hover {
     color: rgb(168, 168, 168);
+    
     
   }
   .hero-overlay{
     color: white;
     text-shadow: 2px 2px 4px #fff;
+    
   }
   .sipka{
     filter:invert(1);
+    transition-duration: 0.1s;
   }
  .checkout{
     background-color: white;
     color: black;
-    transition-duration: 0.4s;
+    transition-duration: 0.1s;
 
   }
   .checkout:hover{
@@ -952,4 +972,14 @@ nav {
   top:86px;
   position:fixed;
   cursor: pointer;
+}
+.rights{
+  font-family:"IBM Plex Mono", monospace, bold;
+}
+.nadpisfav{
+  font-family: 'IBM Plex Mono', monospace, bold;
+  font-size: 1vw;
+  color:rgb(0, 0, 0);
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
