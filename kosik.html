@@ -86,32 +86,160 @@
 </p>
 
 <section class="moje-sekce2">
-<div>
-<a>ITEMS</a>
-<section class="itemcart">
-<a>ITEM</a>
-</section>
-<section class="itemcart">
-<a>ITEM</a>
-</section>
-<section class="itemcart">
-<a>ITEM</a>
-</section>
+<div class="items-container">
+<p class="items-header">ITEMS</p>
+
+<div class="item-row">
+  <div class="item-image">
+    <img src="images/2chaos.png" alt="Product image">
+  </div>
+  <section class="itemcart">
+    <a>GREAT CHAOS CHAIN</a>
+    <p class="item-price">$249.99</p>
+  </section>
+  <div class="quantity-control">
+    <button class="qty-btn" onclick="decreaseQty(this)">−</button>
+    <input type="number" class="qty-input" value="1" min="1" max="999" onchange="updatePrices()">
+    <button class="qty-btn" onclick="increaseQty(this); updatePrices()">+</button>
+  </div>
+  <div class="item-total">
+    <p class="total-price">$249.99</p>
+  </div>
+  <button class="bin-button" onclick="removeItem(this)"><img src="images/trash.svg" class="binb" alt="Remove item"></button>
+</div>
+
+<div class="item-row">
+  <div class="item-image">
+    <img src="images/chain1.jpeg" alt="Product image">
+  </div>
+  <section class="itemcart">
+    <a>RICK OWENS DRKSDW</a>
+    <p class="item-price">$349.99</p>
+  </section>
+  <div class="quantity-control">
+    <button class="qty-btn" onclick="decreaseQty(this)">−</button>
+    <input type="number" class="qty-input" value="1" min="1" max="999" onchange="updatePrices()">
+    <button class="qty-btn" onclick="increaseQty(this); updatePrices()">+</button>
+  </div>
+  <div class="item-total">
+    <p class="total-price">$349.99</p>
+  </div>
+ <button class="bin-button" onclick="removeItem(this)"><img src="images/trash.svg" class="binb" alt="Remove item"></button>
+</div>
+
+<div class="item-row">
+  <div class="item-image">
+    <img src="images/chain1.jpeg" alt="Product image">
+  </div>
+  <section class="itemcart">
+    <a>RICK OWENS BRUTALIST NECKLACE</a>
+    <p class="item-price">$199.99</p>
+  </section>
+  <div class="quantity-control">
+    <button class="qty-btn" onclick="decreaseQty(this)">−</button>
+    <input type="number" class="qty-input" value="1" min="1" max="999" onchange="updatePrices()">
+    <button class="qty-btn" onclick="increaseQty(this); updatePrices()">+</button>
+  </div>
+  <div class="item-total">
+    <p class="total-price">$199.99</p>
+  </div>
+  <button class="bin-button" onclick="removeItem(this)"><img src="images/trash.svg" class="binb" alt="Remove item"></button>
+</div>
+
 </div>
 </section>
-<section>
-    <button class="checkout">CHECKOUT</button>
+
+<section class="price-summary">
+  <div class="summary-content">
+    <p class="summary-label">SUBTOTAL</p>
+    <p class="summary-price">$799.97</p>
+  </div>
 </section>
+
+<section class="checkout-section">
+  <div class="email-container">
+    <input type="email" class="email-input" placeholder="Zadejte váš email..." required>
+  </div>
+  <button class="checkout">CHECKOUT</button>
+</section>
+
+<script>
+function removeItem(button) {
+  // smazani polozky z kosiku
+  const itemRow = button.closest('.item-row');
+  if (itemRow) {
+    itemRow.style.opacity = '0';
+    itemRow.style.transform = 'scale(0.8)';
+    setTimeout(() => {
+      itemRow.remove();
+      updatePrices();
+    }, 300);
+  }
+}
+
+function increaseQty(button) {
+  const input = button.previousElementSibling;
+  input.value = parseInt(input.value) + 1;
+  updatePrices();
+}
+
+function decreaseQty(button) {
+  const input = button.nextElementSibling;
+  if (parseInt(input.value) > 1) {
+    input.value = parseInt(input.value) - 1;
+  }
+  updatePrices();
+}
+
+function updatePrices() {
+  let totalPrice = 0;
+  
+  // Všechny řady s produkty
+  const itemRows = document.querySelectorAll('.item-row');
+  
+  itemRows.forEach(row => {
+    // Získáme cenu z textu
+    const priceText = row.querySelector('.item-price').textContent;
+    const price = parseFloat(priceText.replace('$', ''));
+    
+    // Získáme kvantitu
+    const quantity = parseInt(row.querySelector('.qty-input').value);
+    
+    // Vypočítáme cenu za produkt
+    const itemTotal = price * quantity;
+    
+    // Aktualizujeme celkovou cenu v řádku
+    row.querySelector('.total-price').textContent = '$' + itemTotal.toFixed(2);
+    
+    // Přidáme k celkové ceně
+    totalPrice += itemTotal;
+  });
+  
+  // Aktualizujeme shrnutí
+  const summaryPrice = document.querySelector('.summary-price');
+  if (summaryPrice) {
+    summaryPrice.textContent = '$' + totalPrice.toFixed(2);
+  }
+}
+
+// Inicializace při načtení
+window.addEventListener('load', updatePrices);
+</script>
 
 
 
 
 <footer class="footer">
     <hr class="line">
+    <div class="rights">
     <p>&copy; 2026 FILIP VÁPENÍK. Všechna práva vyhrazena.</p>
+    </div>
       <a href="#index">
         <img src="images/favikon.png" height="50px" width="65px">
       </a>
+      <a href="externprklk.html">
+      <img class="inv" src="images/shopify.svg" height="50px" width="50px">
+  </a>
     <a href="https://instagram.com">
       <img class="inv" src="images/ig.svg" height="50px" width="50px">
   </a>
