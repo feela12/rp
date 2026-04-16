@@ -289,6 +289,7 @@ text-transform: uppercase;
   margin: 0 auto;  
   bottom:0;
   width:100%;
+  position: relative; /* Normální pozicování - footer je dole stránky */
 }
 
 model-viewer {
@@ -945,7 +946,163 @@ nav {
 }
 
 .producttest{
-  display:inline-block;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+  gap: 20px;
+  max-width: 1600px;
+  margin: 0 auto;
+  margin-top: 120px;
+}
+
+/* Levá strana - 3D model */
+.product-left {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-left model-viewer {
+  width: 100%;
+  max-width: 600px;
+  height: 500px;
+}
+
+/* Prostřední strana - Galerie */
+.product-gallery {
+  flex: 0 0 200px;
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.product-gallery img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 2px solid #000;
+  transition: transform 0.3s ease;
+}
+
+.product-gallery img:hover {
+  transform: scale(1.05);
+}
+
+/* Pravá strana - Popis, cena, tlačítko */
+.product-right {
+  flex: 1;
+  min-width: 280px;
+  max-width: 400px;
+  padding: 20px;
+}
+
+.product-right .nadpisc {
+  font-family: 'League Gothic';
+  font-size: 40px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0 0 20px 0;
+  float: none;
+  text-align: left;
+}
+
+.product-right .ricktext {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0 0 20px 0;
+  width: 100%;
+  float: none;
+  text-align: left;
+}
+
+.product-right .cenovka {
+  font-family: 'League Gothic';
+  font-size: 50px;
+  margin: 0 0 20px 0;
+  float: none;
+}
+
+.product-right #addToCartBtn {
+  font-size: 24px;
+  padding: 15px 30px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'League Gothic';
+  font-weight: 1000;
+  width: 100%;
+  float: none;
+  margin: 0;
+}
+
+.product-right #addToCartBtn:hover {
+  background-color: #333;
+}
+
+/* Responsive pro menší obrazovky */
+@media (max-width: 1200px) {
+  .producttest {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .product-left, .product-gallery, .product-right {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .product-gallery {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    order: 2;
+  }
+  
+  .product-gallery img {
+    width: 30%;
+    min-width: 100px;
+  }
+  
+  .product-left {
+    order: 1;
+  }
+  
+  .product-right {
+    order: 3;
+    text-align: center;
+  }
+  
+  .product-right .nadpisc,
+  .product-right .ricktext,
+  .product-right .cenovka {
+    text-align: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .product-left model-viewer {
+    height: 350px;
+  }
+  
+  .product-right .nadpisc {
+    font-size: 28px;
+  }
+  
+  .product-right .cenovka {
+    font-size: 36px;
+  }
+  
+  .product-gallery img {
+    width: 45%;
+  }
 }
 
 .celebrity-image {

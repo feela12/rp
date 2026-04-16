@@ -90,48 +90,39 @@
 </header>
 </section>
 <section class="producttest">
-    <p class="nadpisc">&nbsp &nbsp A GREAT CHAOS CHAIN - REPLICA&nbsp</p>
-    <p class="ricktext"> 
-  Tento výrazný kovový přívěsek je inspirovaný estetikou moderní „rage“ scény, kterou proslavil i Ken Carson — ostré linie,
-   agresivní silueta a futurálně temný vibe. Lesklý povrch a dynamický tvar dodávají šperku nekompromisní energii, která okamžitě přitáhne pozornost.
-   Přívěsek je ideální pro fanoušky alternativní trapové estetiky a všechny, kdo chtějí doplněk, jenž podtrhne jejich jedinečný, odvážný styl.
-</p>
-
-    <div class = modeluprostred>
-    <model-viewer 
-  src="https://feela12.github.io/Z-v-re-n--projekt-SAP/finalmodel.glb"
-
-  alt="3D logo"
-  auto-rotate
-  auto-rotate-delay="0"
-  rotation-per-second="400%"
-  shadow-intensity="0"
-  style="width: 700px; height: 650px;  margin: center; display: block;"
-  a href = "product1.html";
-  position: absolute;
-  disable-zoom
-  camera-controls
->
-
-
-
-
-
-</model-viewer>
-</div>
-    </a>
-    <div class="gallery">
-      <img src="images/greatsand.png" alt="Image 1">
-      <img src="images/2chaos.png" alt="Image 2">
-      <img src="images/3chaos.png" alt="Image 3">
-     
+    <!-- Levá strana - 3D model -->
+    <div class="product-left">
+        <model-viewer 
+            src="https://feela12.github.io/Z-v-re-n--projekt-SAP/finalmodel.glb"
+            alt="3D model"
+            auto-rotate
+            auto-rotate-delay="0"
+            rotation-per-second="400%"
+            shadow-intensity="0"
+            style="width: 100%; max-width: 600px; height: 500px;"
+            disable-zoom
+            camera-controls
+        ></model-viewer>
     </div>
-
-    </div>
-    <p class="cenovka">1000 €</p>
-    <button id="addToCartBtn">ADD TO CART</button>
-    <a href = "index.html">
     
+    <!-- Prostřední strana - Galerie -->
+    <div class="product-gallery">
+        <img src="images/greatsand.png" alt="Image 1">
+        <img src="images/2chaos.png" alt="Image 2">
+        <img src="images/3chaos.png" alt="Image 3">
+    </div>
+    
+    <!-- Pravá strana - Popis, cena, tlačítko -->
+    <div class="product-right">
+        <p class="nadpisc">A GREAT CHAOS CHAIN - REPLICA</p>
+        <p class="ricktext"> 
+            Tento výrazný kovový přívěsek je inspirovaný estetikou moderní „rage" scény, kterou proslavil i Ken Carson — ostré linie,
+            agresivní silueta a futurálně temný vibe. Lesklý povrch a dynamický tvar dodávají šperku nekompromisní energii, která okamžitě přitáhne pozornost.
+            Přívěsek je ideální pro fanoušky alternativní trapové estetiky a všechny, kdo chtějí doplněk, jenž podtrhne jejich jedinečný, odvážný styl.
+        </p>
+        <p class="cenovka">1000 €</p>
+        <button id="addToCartBtn">ADD TO CART</button>
+    </div>
 </section>
     
 
