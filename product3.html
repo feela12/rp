@@ -3,14 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ICZZ</title>
+    <link rel="icon" type="image/x-icon" href="images/favikon2.png">
     <link rel="stylesheet" href="styl.css" />
     <link rel="stylesheet" href="styl2.css" />
   <link href='https://fonts.googleapis.com/css?family=League Gothic' rel='stylesheet'>
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/649771f08a.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
 </head>
 <body>
- <header>
+<header>
     
   <section class="fixed-section">
    
@@ -80,32 +89,44 @@
   </script>
 </header>
 </section>
-    <p class="nadpisc">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspRICK OWENS DRKSHDW&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</p>
-    <p class="ricktext"> 
-  Tyto ikonické high-top boty ve stylu DRKSHDW od Ricka Owense přinášejí unikátní kombinaci avantgardního designu a každodenní nositelnosti. Charakteristické jsou výrazné, krémové šněrování vedené přes celou přední část boty, které vytváří typický „webbed“ efekt dodávající siluetu, jakou si okamžitě všimnete. Kontrast mezi robustní černou konstrukcí a světlou gumovou špicí podtrhuje industriální estetiku, pro kterou je Owens známý. Díky masivní podrážce a vysokému jazyku boty poskytují maximální komfort a ikonický vzhled. Perfektní volba pro ty, kdo chtějí do svého outfitu vnést odvážnou, futuristickou energii.
-</p>
-    <div class = "modeluprostred">
-      <model-viewer 
-    src="https://feela12.github.io/Z-v-re-n--projekt-SAP/base_basic_shaded_rick-compressed.glb"
-  
-    alt="3D logo"
-    auto-rotate
-    auto-rotate-delay="0"
-    rotation-per-second="400%"
-    shadow-intensity="0"
-    style="width: 700px; height: 650px; margin: center; display: flex;"
-    a href = "product1.html"
-    camera-controls
-    disable-zoom
-  >
-  
-  </model-viewer>
-      </div>
-    <p class="cenovka">2500 €</p>
-    <button id="addToCartBtn">ADD TO CART</button>
-    <a href = "index.html">
+<section class="producttest">
+    <!-- Levá strana - 3D model / Obrázek se šipkami -->
+    <div class="product-left">
+        <button class="display-arrow left" onclick="prevImage()">&#10094;</button>
+        <model-viewer 
+            id="mainViewer"
+            src="https://feela12.github.io/Z-v-re-n--projekt-SAP/base_basic_shaded_rick-compressed.glb"
+            alt="3D model"
+            auto-rotate
+            auto-rotate-delay="0"
+            rotation-per-second="400%"
+            shadow-intensity="0"
+            style="width: 100%; max-width: 600px; height: 500px;"
+            disable-zoom
+            camera-controls
+        ></model-viewer>
+        <button class="display-arrow right" onclick="nextImage()">&#10095;</button>
     </div>
-    </a>
+    
+    <!-- Prostřední strana - Galerie -->
+    <div class="product-gallery">
+        <div class="gallery-images">
+            <img src="images/3dmodel.png" alt="3D Model" onclick="showImage(this, 'model')">
+            <img src="images/2chaos.png" alt="Image 2" onclick="showImage(this, 'image')">
+            <img src="images/3chaos.png" alt="Image 3" onclick="showImage(this, 'image')">
+        </div>
+    </div>
+    
+    <!-- Pravá strana - Popis, cena, tlačítko -->
+    <div class="product-right">
+        <p class="nadpisc">RICK OWENS DRKSHDW</p>
+        <p class="ricktext"> 
+            Tyto ikonické high-top boty ve stylu DRKSHDW od Ricka Owense přinášejí unikátní kombinaci avantgardního designu a každodenní nositelnosti. Charakteristické jsou výrazné, krémové šněrování vedené přes celou přední část boty, které vytváří typický "webbed" efekt dodávající siluetu, jakou si okamžitě všimnete. Kontrast mezi robustní černou konstrukcí a světlou gumovou špicí podtrhuje industriální estetiku, pro kterou je Owens známý. Díky masivní podrážce a vysokému jazyku boty poskytují maximální komfort a ikonický vzhled. Perfektní volba pro ty, kdo chtějí do svého outfitu vnést odvážnou, futuristickou energii.
+        </p>
+        <p class="cenovka">2500 €</p>
+        <button id="addToCartBtn">ADD TO CART</button>
+    </div>
+</section>
 
 
 <footer class="footer">
@@ -130,6 +151,42 @@
   </a>
   </footer>
     
+<script>
+let currentIndex = 0;
+const images = ['images/greatsand.png', 'images/2chaos.png', 'images/3chaos.png'];
+const types = ['model', 'image', 'image'];
+
+function showImage(element, type) {
+    const viewer = document.getElementById('mainViewer');
+    const existingImg = document.getElementById('mainImage');
+    
+    // Remove existing image if it exists
+    if (existingImg) {
+        existingImg.remove();
+    }
+    
+    if (type === 'model') {
+        viewer.style.display = 'block';
+        currentIndex = 0;
+    } else {
+        viewer.style.display = 'none';
+        const imgSrc = element.src;
+        viewer.insertAdjacentHTML('beforebegin', '<img id="mainImage" src="' + imgSrc + '" style="width: 100%; max-width: 600px; height: 500px; object-fit: contain;">');
+    }
+}
+
+function prevImage() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    const galleryImages = document.querySelectorAll('.gallery-images img');
+    showImage(galleryImages[currentIndex], types[currentIndex]);
+}
+
+function nextImage() {
+    currentIndex = (currentIndex + 1) % images.length;
+    const galleryImages = document.querySelectorAll('.gallery-images img');
+    showImage(galleryImages[currentIndex], types[currentIndex]);
+}
+</script>
 <script src="script.js"></script>
 </body>
 </html>

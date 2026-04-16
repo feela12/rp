@@ -977,8 +977,16 @@ nav {
   flex: 0 0 200px;
   min-width: 150px;
   display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.product-gallery .gallery-images {
+  display: flex;
   flex-direction: column;
   gap: 15px;
+  flex: 1;
 }
 
 .product-gallery img {
@@ -987,10 +995,66 @@ nav {
   border-radius: 8px;
   border: 2px solid #000;
   transition: transform 0.3s ease;
+  cursor: pointer;
 }
 
 .product-gallery img:hover {
   transform: scale(1.05);
+}
+
+.gallery-arrow {
+  background: #000;
+  color: #fff;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+}
+
+.gallery-arrow:hover {
+  background: #333;
+}
+
+/* Šipky u hlavního zobrazení */
+.product-left {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.display-arrow {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s ease;
+  z-index: 10;
+}
+
+.display-arrow.left {
+  left: 10px;
+}
+
+.display-arrow.right {
+  right: 10px;
+}
+
+.display-arrow:hover {
+  background: #000;
 }
 
 /* Pravá strana - Popis, cena, tlačítko */
@@ -1325,7 +1389,7 @@ nav {
   .bin-button {
     background-color: #000000;
     color: white;
-    border-color: #000000;
+    border-color: #ffffff;
     padding: 8px 10px;
   }
   .bin-button:hover {
@@ -1394,8 +1458,17 @@ nav {
     background-color: #333;
     border-color: white;
   }
+  #addToCartBtn {
+    background-color: white;
+    color: black;
+  }
   
 }
+.bin-button {
+    background-color: #ffffff;
+    color: white;
+    border-color: #000000;
+  }
 
 .binb {
   height: 25px !important;

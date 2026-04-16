@@ -90,9 +90,11 @@
 </header>
 </section>
 <section class="producttest">
-    <!-- Levá strana - 3D model -->
+    <!-- Levá strana - 3D model / Obrázek se šipkami -->
     <div class="product-left">
+        <button class="display-arrow left" onclick="prevImage()">&#10094;</button>
         <model-viewer 
+            id="mainViewer"
             src="https://feela12.github.io/Z-v-re-n--projekt-SAP/finalmodel.glb"
             alt="3D model"
             auto-rotate
@@ -103,13 +105,16 @@
             disable-zoom
             camera-controls
         ></model-viewer>
+        <button class="display-arrow right" onclick="nextImage()">&#10095;</button>
     </div>
     
     <!-- Prostřední strana - Galerie -->
     <div class="product-gallery">
-        <img src="images/greatsand.png" alt="Image 1">
-        <img src="images/2chaos.png" alt="Image 2">
-        <img src="images/3chaos.png" alt="Image 3">
+        <div class="gallery-images">
+            <img src="images/3dmodel.png" alt="3D Model" onclick="showImage(this, 'model')">
+            <img src="images/2chaos.png" alt="Image 2" onclick="showImage(this, 'image')">
+            <img src="images/3chaos.png" alt="Image 3" onclick="showImage(this, 'image')">
+        </div>
     </div>
     
     <!-- Pravá strana - Popis, cena, tlačítko -->
@@ -149,6 +154,42 @@
   </a>
   </footer>
     
+<script>
+let currentIndex = 0;
+const images = ['images/greatsand.png', 'images/2chaos.png', 'images/3chaos.png'];
+const types = ['model', 'image', 'image'];
+
+function showImage(element, type) {
+    const viewer = document.getElementById('mainViewer');
+    const existingImg = document.getElementById('mainImage');
+    
+    // Remove existing image if it exists
+    if (existingImg) {
+        existingImg.remove();
+    }
+    
+    if (type === 'model') {
+        viewer.style.display = 'block';
+        currentIndex = 0;
+    } else {
+        viewer.style.display = 'none';
+        const imgSrc = element.src;
+        viewer.insertAdjacentHTML('beforebegin', '<img id="mainImage" src="' + imgSrc + '" style="width: 100%; max-width: 600px; height: 500px; object-fit: contain;">');
+    }
+}
+
+function prevImage() {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    const galleryImages = document.querySelectorAll('.gallery-images img');
+    showImage(galleryImages[currentIndex], types[currentIndex]);
+}
+
+function nextImage() {
+    currentIndex = (currentIndex + 1) % images.length;
+    const galleryImages = document.querySelectorAll('.gallery-images img');
+    showImage(galleryImages[currentIndex], types[currentIndex]);
+}
+</script>
 <script src="script.js"></script>
 </body>
 </html>
