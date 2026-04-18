@@ -1,4 +1,4 @@
-   (function(){
+(function(){
     const track = document.getElementById('promoTrack');
     const slides = Array.from(track.children);
     const prevBtn = document.getElementById('prevBtn');
