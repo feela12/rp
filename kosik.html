@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styl.css" />
-  
-  <link href='https://fonts.googleapis.com/css?family=League Gothic' rel='stylesheet'>
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-  <link rel="stylesheet" href="styl2.css" />
-    <title>ICZZ|Cart</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICZZ|Cart</title>
+<link rel="stylesheet" href="styl.css">
+<link rel="stylesheet" href="styl2.css">
+<link href='https://fonts.googleapis.com/css?family=League+Gothic|Cinzel|IBM+Plex+Mono&display=swap' rel='stylesheet'>
+<script src="https://kit.fontawesome.com/649771f08a.js" crossorigin="anonymous"></script>
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<script src="script.js"></script>
 </head>
 <body>
  <header>
@@ -45,7 +46,7 @@
   <a href="kosik.html" class="kos">
     <img src="images/kosik.svg" height="50px" width="60px">
   </a>  
-<div class="search" id="mysearch" onclick="this.classList.toggle('move')">
+<div class="search" id="mysearch">
     <input type="text" class="search-input" placeholder="Search..." onclick="event.stopPropagation()">
     <img src="images/lupa.svg" alt="Search" width="50" height="50">
 </div>
@@ -89,141 +90,26 @@
 <div class="items-container">
 <p class="items-header">ITEMS</p>
 
-<div class="item-row">
-  <div class="item-image">
-    <img src="images/2chaos.png" alt="Product image">
-  </div>
-  <section class="itemcart">
-    <a>GREAT CHAOS CHAIN</a>
-    <p class="item-price">$249.99</p>
-  </section>
-  <div class="quantity-control">
-    <button class="qty-btn" onclick="decreaseQty(this)">−</button>
-    <input type="number" class="qty-input" value="1" min="1" max="999" onchange="updatePrices()">
-    <button class="qty-btn" onclick="increaseQty(this); updatePrices()">+</button>
-  </div>
-  <div class="item-total">
-    <p class="total-price">$249.99</p>
-  </div>
-  <button class="bin-button" onclick="removeItem(this)"><img src="images/trash.svg" class="binb" alt="Remove item"></button>
-</div>
-
-<div class="item-row">
-  <div class="item-image">
-    <img src="images/chain1.jpeg" alt="Product image">
-  </div>
-  <section class="itemcart">
-    <a>RICK OWENS DRKSDW</a>
-    <p class="item-price">$349.99</p>
-  </section>
-  <div class="quantity-control">
-    <button class="qty-btn" onclick="decreaseQty(this)">−</button>
-    <input type="number" class="qty-input" value="1" min="1" max="999" onchange="updatePrices()">
-    <button class="qty-btn" onclick="increaseQty(this); updatePrices()">+</button>
-  </div>
-  <div class="item-total">
-    <p class="total-price">$349.99</p>
-  </div>
- <button class="bin-button" onclick="removeItem(this)"><img src="images/trash.svg" class="binb" alt="Remove item"></button>
-</div>
-
-<div class="item-row">
-  <div class="item-image">
-    <img src="images/chain1.jpeg" alt="Product image">
-  </div>
-  <section class="itemcart">
-    <a>RICK OWENS BRUTALIST NECKLACE</a>
-    <p class="item-price">$199.99</p>
-  </section>
-  <div class="quantity-control">
-    <button class="qty-btn" onclick="decreaseQty(this)">−</button>
-    <input type="number" class="qty-input" value="1" min="1" max="999" onchange="updatePrices()">
-    <button class="qty-btn" onclick="increaseQty(this); updatePrices()">+</button>
-  </div>
-  <div class="item-total">
-    <p class="total-price">$199.99</p>
-  </div>
-  <button class="bin-button" onclick="removeItem(this)"><img src="images/trash.svg" class="binb" alt="Remove item"></button>
-</div>
-
+<!-- Cart will be populated from localStorage -->
 </div>
 </section>
 
 <section class="price-summary">
   <div class="summary-content">
     <p class="summary-label">SUBTOTAL</p>
-    <p class="summary-price">$799.97</p>
+    <p class="summary-price">0 €</p>
   </div>
 </section>
 
 <section class="checkout-section">
   <div class="email-container">
-    <input type="email" class="email-input" placeholder="Zadejte váš email..." required>
+    <input type="email" class="email-input" placeholder="Enter your email..." required>
   </div>
   <button class="checkout">CHECKOUT</button>
 </section>
 
 <script>
-function removeItem(button) {
-  // smazani polozky z kosiku
-  const itemRow = button.closest('.item-row');
-  if (itemRow) {
-    itemRow.style.opacity = '0';
-    itemRow.style.transform = 'scale(0.8)';
-    setTimeout(() => {
-      itemRow.remove();
-      updatePrices();
-    }, 300);
-  }
-}
-
-function increaseQty(button) {
-  const input = button.previousElementSibling;
-  input.value = parseInt(input.value) + 1;
-  updatePrices();
-}
-
-function decreaseQty(button) {
-  const input = button.nextElementSibling;
-  if (parseInt(input.value) > 1) {
-    input.value = parseInt(input.value) - 1;
-  }
-  updatePrices();
-}
-
-function updatePrices() {
-  let totalPrice = 0;
-  
-  // Všechny řady s produkty
-  const itemRows = document.querySelectorAll('.item-row');
-  
-  itemRows.forEach(row => {
-    // Získáme cenu z textu
-    const priceText = row.querySelector('.item-price').textContent;
-    const price = parseFloat(priceText.replace('$', ''));
-    
-    // Získáme kvantitu
-    const quantity = parseInt(row.querySelector('.qty-input').value);
-    
-    // Vypočítáme cenu za produkt
-    const itemTotal = price * quantity;
-    
-    // Aktualizujeme celkovou cenu v řádku
-    row.querySelector('.total-price').textContent = '$' + itemTotal.toFixed(2);
-    
-    // Přidáme k celkové ceně
-    totalPrice += itemTotal;
-  });
-  
-  // Aktualizujeme shrnutí
-  const summaryPrice = document.querySelector('.summary-price');
-  if (summaryPrice) {
-    summaryPrice.textContent = '$' + totalPrice.toFixed(2);
-  }
-}
-
-// Inicializace při načtení
-window.addEventListener('load', updatePrices);
+function loadCart(){const c=JSON.parse(localStorage.getItem('cart'))||[],ic=document.querySelector('.items-container');ic.querySelectorAll('.item-row').forEach(x=>x.remove());if(!c.length){ic.innerHTML+='<p style="text-align:center;padding:40px;font-size:20px">Your cart is empty</p>';document.querySelector('.summary-price').textContent='0 €';return;}c.forEach(p=>{const r=document.createElement('div');r.className='item-row';r.innerHTML=`<div class="item-image"><img src="${p.image}" alt="Product"></div><section class="itemcart"><a>${p.name}</a><p class="item-price">${p.price} €</p></section><div class="quantity-control"><button class="qty-btn" onclick="decQty(this)">−</button><input type="number" class="qty-input" value="${p.quantity}" min="1" max="999" onchange="updCart(this);updPrices()"><button class="qty-btn" onclick="incQty(this);updCart(this);updPrices()">+</button></div><div class="item-total"><p class="total-price">${p.price*p.quantity} €</p></div><button class="bin-button" onclick="remItem(this)"><img src="images/trash.svg" class="binb" alt="Remove"></button>`;ic.appendChild(r);});updPrices();}function updCart(inp){const r=inp.closest('.item-row'),pc=parseInt(r.querySelector('.item-price').textContent),q=parseInt(inp.value),c=JSON.parse(localStorage.getItem('cart'))||[],pn=r.querySelector('.itemcart a').textContent,ci=c.find(x=>x.name===pn);if(ci){ci.quantity=q;localStorage.setItem('cart',JSON.stringify(c));}}function remItem(btn){const r=btn.closest('.item-row'),pn=r.querySelector('.itemcart a').textContent;let c=JSON.parse(localStorage.getItem('cart'))||[];c=c.filter(x=>x.name!==pn);localStorage.setItem('cart',JSON.stringify(c));r.style.opacity='0';r.style.transform='scale(0.8)';setTimeout(()=>{r.remove();updPrices();loadCart();},300);}function incQty(btn){const inp=btn.previousElementSibling;inp.value=parseInt(inp.value)+1;updPrices();}function decQty(btn){const inp=btn.nextElementSibling;if(parseInt(inp.value)>1)inp.value=parseInt(inp.value)-1;updPrices();}function updPrices(){let t=0;document.querySelectorAll('.item-row').forEach(r=>{const pc=parseInt(r.querySelector('.item-price').textContent),q=parseInt(r.querySelector('.qty-input').value),it=pc*q;r.querySelector('.total-price').textContent=it+' €';t+=it;});document.querySelector('.summary-price').textContent=t+' €';}window.addEventListener('load',loadCart);
 </script>
 
 
@@ -232,7 +118,7 @@ window.addEventListener('load', updatePrices);
 <footer class="footer">
     <hr class="line">
     <div class="rights">
-    <p>&copy; 2026 FILIP VÁPENÍK. Všechna práva vyhrazena.</p>
+    <p>&copy; 2026. Filip Vápeník. All rights reserved.</p>
     </div>
       <a href="#index">
         <img src="images/favikon.png" height="50px" width="65px">

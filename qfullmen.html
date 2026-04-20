@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styl.css" />
+    <link rel="stylesheet" href="styl2.css" />
   
   <link href='https://fonts.googleapis.com/css?family=League Gothic' rel='stylesheet'>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <link rel="stylesheet" href="styl2.css" />
+  <script src="script.js"></script>
     <title>ICZZ|Men</title>
 </head>
 <body>
@@ -45,7 +47,7 @@
   <a href="kosik.html" class="kos">
     <img src="images/kosik.svg" height="50px" width="60px">
   </a>  
-<div class="search" id="mysearch" onclick="this.classList.toggle('move')">
+<div class="search" id="mysearch">
     <input type="text" class="search-input" placeholder="Search..." onclick="event.stopPropagation()">
     <img src="images/lupa.svg" alt="Search" width="50" height="50">
 </div>
@@ -105,16 +107,12 @@
         </a>
 
         <div class="image-paragraph">
-          <a href = "product1.html">
-          <p>
-           A GREAT CHAOS CHAIN
-          </p>
-          <p>
-            1000 €
-          </p>
-          </a>
-        </div>
-      </div>
+  <a href = "product1.html">
+    <p class="paragraph-text"><div class="paragraph-text">A GREAT CHAOS CHAIN</div></p>
+    <p  class="paragraph-text"><div class="paragraph-text">1000 €</div></p>
+  </a>
+</div>
+</div>
 
       <div class="image-card" onclick="toggleText(this)">
         <a href = "product2.html">
@@ -134,12 +132,17 @@
 </a>
         <div class="image-paragraph">
         <a href = "product2.html">
-          <p>
+          <p >
+            <div class="paragraph-text">
             RICK OWENS BRUTALIST NECKLACE
+            </div>
           </p>
-          <p>
+          <p >
+            <div class="paragraph-text">
             1200 €
+            </div>
           </p>
+
           </a>
         </div>
       </div>
@@ -160,20 +163,22 @@
 </model-viewer>
 </a>
         <div class="image-paragraph">
-         <a href = "product3.html">
+         <a href = "product3.html" class="paragraph-text">
           <p>
+            <div class="paragraph-text">
             RICK OWENS DRKSHDW
+            </div>
           </p>
           <p>
+            <div class="paragraph-text">
             2500 €
+            </div>
           </p>
           </a>
         </div>
       </div>
-    </div>
-    <hr>
   </section>
-  
+</div>
 <footer class="footer">
     <hr class="line">
     <div class="rights">

@@ -268,10 +268,13 @@ text-transform: uppercase;
   font-size: 70px;
   margin-right: 290px;
   float: right;        
-  text-align: justify; 
-  font-family: 'League Gothic';
+  text-align: center; 
+  font-family:"IBM Plex Mono", monospace, bold;
   
 
+}
+.discount{
+  text-decoration: line-through;
 }
 .mapka {
   margin-left:725px;
@@ -337,7 +340,7 @@ text-transform: uppercase;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-family:"League Gothic";
+  font-family: "IBM Plex Mono", monospace;
   font-weight: 1000;
   
   
@@ -543,7 +546,7 @@ nav {
   text-shadow: 1px 0px #000000;
   border-width: 2px;
   border-radius: 20px;
-  border-style:solid;
+  border-style: solid;
   z-index:0;
 }
 
@@ -936,7 +939,7 @@ nav {
   opacity: 0;
   transition: 0.3s ease;
   z-index: 3;
-  font-family:"Cinzel";
+  font-family:"IBM Plex Mono", monospace, bold;
   font-weight:400;
 }
 
@@ -1086,10 +1089,11 @@ nav {
 }
 
 .product-right .cenovka {
-  font-family: 'League Gothic';
+  font-family: "IBM Plex Mono", monospace, bold;
   font-size: 50px;
   margin: 0 0 20px 0;
   float: none;
+  text-align: center;
 }
 
 .product-right #addToCartBtn {
@@ -1100,7 +1104,7 @@ nav {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-family: 'League Gothic';
+  font-family: 'IBM Plex Mono', monospace;
   font-weight: 1000;
   width: 100%;
   float: none;
@@ -1447,8 +1451,8 @@ nav {
     color: white;
   }
   .price-summary {
-    border-top: 2px solid white;
-    border-bottom: 2px solid white;
+    border-top: none;
+    border-bottom: none;
   }
   .summary-label {
     color: white;

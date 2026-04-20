@@ -80,22 +80,21 @@
     position: fixed;
     inset: 0; 
     background: rgba(0, 0, 0, 0.6);
+
     display: flex;
     align-items: center;
     justify-content: center;
+
     opacity: 0;
     pointer-events: none;
     transition: 0.3s ease;
-    margin-top: 500px;
-    z-index:9000000000;
+    z-index: 999999
 }
 
 
 .popup:target {
     opacity: 1;
     pointer-events: auto;
-    margin-top: 500px;
-    
 }
 
 .popup-content {
@@ -105,8 +104,6 @@
     text-align: center;
     font-size: 60px;
     font-family:'League Gothic';
-    z-index:999999;
-    margin-top:500px;
 }
 
 .close {
@@ -176,6 +173,56 @@
   opacity: 22;
   background: rgba(0,0,0,0.6);
   filter: blur(4px);
+}
+
+/* Success Popup Styles */
+.success-popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s ease;
+  z-index: 9000000000;
+}
+
+.success-popup.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.success-popup-content {
+  background: white;
+  padding: 40px 50px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 50px;
+  font-family: 'League Gothic';
+  z-index: 999999;
+  position: relative;
+  min-width: 300px;
+  color: #000;
+}
+
+.success-popup-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 40px;
+  cursor: pointer;
+  color: #000;
+  padding: 5px 10px;
+  font-family: 'League Gothic';
+  font-weight: bold;
+}
+
+.success-popup-close:hover {
+  color: #333;
 }
 
 

@@ -1,22 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ICZZ</title>
-    <link rel="icon" type="image/x-icon" href="images/favikon2.png">
-    <link rel="stylesheet" href="styl.css" />
-    <link rel="stylesheet" href="styl2.css" />
-    <link href='https://fonts.googleapis.com/css?family=League Gothic' rel='stylesheet'>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://kit.fontawesome.com/649771f08a.js" crossorigin="anonymous"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICZZ</title>
+<link rel="icon" type="image/x-icon" href="images/favikon2.png">
+<link rel="stylesheet" href="styl.css">
+<link rel="stylesheet" href="styl2.css">
+<link href="https://fonts.googleapis.com/css?family=League+Gothic|Cinzel|IBM+Plex+Mono&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/649771f08a.js" crossorigin="anonymous"></script>
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<script src="script.js"></script>
 </head>
 <body>
 <header>
@@ -53,7 +47,7 @@
   <a href="kosik.html" class="kos">
     <img src="images/kosik.svg" height="50px" width="60px">
   </a>  
-<div class="search" id="mysearch" onclick="this.classList.toggle('move')">
+<div class="search" id="mysearch">
     <input type="text" class="search-input" placeholder="Search..." onclick="event.stopPropagation()">
     <img src="images/lupa.svg" alt="Search" width="50" height="50">
 </div>
@@ -112,8 +106,8 @@
     <div class="product-gallery">
         <div class="gallery-images">
             <img src="images/3dmodel.png" alt="3D Model" onclick="showImage(this, 'model')">
-            <img src="images/2chaos.png" alt="Image 2" onclick="showImage(this, 'image')">
-            <img src="images/3chaos.png" alt="Image 3" onclick="showImage(this, 'image')">
+            <img src="images/chain2.png" alt="Image 2" onclick="showImage(this, 'image')">
+            <img src="images/chain1.jpeg" alt="Image 3" onclick="showImage(this, 'image')">
         </div>
     </div>
     
@@ -126,7 +120,7 @@
 Každý detail tohoto kousku reflektuje charakteristickou Owensovu filozofii – temnou eleganci, nekompromisní minimalismus a futuristickou siluetu.
         </p>
         <p class="cenovka">1200 €</p>
-        <button id="addToCartBtn">ADD TO CART</button>
+        <button id="addToCartBtn" data-product-name="RICK OWENS SS20 BRUTALIST CHAIN" data-product-price="1200" data-product-image="images/chain1.jpeg">ADD TO CART</button>
     </div>
 </section>
     
@@ -154,42 +148,7 @@ Každý detail tohoto kousku reflektuje charakteristickou Owensovu filozofii –
   </a>
   </footer>
     
-<script>
-let currentIndex = 0;
-const images = ['images/greatsand.png', 'images/2chaos.png', 'images/3chaos.png'];
-const types = ['model', 'image', 'image'];
-
-function showImage(element, type) {
-    const viewer = document.getElementById('mainViewer');
-    const existingImg = document.getElementById('mainImage');
-    
-    // Remove existing image if it exists
-    if (existingImg) {
-        existingImg.remove();
-    }
-    
-    if (type === 'model') {
-        viewer.style.display = 'block';
-        currentIndex = 0;
-    } else {
-        viewer.style.display = 'none';
-        const imgSrc = element.src;
-        viewer.insertAdjacentHTML('beforebegin', '<img id="mainImage" src="' + imgSrc + '" style="width: 100%; max-width: 600px; height: 500px; object-fit: contain;">');
-    }
-}
-
-function prevImage() {
-    currentIndex = (currentIndex - 1 + images.length) % images.length;
-    const galleryImages = document.querySelectorAll('.gallery-images img');
-    showImage(galleryImages[currentIndex], types[currentIndex]);
-}
-
-function nextImage() {
-    currentIndex = (currentIndex + 1) % images.length;
-    const galleryImages = document.querySelectorAll('.gallery-images img');
-    showImage(galleryImages[currentIndex], types[currentIndex]);
-}
-</script>
+<script>let i=0,imgs=['images/greatsand.png','images/2chaos.png','images/3chaos.png'],types=['model','image','image'];function showImage(e,t){const v=document.getElementById('mainViewer'),x=document.getElementById('mainImage');if(x)x.remove();if(t==='model'){v.style.display='block';i=0;}else{v.style.display='none';v.insertAdjacentHTML('beforebegin','<img id="mainImage" src="'+e.src+'" style="width:100%;max-width:600px;height:500px;object-fit:contain;">');}}function prevImage(){i=(i-1+imgs.length)%imgs.length;showImage(document.querySelectorAll('.gallery-images img')[i],types[i]);}function nextImage(){i=(i+1)%imgs.length;showImage(document.querySelectorAll('.gallery-images img')[i],types[i]);}function handleCart(){const n=this.getAttribute('data-product-name'),p=this.getAttribute('data-product-price'),img=this.getAttribute('data-product-image'),cart=JSON.parse(localStorage.getItem('cart'))||[],ex=cart.find(j=>j.name===n);if(ex)ex.quantity+=1;else cart.push({name:n,price:p,image:img,quantity:1});localStorage.setItem('cart',JSON.stringify(cart));showPopup();}function showPopup(){let p=document.getElementById('successPopup');if(!p){p=document.createElement('div');p.id='successPopup';p.className='success-popup';p.innerHTML='<div class="success-popup-content"><button class="success-popup-close" onclick="closePopup()">×</button><p>SUCCESSFULLY ADDED TO CART</p></div>';document.body.appendChild(p);}p.classList.add('show');setTimeout(()=>p.classList.remove('show'),3000);}function closePopup(){const p=document.getElementById('successPopup');if(p)p.classList.remove('show');}document.addEventListener('DOMContentLoaded',()=>{const b=document.getElementById('addToCartBtn');if(b)b.addEventListener('click',handleCart);});document.addEventListener('click',e=>{const p=document.getElementById('successPopup');if(p&&p.classList.contains('show')&&e.target===p)closePopup();});</script>
 <script src="script.js"></script>
 </body>
 </html>

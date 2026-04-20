@@ -1,27 +1,20 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ICZZ</title>
-  <link rel="icon" type="image/x-icon" href="images/favikon2.png">
-  <link rel="stylesheet" href="styl.css" />
-  <link rel="stylesheet" href="styl2.css" />
-  <link href='https://fonts.googleapis.com/css?family=League Gothic' rel='stylesheet'>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script src="https://kit.fontawesome.com/649771f08a.js" crossorigin="anonymous"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICZZ</title>
+<link rel="icon" type="image/x-icon" href="images/favikon2.png">
+<link rel="stylesheet" href="styl.css">
+<link rel="stylesheet" href="styl2.css">
+<link href="https://fonts.googleapis.com/css?family=League+Gothic|Cinzel|IBM+Plex+Mono&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/649771f08a.js" crossorigin="anonymous"></script>
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<script src="script.js"></script>
+<script src="script2.js"></script>
 </head>
 <body>
   
-<!--HEADER-->
-<!--ACCOUNT, LOGO, DARK MODE A KOŠÍK-->
 <header>
     
   <section class="fixed-section">
@@ -56,40 +49,14 @@
   <a href="kosik.html" class="kos">
     <img src="images/kosik.svg" height="50px" width="60px">
   </a>  
-<div class="search" id="mysearch" onclick="this.classList.toggle('move')">
+<div class="search" id="mysearch">
     <input type="text" class="search-input" placeholder="Search..." onclick="event.stopPropagation()">
     <img src="images/lupa.svg" alt="Search" width="50" height="50">
 </div>
 <div class="sunmoon">
 <img id="icon" src="images/moon.svg" height="50px" width="50px" top="50px" onclick="toggleDarkMode()">
 </div>
-<script>
-  function toggleDarkMode() {
-    const icon = document.getElementById("icon");
-  
-    document.body.classList.toggle("dark");
-  
-    if (document.body.classList.contains("dark")) {
-      localStorage.setItem("mode", "dark");
-      icon.src = "images/sun.svg";
-    } else {
-      localStorage.setItem("mode", "light");
-      icon.src = "images/moon.svg";
-    }
-  }
-  
-  
-  window.onload = function () {
-    const icon = document.getElementById("icon");
-  
-    if (localStorage.getItem("mode") === "dark") {
-      document.body.classList.add("dark");
-      icon.src = "images/sun.svg";
-    } else {
-      icon.src = "images/moon.svg";
-    }
-  }
-  </script>
+<script>function toggleDarkMode(){const i=document.getElementById('icon'),m=localStorage.getItem('mode')==='dark'?'light':'dark';document.body.classList.toggle('dark');localStorage.setItem('mode',m);i.src=m==='dark'?'images/sun.svg':'images/moon.svg';}window.toggleText=(c)=>c.classList.toggle('active');window.onload=()=>{const i=document.getElementById('icon'),m=localStorage.getItem('mode')||'light';document.body.classList.toggle('dark',m==='dark');i.src=m==='dark'?'images/sun.svg':'images/moon.svg';};</script>
 </header>
 </section>
 
@@ -102,23 +69,23 @@
       <video autoplay muted loop id="videoslid" class= "video-container" href=externprklk.html src="videos/1slide.mp4" alt="Sleva 50% — módní kategorie" loading="fazy">
       </video>
       <div class="promo-middle-text" >
-        <a href="externprklk.html">VIEW</a>
+        <a href="product1.html">VIEW</a>
       </div>
     </article>
 
 <!-- Slide 2 -->
     <article class="promo-slide" role="group" aria-roledescription="slide" aria-label="2025 COLLECTION">
-      <img src="images\greatsand.png?q=80&w=1600&auto=format&fit=crop" alt="Nová kolekce" loading="lazy">
+      <img src="images\chain2.png?q=80&w=1600&auto=format&fit=crop" alt="Nová kolekce" loading="lazy">
       <div class="promo-middle-text" >
-        <a href="externprklk.html">VIEW</a>
+        <a href="product2.html">BRUTALIST CHAIN BACK IN STOCK</a>
       </div>
     </article>
 
 <!-- Slide 3 -->
     <article class="promo-slide" role="group" aria-roledescription="slide" aria-label="FREE DELIVERY">
-      <img src="images\3chaos.png?q=80&w=1600&auto=format&fit=crop" alt="Doprava zdarma" loading="lazy">
+      <img src="images\greatsand.png?q=80&w=1600&auto=format&fit=crop" alt="Doprava zdarma" loading="lazy">
      <div class="promo-middle-text" >
-        <a href="externprklk.html">VIEW</a>
+        <a href="product1.html">Great Chaos Chain 20% OFF</a>
       </div>
     </article>
   </div>
@@ -252,7 +219,7 @@
 <div class="image-paragraph">
   <a href = "product1.html">
     <p class="paragraph-text"><div class="paragraph-text">A GREAT CHAOS CHAIN</div></p>
-    <p  class="paragraph-text"><div class="paragraph-text">1000 €</div></p>
+    <p  class="paragraph-text"><div class="paragraph-text"><span class="discount">1000€</span> 800 €</div></p>
   </a>
 </div>
 </div>
@@ -370,11 +337,6 @@
       <img class="inv" src="images/fb.svg" height="50px" width="50px">
   </a>
   </footer>
-
-
-  <script src="script.js"></script>
-  <script src="script2.js"></script>
-  <script src="script3.js"></script>
   
 </body>
 </html>
