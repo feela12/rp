@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICZZ</title>
+<link rel="icon" type="image/x-icon" href="images/favikon2.png">
+<link rel="stylesheet" href="styl.css">
+<link rel="stylesheet" href="styl2.css">
+<link href="https://fonts.googleapis.com/css?family=League+Gothic|Cinzel|IBM+Plex+Mono&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/649771f08a.js" crossorigin="anonymous"></script>
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<script src="script.js"></script>
+</head>
+<body>
+<header>
+    
+  <section class="fixed-section">
+     <a href="index.html" >
+    <model-viewer 
+    src="https://feela12.github.io/Z-v-re-n--projekt-SAP/base_basic_pbr_logo.glb"
+    alt="3D logo"
+    auto-rotate
+    auto-rotate-delay="0"
+    rotation-per-second="0%"
+    shadow-intensity="2"
+    style="width: 400px; height: 100px; margin: auto; top:39px; z-index:1000000"
+    camera-orbit="270deg 80deg 100m"
+    style="pointer-events: none;"
+    top="1000px;"
+  >
+     </a>
+  </model-viewer>
+  <a href="#popup" class="acc">
+    <img src="images/user.svg" height="50" width="55">
+</a>
+
+<div id="popup" class="popup">
+    <div class="popup-content">
+        <p>YOU ARE SIGNED IN ✓</p>
+        <a href="#" class="close">OK</a>
+    </div>
+</div>
+  <a href="kosik.html" class="kos">
+    <img src="images/kosik.svg" height="50px" width="60px">
+  </a>  
+<div class="search" id="mysearch">
+    <input type="text" class="search-input" placeholder="Search..." onclick="event.stopPropagation()">
+    <img src="images/lupa.svg" alt="Search" width="50" height="50">
+</div>
+<div class="sunmoon">
+<img id="icon" src="images/moon.svg" height="50px" width="50px" top="50px" onclick="toggleDarkMode()">
+</div>
+<script>
+  function toggleDarkMode() {
+    const icon = document.getElementById("icon");
+  
+    document.body.classList.toggle("dark");
+  
+    if (document.body.classList.contains("dark")) {
+      localStorage.setItem("mode", "dark");
+      icon.src = "images/sun.svg";
+    } else {
+      localStorage.setItem("mode", "light");
+      icon.src = "images/moon.svg";
+    }
+  }
+  
+  
+  window.onload = function () {
+    const icon = document.getElementById("icon");
+  
+    if (localStorage.getItem("mode") === "dark") {
+      document.body.classList.add("dark");
+      icon.src = "images/sun.svg";
+    } else {
+      icon.src = "images/moon.svg";
+    }
+  }
+  </script>
+</header>
+</section>
+<section class="producttest">
+    <!-- Levá strana - 3D model / Obrázek se šipkami -->
+    <div class="product-left">
+        <button class="display-arrow left" onclick="prevImage()">&#10094;</button>
+        <model-viewer 
+            id="mainViewer"
+            src="https://feela12.github.io/Z-v-re-n--projekt-SAP/XOm.glb"
+            alt="3D model"
+            auto-rotate
+            auto-rotate-delay="0"
+            rotation-per-second="400%"
+            shadow-intensity="0"
+            style="width: 100%; max-width: 600px; height: 500px;"
+            disable-zoom
+            camera-controls
+        ></model-viewer>
+        <button class="display-arrow right" onclick="nextImage()">&#10095;</button>
+    </div>
+    
+    <!-- Prostřední strana - Galerie -->
+    <div class="product-gallery">
+        <div class="gallery-images">
+            <img src="images/3dmodel.png" alt="3D Model" onclick="showImage(this, 'model')">
+            <img src="images/XOprod.png" alt="Image 2" onclick="showImage(this, 'image')">
+            <img src="images/XOprod2.png" alt="Image 3" onclick="showImage(this, 'image')">
+        </div>
+    </div>
+    
+    <!-- Pravá strana - Popis, cena, tlačítko -->
+    <div class="product-right">
+        <p class="nadpisc">XO PENDANT - THE WEEKND REPLICA</p>
+        <p class="ricktext"> 
+         XO PENDANT - THE WEEKND REPLICA je stylový přívěsek inspirovaný ikonickým designem The Weeknd. Tento přívěsek je vyroben z kvalitních materiálů a nabízí detailní zpracování, které věrně reprodukuje originální vzhled. Je ideálním doplňkem pro fanoušky The Weeknd a pro ty, kteří chtějí přidat do svého šperkovnice něco unikátního a trendy.
+        </p>
+        <p class="cenovka">500 €</p>
+        <button id="addToCartBtn" data-product-name="XO PENDANT - THE WEEKND REPLICA" data-product-price="500" data-product-image="images/XOprod.png">ADD TO CART</button>
+    </div>
+</section>
+
+
+<footer class="footer">
+    <hr class="line">
+    <div class="rights">
+    <p>&copy; 2026 FILIP VÁPENÍK. Všechna práva vyhrazena.</p>
+    </div>
+      <a href="#index">
+        <img src="images/favikon.png" height="50px" width="65px">
+      </a>
+      <a href="externprklk.html">
+      <img class="inv" src="images/shopify.svg" height="50px" width="50px">
+  </a>
+    <a href="https://instagram.com">
+      <img class="inv" src="images/ig.svg" height="50px" width="50px">
+  </a>
+  <a href="https://x.com">
+    <img class="inv" src="images/x.svg" height="50px" width="50px">
+</a>
+  <a href="https://facebook.com">
+      <img class="inv" src="images/fb.svg" height="50px" width="50px">
+  </a>
+  </footer>
+    
+<script>let i=0,imgs=['images/greatsand.png','images/2chaos.png','images/3chaos.png'],types=['model','image','image'];function showImage(e,t){const v=document.getElementById('mainViewer'),x=document.getElementById('mainImage');if(x)x.remove();if(t==='model'){v.style.display='block';i=0;}else{v.style.display='none';v.insertAdjacentHTML('beforebegin','<img id="mainImage" src="'+e.src+'" style="width:100%;max-width:600px;height:500px;object-fit:contain;">');}}function prevImage(){i=(i-1+imgs.length)%imgs.length;showImage(document.querySelectorAll('.gallery-images img')[i],types[i]);}function nextImage(){i=(i+1)%imgs.length;showImage(document.querySelectorAll('.gallery-images img')[i],types[i]);}function handleCart(){const n=this.getAttribute('data-product-name'),p=this.getAttribute('data-product-price'),img=this.getAttribute('data-product-image'),cart=JSON.parse(localStorage.getItem('cart'))||[],ex=cart.find(j=>j.name===n);if(ex)ex.quantity+=1;else cart.push({name:n,price:p,image:img,quantity:1});localStorage.setItem('cart',JSON.stringify(cart));showPopup();}function showPopup(){let p=document.getElementById('successPopup');if(!p){p=document.createElement('div');p.id='successPopup';p.className='success-popup';p.innerHTML='<div class="success-popup-content"><button class="success-popup-close" onclick="closePopup()">×</button><p>SUCCESSFULLY ADDED TO CART</p></div>';document.body.appendChild(p);}p.classList.add('show');setTimeout(()=>p.classList.remove('show'),3000);}function closePopup(){const p=document.getElementById('successPopup');if(p)p.classList.remove('show');}document.addEventListener('DOMContentLoaded',()=>{const b=document.getElementById('addToCartBtn');if(b)b.addEventListener('click',handleCart);});document.addEventListener('click',e=>{const p=document.getElementById('successPopup');if(p&&p.classList.contains('show')&&e.target===p)closePopup();});</script>
+<script src="script.js"></script>
+</body>
+</html>
