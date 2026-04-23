@@ -199,12 +199,41 @@ a {
   transform: scale(1.03);
 }
 
+.image-card:hover .product-rating {
+  transform: scale(1);
+}
+
 .image-paragraph {
   margin-top: 20px;
+  padding-bottom: 20px;
 }
+
+.product-rating {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  pointer-events: none;
+}
+
+.product-star {
+  font-size: 18px;
+  color: #000000;
+  font-weight: 300;
+  letter-spacing: 2px;
+}
+
+.product-star:hover {
+  color: #333333;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
 .paragraph-text{
   font-size: 1vw;
-  font-family:"IBM Plex Mono", monospace, bold;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 400;
+  letter-spacing: 0.3px;
 }
 .nadpishigh{
   font-family: 'IBM Plex Mono', monospace, bold;
@@ -287,12 +316,13 @@ text-transform: uppercase;
   padding: 50px;
   font-size: 14px;
   margin-top: 40px;
-  font-family:"iBM Plex Mono", monospace, bold;
+  font-family:"IBM Plex Mono", monospace, bold;
   font-style: bold;
   margin: 0 auto;  
   bottom:0;
   width:100%;
   position: relative; /* Normální pozicování - footer je dole stránky */
+  z-index: 0;
 }
 
 model-viewer {
@@ -520,17 +550,18 @@ nav {
   width: 100%;
   height:800px;
   max-width: 1400px;   /* jak moc široká může být */
-  margin: 0 auto;      /* vycentrování na stránce */
+  margin: 0 auto 80px auto;      /* vycentrování na stránce a prostor pod sekcí */
   padding: 40px;
   backdrop-filter: blur(1px);
   text-align:center;
   font-family:"IBM Plex Mono", monospace, bold ;
   font-size:40px;
-  
+  position: relative;
+  z-index: 1;
   text-shadow: 1px 0px #000000;
   border-width: 2px;
   border-radius: 20px;
-  box-shadow: 0 20px 500px rgba(0,0,0,1);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
 
 }
 .moje-sekce2 {
@@ -1288,6 +1319,223 @@ nav {
   border-bottom: 1px solid black;
 }
 
+/* Reviews Section Styling */
+.reviews-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  max-width: 1200px;
+  margin: 0 auto 50px auto;
+  padding: 20px;
+}
+
+.review-card {
+  background: #ffffff;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 28px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.review-card:hover {
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+}
+
+.review-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-image {
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+  background: linear-gradient(135deg, #000000, #333333);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.review-author {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.review-author h3 {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin: 0;
+  color: #000000;
+}
+
+.review-title {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 12px;
+  font-weight: 400;
+  color: #666666;
+  letter-spacing: 0.3px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.review-text {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #333333;
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+.review-rating {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.star {
+  font-size: 16px;
+  color: #000000;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+/* Dark mode reviews */
+.dark .review-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dark .review-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+}
+
+.dark .profile-image {
+  background: linear-gradient(135deg, #ffffff, #cccccc);
+  color: #000000;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .review-author h3 {
+  color: #ffffff;
+}
+
+.dark .review-title {
+  color: #999999;
+}
+
+.dark .review-text {
+  color: #dddddd;
+}
+
+.dark .star {
+  color: #ffffff;
+}
+
+/* Responsive reviews */
+@media (max-width: 1024px) {
+  .reviews-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .reviews-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Badges Carousel Styling */
+.badges-carousel-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 40px auto 0;
+  padding: 0 20px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05), 
+              0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.badges-carousel-track {
+  display: flex;
+  gap: 30px;
+  padding: 30px 0;
+  animation: scrollBadges 20s linear infinite;
+  width: fit-content;
+}
+
+.badges-carousel-track:hover {
+  animation-play-state: paused;
+}
+
+.badge-item {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  height: 120px;
+  background: #ffffff;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 15px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+}
+
+.badge-item:hover {
+  transform: translateY(-8px) scale(1.08);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+  border-color: rgba(0, 0, 0, 0.15);
+  background: #fafafa;
+}
+
+.badge-item img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  filter: grayscale(30%);
+  transition: filter 0.3s ease;
+}
+
+.badge-item:hover img {
+  filter: grayscale(0%);
+}
+
+@keyframes scrollBadges {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-120px - 30px));
+  }
+}
+
 .dark {
   background-color:black;
   color: white;
@@ -1350,6 +1598,46 @@ nav {
     box-shadow: 0 4px 400px rgba(255,255,255,1);
     
   }
+  .badges-carousel-wrapper {
+    background: rgba(255, 255, 255, 0.02);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 2px 8px rgba(255, 255, 255, 0.05), 
+                0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .badge-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .badge-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+  }
+
+  .badge-item img {
+    filter: invert(1) brightness(1.1);
+  }
+
+  .product-star {
+    color: #ffffff;
+  }
+
+  .product-star:hover {
+    color: #cccccc;
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.2);
+  }
+
+  .paragraph-text {
+    color: #ffffff;
+  }
+
+  .discount {
+    color: #999999;
+  }
+
    .category-bar a{
     color: white;
     
