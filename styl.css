@@ -667,10 +667,6 @@ nav {
   margin: 0;
 }
 
-/* Schování spinbuttons v Firefoxu */
-.qty-input[type=number] {
-  -moz-appearance: textfield;
-}
 
 .bin-button {
   font-size: 18px;
