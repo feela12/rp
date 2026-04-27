@@ -123,14 +123,7 @@
 }
 
 .products::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    opacity: 0;
-    pointer-events: none;
-    transition: 0.3s ease;
-    z-index: 5;
+    display: none;
 }
 
 .products:hover::after {
@@ -139,21 +132,21 @@
 
 .products:hover .image-card {
     opacity: 1;
-    filter: blur(4px);
+    filter: none;
 }
 
 /* objekt na kterem je myska zustane svetly */
 .image-card:hover {
     opacity: 1 !important;
     filter: none !important;
-    transform: scale(1.2);
-    z-index: 20;
+    transform: translateY(-6px) scale(1.01);
+    z-index: 3;
 }
 
 .products.hover-on-gap .image-card {
-  opacity: 0;
+  opacity: 1;
   filter: none;
-  transform: scale(10000);
+  transform: none;
   z-index: auto;
 }
 
@@ -162,17 +155,16 @@
 }
 
 .products.hover-on-card:hover {
-  /* efekt pro kartu */
-  opacity: 1.2;
+  opacity: 1;
   filter: none;
-  transform: scale(1.2);
-  z-index: 20;
+  transform: none;
+  z-index: auto;
 }
 
 .products.hover-on-card::after {
-  opacity: 22;
-  background: rgba(0,0,0,0.6);
-  filter: blur(4px);
+  opacity: 0;
+  background: transparent;
+  filter: none;
 }
 
 /* Success Popup Styles */
@@ -245,7 +237,7 @@
   }
 
   .image-card:hover {
-    transform: scale(1.03);
+    transform: translateY(-3px);
   }
 }
 

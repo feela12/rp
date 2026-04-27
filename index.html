@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="cs">
 <head>
   <!-- zakladni meta tagy a nastaveni -->
@@ -52,9 +52,9 @@
 
       <!-- vyhledavani -->
       <div class="search" id="mysearch">
-        <input type="text" class="search-input" placeholder="Search..." onclick="event.stopPropagation()">
         <img src="images/lupa.svg" alt="Search" width="50" height="50">
       </div>
+      <input type="text" class="search-input" placeholder="Search..." onclick="event.stopPropagation()">
 
       <!-- prepinac tmavy/svetly rezim -->
       <div class="sunmoon">
@@ -209,6 +209,8 @@
           <div><a href="product3.html" class="prodhref">DRKSHDW collection</a></div>
           <div><a>During his SS20 show in Paris</a></div>
         </div>
+
+        
       </div>
     </div>
 
@@ -320,8 +322,33 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
+
+        <hr>
+
+        <!-- produkt 4 - XO chain -->
+        <div class="image-card" onclick="toggleText(this)">
+          <a href="product6.html">
+            <model-viewer
+              src="https://feela12.github.io/Z-v-re-n--projekt-SAP/XOm.glb"
+              alt="3D model XO chain"
+              auto-rotate
+              auto-rotate-delay="0"
+              shadow-intensity="0"
+              style="pointer-events: none;"
+              rotation-per-second="400%">
+            </model-viewer>
+          </a>
+
+          <div class="image-paragraph">
+            <a href="product6.html"><div class="paragraph-text">XO CHAIN</div><div class="paragraph-text">900 &euro;</div></a>
+            <div class="product-rating">
+              <span class="product-star">&#9733;</span>
+              <span class="product-star">&#9733;</span>
+              <span class="product-star">&#9733;</span>
+              <span class="product-star">&#9733;</span>
+            </div>
+          </div>
+        </div>
   </section>
 
   <!-- ===========================================

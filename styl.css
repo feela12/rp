@@ -1,17 +1,17 @@
-* {
+﻿* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
 :root {
-  --header-side-gap: 24px;
+  --header-side-gap: 20px;
   --header-icon-size: 50px;
   --header-cart-width: 60px;
   --header-logo-width: 90px;
-  --header-logo-height: 70px;
-  --header-bar-height: 112px;
-  --header-theme-left: 24px;
+  --header-logo-height: 56px;
+  --header-bar-height: 88px;
+  --header-theme-left: 20px;
   --header-search-right: 166px;
   --header-account-right: 95px;
   --header-cart-right: 24px;
@@ -210,10 +210,35 @@ a {
   width: min(100%, 700px);
   max-width: 700px;
   min-width: 0;
-  flex: 1 1 320px;
+  flex: 1 1 280px;
   cursor: pointer;
   transition: transform 0.3s ease;
   justify-content: space-between;
+  padding: 18px 18px 22px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(248,248,248,0.94) 100%);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Desktop: show 4 cards per row */
+@media (min-width: 1200px) {
+  .image-gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    align-items: start;
+  }
+
+  .image-card {
+    max-width: none;
+    width: 100%;
+    flex: none;
+  }
+
+  .image-card model-viewer {
+    height: clamp(160px, 18vw, 320px) !important;
+  }
 }
 
 .image-card model-viewer {
@@ -242,6 +267,9 @@ a {
 .image-paragraph {
   margin-top: 20px;
   padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .product-rating {
@@ -251,6 +279,7 @@ a {
   margin-top: 12px;
   padding-top: 12px;
   pointer-events: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .product-star {
@@ -271,6 +300,8 @@ a {
   font-weight: 400;
   letter-spacing: 0.3px;
   line-height: 1.4;
+  text-align: center;
+  overflow-wrap: anywhere;
 }
 .nadpishigh{
   font-family: 'IBM Plex Mono', monospace, bold;
@@ -289,6 +320,15 @@ text-transform: uppercase;}
   min-height: 100vh;
   padding: 60px 20px;
   font-size: inherit;
+}
+
+.products {
+  width: min(100%, 1500px);
+  margin: 0 auto;
+}
+
+.image-gallery hr {
+  display: none;
 }
 
 .navbar {
@@ -358,7 +398,7 @@ text-transform: uppercase;
   margin: 0 auto;  
   bottom:0;
   width:100%;
-  position: relative; /* Normální pozicování - footer je dole stránky */
+  position: relative; /* NormĂˇlnĂ­ pozicovĂˇnĂ­ - footer je dole strĂˇnky */
   z-index: 0;
 }
 
@@ -374,10 +414,10 @@ model-viewer{width:10px;height:10px;--progress-bar-color:transparent;}
   width: var(--header-logo-width);
   height: var(--header-logo-height);
   position: absolute;
-  top: 50%;
   left: 50%;
-  transform: translate(-50%, -40%);
-  z-index: 9999;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
   object-fit: contain;
 }
 
@@ -427,24 +467,27 @@ text-transform: uppercase;
 .modeluprostred{
   justify-content: center;
   display: flex;
-    position:static; /* Fixní pozice na obrazovce */
-    top: 20px; /* Vzdálenost od horního okraje */
-    left: 50%; /* Vycentrování na střed */
-    transform: translateX(-200px); /* Posun na střed */
+    position:static; /* FixnĂ­ pozice na obrazovce */
+    top: 20px; /* VzdĂˇlenost od hornĂ­ho okraje */
+    left: 50%; /* VycentrovĂˇnĂ­ na stĹ™ed */
+    transform: translateX(-200px); /* Posun na stĹ™ed */
    
   
 }
 
 /* header controls */
 .kos,.acc,.kosprod{text-align:right;position:absolute;z-index:9999}
-.kos,.acc,.search,.sunmoon{top:50%;transform:translateY(-8%)}
+.kos,.acc,.search,.sunmoon{top:50%;transform:translateY(-50%)}
 .kos{right:var(--header-cart-right)}
 .acc{right:var(--header-account-right)}
 .kosprod{right:110px;top:70px}
-.search{position:absolute;right:var(--header-search-right);z-index:9999;display:flex;align-items:center;justify-content:flex-end;cursor:pointer;transform-origin:right center;transition:.5s ease-in-out}
+.search{position:absolute;right:var(--header-search-right);z-index:9999;display:flex;align-items:center;justify-content:flex-end;cursor:pointer;transform-origin:right center;transition:.3s ease;width:var(--header-icon-size)}
 .search img{order:2}
 .acc img,.search img,#icon{width:var(--header-icon-size);height:var(--header-icon-size)}
 .kos img{width:var(--header-cart-width);height:var(--header-icon-size)}
+
+/* Logo alignment: absolute and vertically centered in header */
+.header-logo{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:var(--header-logo-width);height:var(--header-logo-height);object-fit:contain;z-index:1001}
 
 
 /* (merged into header controls above) */
@@ -478,7 +521,7 @@ user-select:none;
 .promo-slide::after {
   content: "";
   position: absolute;
-  inset: 0; /* stejné jako top:0; left:0; width:100%; height:100% */
+  inset: 0; /* stejnĂ© jako top:0; left:0; width:100%; height:100% */
   background: black;
   opacity: 0;
   transition: 0.3s ease;
@@ -493,7 +536,7 @@ object-fit:cover;
 display:block;
 }
 .promo-slide:hover::after {
-  opacity: 0.4; /* uprav si sílu ztmavení */
+  opacity: 0.4; /* uprav si sĂ­lu ztmavenĂ­ */
 }
 
 
@@ -551,6 +594,9 @@ nav {
    font-size:6vw;
    text-align:center;
    margin-top:70px;
+   padding: 0 16px;
+   white-space: normal;
+   overflow-wrap: anywhere;
 }
 
 #mezera{
@@ -566,10 +612,10 @@ nav {
 
 .moje-sekce {
   width: 100%;
-  min-height:800px;
+  min-height:0;
   height:auto;
-  max-width: 1400px;   /* jak moc široká může být */
-  margin: 0 auto 80px auto;      /* vycentrování na stránce a prostor pod sekcí */
+  max-width: 1400px;   /* jak moc ĹˇirokĂˇ mĹŻĹľe bĂ˝t */
+  margin: 0 auto 80px auto;      /* vycentrovĂˇnĂ­ na strĂˇnce a prostor pod sekcĂ­ */
   padding: 40px;
   backdrop-filter: blur(1px);
   text-align:center;
@@ -585,13 +631,13 @@ nav {
 }
 .moje-sekce2 {
   width:auto;
-  max-width: 1400px;   /* jak moc široká může být */
-  margin: 0 auto;      /* vycentrování na stránce */
+  max-width: 1400px;   /* jak moc ĹˇirokĂˇ mĹŻĹľe bĂ˝t */
+  margin: 0 auto;      /* vycentrovĂˇnĂ­ na strĂˇnce */
   padding: 20px;
   
   text-align:center;
   font-family:"IBM Plex Mono", monospace, bold;
-  font-size:40px;
+  font-size:16px;
   
   text-shadow: 1px 0px #000000;
   border-width: 2px;
@@ -601,58 +647,110 @@ nav {
 }
 
 .items-container {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .items-header {
+  grid-column: 1 / -1;
   font-size: 40px;
   font-weight: bold;
   margin-bottom: 10px;
+  text-align: center;
 }
 
 .item-row {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  justify-content: center;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  width: 100%;
+  padding: 18px 18px 22px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(248,248,248,0.94) 100%);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.item-row:hover {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
 }
 
 .item-image {
-  flex-shrink: 0;
-  width: 100px;
-  height: 100px;
-  border-radius: 10px;
+  width: 100%;
+  height: 180px;
+  border-radius: 12px;
   overflow: hidden;
-  border: 2px solid #000;
+  border: none;
+  flex-shrink: 0;
 }
 
 .item-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.item-row:hover .item-image img {
+  transform: scale(1.05);
+}
+
+.itemcart {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  padding: 8px 0;
+}
+
+.itemcart a {
+  display: block;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+  margin-bottom: 8px;
+}
+
+.item-price {
+  font-size: clamp(1rem, 2.2vw, 1.3rem);
+  color: #000;
+  margin: 0 0 12px 0;
+  font-weight: bold;
+  font-family:"IBM Plex Mono", monospace, bold;
+  padding-top: 8px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .quantity-control {
-  flex-shrink: 0;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
   border: 2px solid #000;
   border-radius: 8px;
-  padding: 5px;
+  padding: 6px;
   background-color: #ffffff;
+  margin: 8px 0;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .qty-btn {
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
   border: none;
   background-color: #000000;
   color: white;
   border-radius: 4px;
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
@@ -668,8 +766,8 @@ nav {
 }
 
 .qty-input {
-  width: 40px;
-  height: 30px;
+  width: 36px;
+  height: 28px;
   border: none;
   background-color: transparent;
   text-align: center;
@@ -679,17 +777,36 @@ nav {
   outline: none;
 }
 
-/* Schování spinbuttons v Chrome */
+/* SchovĂˇnĂ­ spinbuttons v Chrome */
 .qty-input::-webkit-outer-spin-button,
 .qty-input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
+.item-total {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border: 2px solid #000;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+  margin: 8px auto 0;
+  width: fit-content;
+}
+
+.total-price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+  margin: 0;
+  font-family:"IBM Plex Mono", monospace, bold;
+}
 
 .bin-button {
-  font-size: 18px;
-  padding: 8px 10px;
+  font-size: 16px;
+  padding: 8px 12px;
   background-color: #000000;
   color: rgb(255, 255, 255);
   border: 2px solid #000000;
@@ -697,40 +814,17 @@ nav {
   cursor: pointer;
   transition: all 0.3s ease;
   font-family:"IBM Plex Mono", monospace, bold;
-  flex-shrink: 0;
+  width: 100%;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .bin-button:hover {
   background-color: #333;
-  transform: scale(1.1);
-}
-
-.item-price {
-  font-size: 24px;
-  color: #000;
-  margin-top: 10px;
-  font-weight: bold;
-  font-family:"IBM Plex Mono", monospace, bold;
-}
-
-.item-total {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 20px;
-  border: 2px solid #000;
-  border-radius: 8px;
-  background-color: #f5f5f5;
-  min-width: 100px;
-}
-
-.total-price {
-  font-size: 22px;
-  font-weight: bold;
-  color: #000;
-  margin: 0;
-  font-family:"IBM Plex Mono", monospace, bold;
+  transform: scale(1.05);
 }
 
 .price-summary {
@@ -828,6 +922,115 @@ nav {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
+@media (max-width: 980px) {
+  .gnadpis {
+    margin-top: 90px;
+    font-size: clamp(1.8rem, 8vw, 2.7rem);
+    line-height: 1.15;
+  }
+
+  .moje-sekce2 {
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .items-container {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+  }
+
+  .items-header {
+    font-size: clamp(1.5rem, 8vw, 2.4rem);
+  }
+
+  .item-row {
+    padding: 14px;
+  }
+
+  .item-image {
+    height: 160px;
+  }
+
+  .bin-button {
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .summary-content {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .summary-label {
+    font-size: clamp(1.5rem, 7vw, 2.2rem);
+  }
+
+  .summary-price {
+    font-size: clamp(1.6rem, 8vw, 2.6rem);
+    padding: 8px 18px;
+  }
+
+  .checkout-section {
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 14px;
+  }
+
+  .email-container {
+    width: min(100%, 420px);
+  }
+
+  .checkout {
+    width: min(100%, 420px);
+    justify-content: center;
+    font-size: clamp(1.1rem, 5vw, 1.6rem);
+  }
+}
+
+@media (max-width: 560px) {
+  .items-container {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .item-row {
+    padding: 12px;
+  }
+
+  .item-image {
+    height: 180px;
+  }
+
+  .qty-btn {
+    width: 26px;
+    height: 26px;
+    font-size: 14px;
+  }
+
+  .qty-input {
+    width: 32px;
+    height: 26px;
+    font-size: 14px;
+  }
+
+  .quantity-control {
+    padding: 4px;
+    gap: 4px;
+  }
+
+  .total-price {
+    font-size: 16px;
+  }
+
+  .item-price {
+    font-size: 1rem;
+  }
+
+  .itemcart a {
+    font-size: 0.9rem;
+  }
+}
+
 .gallery {
   display: grid;
   justify-content:bottom;
@@ -851,23 +1054,25 @@ nav {
 }
 
 .logoborder {
-  position: fixed; /* Fixní pozice na obrazovce */
-  top: 20px; /* Vzdálenost od horního okraje */
-  left: 50%; /* Vycentrování na střed */
-  transform: translateX(-50%); /* Posun na střed */
-  z-index: 0; /* Zajištění, že bude nad ostatními prvky */
+  position: fixed; /* FixnĂ­ pozice na obrazovce */
+  top: 20px; /* VzdĂˇlenost od hornĂ­ho okraje */
+  left: 50%; /* VycentrovĂˇnĂ­ na stĹ™ed */
+  transform: translateX(-50%); /* Posun na stĹ™ed */
+  z-index: 0; /* ZajiĹˇtÄ›nĂ­, Ĺľe bude nad ostatnĂ­mi prvky */
 }
 .fixed-section{
-  position:fixed;top:0;left:0;width:100%;height:var(--header-bar-height);padding:14px 20px;display:block;z-index:1000;
-  background:rgba(255,255,255,.8);backdrop-filter:blur(1px);
+  position:fixed;top:0;left:0;width:100%;height:var(--header-bar-height);padding:8px 16px;display:block;z-index:1000;
+  background:rgba(255,255,255,.95);backdrop-filter:blur(1px);
   border:2px solid #000;border-radius:0 0 20px 20px;
+  overflow:visible;
 }
 
-.search-input{position:absolute;right:calc(100% + 12px);top:50%;transform:translateY(-50%);width:0;height:35px;opacity:0;box-sizing:border-box;margin-right:0;padding:0;border:0 solid #000;z-index:9999999;transition:width .5s, opacity .3s, padding .3s, border-width .3s}
-.search.move{width:var(--header-icon-size);transition:width .3s}
-.search.move .search-input{width:200px;opacity:1;padding:15px;border-width:4px;transition-delay:.05s}
+.search-input{position:fixed;left:0;top:var(--header-bar-height);right:0;width:100%;height:40px;opacity:0;box-sizing:border-box;margin-right:0;padding:0 14px;border:0 solid #000;border-left:0;border-right:0;border-radius:0;background:#fff;color:#000;box-shadow:0 10px 20px rgba(0,0,0,.08);z-index:9999998;pointer-events:none;transform:translateY(-8px);transition:opacity .2s ease, transform .2s ease, border-width .2s ease}
+.search-input:focus{outline:none}
+.search.move{width:100%;transition:width .3s}
+.search.move ~ .search-input{opacity:1;transform:translateY(0);border-top-width:1px;border-bottom-width:2px;pointer-events:auto;transition-delay:.05s}
 .search img{transition:transform .5s ease-in-out}
-.search.move img{transform:rotate(720deg)}
+.search.move img{transform:scale(1.06) rotate(90deg)}
 
 @media (max-width: 1100px) {
   :root {
@@ -887,12 +1092,8 @@ nav {
     padding: 12px 18px;
   }
 
-  .search.move {
-    width: 220px;
-  }
-
-  .search.move .search-input {
-    width: 145px;
+  .search.move ~ .search-input {
+    height: 38px;
   }
 }
 
@@ -916,6 +1117,7 @@ nav {
   }
 
   .header-logo {
+    left: 50%;
     top: 14px;
     transform: translateX(-50%);
   }
@@ -933,15 +1135,9 @@ nav {
     right: 104px;
   }
 
-  .search.move {
-    width: min(38vw, 150px);
-  }
-
-  .search.move .search-input {
-    width: min(24vw, 92px);
-    height: 30px;
-    padding: 10px;
-    right:calc(100% + 8px);
+  .search.move ~ .search-input {
+    height: 36px;
+    top: var(--header-bar-height);
   }
 
   .acc {
@@ -970,23 +1166,19 @@ nav {
     padding: 6px 10px;
     border-width: 1px;
     border-radius: 0 0 14px 14px;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .header-logo {
+    left: 50%;
     top: 12px;
+    transform: translateX(-50%);
   }
 
-  .search.move {
-    width: 24px;
-  }
-
-  .search.move .search-input {
-    width: 110px;
-    height: 26px;
-    right: calc(100% + 6px);
-    padding: 6px 8px;
-    border-width: 2px;
+  .search.move ~ .search-input {
+    height: 34px;
+    top: var(--header-bar-height);
+    padding: 0 10px;
     font-size: 12px;
   }
 
@@ -1096,9 +1288,9 @@ nav {
 #videoslid {
   width: 100%;
   max-width: 100%;
-  height: auto;
+  height: 100%;
   margin-left: 0px;
-  margin-top:-200px;
+  margin-top:0;
   min-width: 0;
   min-height: 100%;
   object-fit: cover;
@@ -1106,7 +1298,9 @@ nav {
 
 .video-container {
   position: relative;
-  display: inline-block;
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .video-container video {
@@ -1139,7 +1333,7 @@ nav {
   transform: translate(-50%, -50%) scale(0.9);
   
   color: white;
-  font-size: 1.5rem;
+  font-size: clamp(1rem, 2.2vw, 1.5rem);
   font-weight: 600;
   text-align: center;
 
@@ -1167,7 +1361,7 @@ nav {
   margin-top: 120px;
 }
 
-/* Levá strana - 3D model */
+/* LevĂˇ strana - 3D model */
 .product-left {
   flex: 1;
   min-width: 300px;
@@ -1182,7 +1376,7 @@ nav {
   height: 500px;
 }
 
-/* Prostřední strana - Galerie */
+/* ProstĹ™ednĂ­ strana - Galerie */
 .product-gallery {
   flex: 0 0 200px;
   min-width: 150px;
@@ -1231,7 +1425,7 @@ nav {
   background: #333;
 }
 
-/* Šipky u hlavního zobrazení */
+/* Ĺ ipky u hlavnĂ­ho zobrazenĂ­ */
 .product-left {
   position: relative;
   display: flex;
@@ -1267,7 +1461,7 @@ nav {
   background: #000;
 }
 
-/* Pravá strana - Popis, cena, tlačítko */
+/* PravĂˇ strana - Popis, cena, tlaÄŤĂ­tko */
 .product-right {
   flex: 1;
   min-width: 280px;
@@ -1322,7 +1516,7 @@ nav {
   background-color: #333;
 }
 
-/* Responsive pro menší obrazovky */
+/* Responsive pro menĹˇĂ­ obrazovky */
 @media (max-width: 1200px) {
   .producttest {
     flex-direction: column;
@@ -1458,7 +1652,7 @@ nav {
 
 .category-bar {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 🔑 4 stejné sloupce */
+  grid-template-columns: repeat(4, 1fr); /* đź”‘ 4 stejnĂ© sloupce */
   text-align: center;
 
   padding: 15px 0;
@@ -1467,6 +1661,14 @@ nav {
 }
 
 .category-bar a{color:#000;font:700 clamp(.85rem, 1.15vw, 1rem)/1.2 "IBM Plex Mono", monospace;letter-spacing:1px;text-decoration:none;padding:0 10px;}
+
+@media (max-width: 900px) {
+  .category-bar {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 15px 12px;
+  }
+}
 
 @media (max-width: 600px) {
   .category-bar {grid-template-columns:1fr;gap:10px;padding:15px 20px;}
@@ -1575,6 +1777,12 @@ nav {
   background: rgba(255, 255, 255, 0.05);
   border-color: rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.dark .image-card {
+  background: linear-gradient(180deg, rgba(22,22,22,0.98) 0%, rgba(8,8,8,0.96) 100%);
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45);
 }
 
 .dark .review-card:hover {
@@ -1730,10 +1938,19 @@ nav {
     
   }
   .fixed-section{
-  background-color: rgba(0, 0, 0, 0.8); /* Průhledné pozadí */
-  backdrop-filter: blur(1px); /* Rozmazání pozadí */
+  background-color: rgba(0, 0, 0, 0.8); /* PrĹŻhlednĂ© pozadĂ­ */
+  backdrop-filter: blur(1px); /* RozmazĂˇnĂ­ pozadĂ­ */
   border-color:white;
   
+  }
+  .search-input{
+    background:#050505;
+    color:#fff;
+    box-shadow:0 12px 26px rgba(0,0,0,.35);
+  }
+  .search.move ~ .search-input{
+    border-top-color:#fff;
+    border-bottom-color:#fff;
   }
   .fixed-section img{
     filter: invert(1);
@@ -1919,12 +2136,12 @@ nav {
 }
 
 .sunmoon{
-  position:absolute;
-  left:var(--header-theme-left);
-  top:50%;
-  transform:translateY(-8%);
+  position: absolute;
+  left: var(--header-theme-left);
+  top: 50%;
+  transform: translateY(-50%);
   cursor: pointer;
-  z-index:9999;
+  z-index: 9999;
 }
 .rights{
   font-family:"IBM Plex Mono", monospace, bold;
@@ -1962,8 +2179,8 @@ nav {
 .bin{
   width: 15%;
   height:15%;
-    /* jak moc široká může být */
-     /* vycentrování na stránce */
+    /* jak moc ĹˇirokĂˇ mĹŻĹľe bĂ˝t */
+     /* vycentrovĂˇnĂ­ na strĂˇnce */
   padding: 10px;
   margin-top:1px;
   margin-left:500px;
@@ -1979,3 +2196,140 @@ nav {
   
   z-index:1000000;
 }
+
+  /* ===== Overrides: fix search overlay and cart horizontal layout ===== */
+  /* Keep search icon small so it doesn't cover header; input stays fixed under header */
+  .search.move{width:var(--header-icon-size) !important;transition:width .3s !important}
+  .search{z-index:9999}
+  .search-input{position:fixed;left:0;top:var(--header-bar-height);right:0;width:100%;height:40px;opacity:0;box-sizing:border-box;margin-right:0;padding:0 14px;border:0 solid #000;background:#fff;color:#000;box-shadow:0 10px 20px rgba(0,0,0,.08);z-index:9999998;pointer-events:none;transform:translateY(-8px);transition:opacity .2s ease, transform .2s ease, border-width .2s ease}
+  .search.move ~ .search-input{opacity:1;transform:translateY(0);pointer-events:auto}
+
+  /* Cart: horizontal card layout on wider viewports */
+  .items-container{grid-template-columns:repeat(auto-fill,minmax(480px,1fr));}
+  .item-row{display:flex !important;flex-direction:row !important;align-items:center !important;gap:16px !important;padding:18px !important}
+  .item-row:hover{transform:translateY(-4px)}
+  .item-image{width:140px !important;height:140px !important;border-radius:12px;overflow:hidden;border:none;flex-shrink:0;flex-grow:0}
+  .item-image img{width:100%;height:100%;object-fit:cover}
+  .itemcart{flex:1 1 auto !important;min-width:0;text-align:left;padding:8px 0}
+  .itemcart a{display:block;margin-bottom:6px}
+  .item-price{margin:0;color:#000}
+  .quantity-control{display:flex;align-items:center;justify-content:center;gap:5px;border:2px solid #000;border-radius:8px;padding:6px;background:#fff;margin-left:12px;width:fit-content;flex-shrink:0}
+  .item-total{display:flex;align-items:center;justify-content:center;padding:10px 16px;border:2px solid #000;border-radius:8px;background:#f5f5f5;margin-left:12px;width:fit-content}
+  .bin-button{font-size:16px;padding:8px 12px;background:#000;color:#fff;border:2px solid #000;border-radius:8px;cursor:pointer;transition:all .3s ease;font-family:"IBM Plex Mono",monospace,bold;width:auto;margin-left:12px;margin-top:0;display:flex;align-items:center;justify-content:center;gap:8px}
+
+  /* Mobile: stack items vertically again */
+  @media (max-width: 980px){
+    .items-container{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+    .item-row{flex-direction:column !important;align-items:stretch}
+    .item-image{width:100% !important;height:180px !important}
+    .quantity-control{margin-left:auto;margin-right:auto;margin-top:8px}
+    .bin-button{width:100% !important;margin-left:0;margin-top:8px}
+  }
+
+  /* Cart page specific: make each cart item span full width of the items section */
+  .moje-sekce2 .items-container{
+    grid-template-columns: 1fr !important;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+
+  .moje-sekce2 .item-row{
+    grid-column: 1 / -1;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 16px !important;
+    padding: 18px !important;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Mobile override for cart page: stack vertically */
+  @media (max-width: 980px){
+    .moje-sekce2 .item-row{flex-direction: column !important;align-items:stretch}
+    .moje-sekce2 .item-image{width:100% !important;height:180px !important}
+    .moje-sekce2 .bin-button{width:100% !important}
+  }
+
+/* ===== Visual polish: search input, cart dark-mode & mobile alignment ===== */
+
+/* Search input visual styling - centered form under the header */
+.search-input {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: var(--header-bar-height);
+  max-width: 1100px;
+  margin: 8px auto 0;
+  width: calc(100% - 48px);
+  height: 50px;
+  padding: 10px 22px;
+  border-radius: 14px;
+  border: 2px solid #000;
+  background: linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(248,248,248,0.94) 100%);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+  font-family: "IBM Plex Mono", monospace;
+  font-weight: 600;
+  font-size: 18px;
+  text-align: center;
+  color: #000;
+  z-index: 9999999;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity .12s ease, transform .16s ease, border-color .16s ease;
+}
+
+.search-input::placeholder { color: rgba(0,0,0,0.45); }
+
+.search.move ~ .search-input { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+/* Dark mode for search */
+.dark .search-input{
+  background: linear-gradient(180deg, rgba(30,30,30,0.96) 0%, rgba(18,18,18,0.95) 100%);
+  border-color: rgba(255,255,255,0.08);
+  color: #fff;
+}
+.dark .search-input::placeholder { color: rgba(255,255,255,0.55); }
+
+@media (max-width: 430px){
+  .search-input{ width: calc(100% - 24px); padding: 8px 12px; font-size: 16px; }
+}
+
+/* Cart dark-mode: make item cards match High-Demand look */
+.dark .item-row{
+  background: linear-gradient(180deg, rgba(18,18,18,0.98) 0%, rgba(10,10,10,0.95) 100%);
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+  color: #fff;
+}
+.dark .item-row .itemcart a,
+.dark .item-row .item-price,
+.dark .item-row .total-price{ color: #fff; }
+
+/* Make bin button white in dark mode so black icon shows */
+.dark .bin-button{
+  background-color: #fff !important;
+  color: #000 !important;
+  border-color: #fff !important;
+}
+.dark .binb{ filter: none !important; }
+
+/* Mobile cart alignment fixes: center total and delete button */
+@media (max-width: 980px){
+  .moje-sekce2 .item-total,
+  .moje-sekce2 .bin-button{
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: 8px !important;
+  }
+  .moje-sekce2 .item-total{ order: 3; }
+  .moje-sekce2 .bin-button{ order: 4; }
+  .moje-sekce2 .quantity-control{ order: 2; margin-top: 6px; }
+  .moje-sekce2 .itemcart{ order: 1; }
+  .moje-sekce2 .item-row{ align-items: flex-start; }
+}
+
+

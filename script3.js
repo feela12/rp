@@ -86,26 +86,3 @@
     
     window.__promo = { goTo, next, prev };
     })();
-
-    document.addEventListener('DOMContentLoaded', () => {
-  const container = document.querySelector('.products');
-  if (!container) return;
-
-  container.addEventListener('mousemove', (e) => {
-    const card = e.target.closest('.image-card');
-
-    if (card) {
-      container.classList.add('hover-on-card');
-      container.classList.remove('hover-on-gap');
-    } else {
-      container.classList.add('hover-on-gap');
-      container.classList.remove('hover-on-card');
-    }
-  });
-
-  container.addEventListener('mouseleave', () => {
-    container.classList.remove('hover-on-card', 'hover-on-gap');
-  });
-});
-
-
