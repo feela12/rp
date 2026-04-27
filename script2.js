@@ -1,12 +1,16 @@
 function openModal(imgElement) {
     const modal = document.getElementById("modal");
     const modalImg = document.getElementById("modal-img");
+    if (!modal || !modalImg || !imgElement) return;
     modalImg.src = imgElement.src;
     modal.style.display = "flex";
   }
   
   function closeModal() {
-    document.getElementById("modal").style.display = "none";
+    const modal = document.getElementById("modal");
+    if (modal) {
+      modal.style.display = "none";
+    }
   }
 
 
@@ -16,19 +20,16 @@ function openModal(imgElement) {
   }
 
 
-  document.getElementById('myImage').addEventListener('click', () => {
-    window.scrollTo({
-      top: document.body.scrollHeight,
-      behavior: 'smooth'
-    });
+  document.addEventListener('DOMContentLoaded', () => {
+    const image = document.getElementById('myImage');
+
+    if (image) {
+      image.addEventListener('click', () => {
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: 'smooth'
+        });
+      });
+    }
   });
-
-  
-    function toggleMenu() {
-      document.getElementById('menu').classList.toggle('active');
-    }
-
-    function scrollToSection() {
-      document.getElementById('uvod').scrollIntoView({ behavior: 'smooth' });
-    }
     

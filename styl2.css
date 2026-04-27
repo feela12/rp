@@ -225,4 +225,28 @@
   color: #333;
 }
 
+@media (max-width: 768px) {
+  .popup-content,
+  .success-popup-content {
+    width: min(92vw, 420px);
+    min-width: 0;
+    padding: 24px 20px;
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+
+  .close {
+    width: 100%;
+    padding: 10px 16px;
+    font-size: clamp(1.4rem, 5vw, 2rem);
+  }
+
+  .products:hover .image-card {
+    filter: none;
+  }
+
+  .image-card:hover {
+    transform: scale(1.03);
+  }
+}
+
 

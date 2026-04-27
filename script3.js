@@ -17,7 +17,7 @@
     slides.forEach((_, i)=>{
     const d = document.createElement('button');
     d.className = 'promo-dot';
-    d.setAttribute('aria-label', `Přejít na slide ${i+1}`);
+    d.setAttribute('aria-label', `Prejit na slide ${i+1}`);
     d.addEventListener('click', ()=> goTo(i));
     dotsContainer.appendChild(d);
     });
@@ -87,21 +87,25 @@
     window.__promo = { goTo, next, prev };
     })();
 
-    const container = document.querySelector('.products');
-container.addEventListener('mousemove', e => {
-  // Zjisti jestli je kurzor na .image-card nebo na mezere mezi nimi
-  const isOnCard = e.target.classList.contains('image-card');
-  
-  if (isOnCard) {
-    container.classList.add('hover-on-card');
-    container.classList.remove('hover-on-gap');
-  } else {
-    container.classList.add('hover-on-gap');
-    container.classList.remove('hover-on-card');
-  }
+    document.addEventListener('DOMContentLoaded', () => {
+  const container = document.querySelector('.products');
+  if (!container) return;
+
+  container.addEventListener('mousemove', (e) => {
+    const card = e.target.closest('.image-card');
+
+    if (card) {
+      container.classList.add('hover-on-card');
+      container.classList.remove('hover-on-gap');
+    } else {
+      container.classList.add('hover-on-gap');
+      container.classList.remove('hover-on-card');
+    }
+  });
+
+  container.addEventListener('mouseleave', () => {
+    container.classList.remove('hover-on-card', 'hover-on-gap');
+  });
 });
 
-container.addEventListener('mouseleave', () => {
-  container.classList.remove('hover-on-card', 'hover-on-gap');
-});
 
