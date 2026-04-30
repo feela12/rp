@@ -94,51 +94,90 @@
   <button class="checkout">CHECKOUT</button>
 </section>
 
-<script>
+<section class="cart-recommendations">
+  <div class="recommendations-header">
+    <p class="recommendations-kicker">OFTEN BOUGHT TOGETHER</p>
+    <h2>COMPLETE THE LOOK</h2>
+  </div>
+  <div class="recommendations-grid"></div>
+</section>
+
 <script>
 const euro = String.fromCharCode(8364);
+const productCatalog = [
+  { name: 'A GREAT CHAOS CHAIN - REPLICA', price: 800, image: 'images/3chaos.png', url: 'product1.html' },
+  { name: 'RICK OWENS SS20 BRUTALIST CHAIN', price: 1200, image: 'images/chain1.jpeg', url: 'product2.html' },
+  { name: 'RICK OWENS DRKSHDW', price: 2500, image: 'images/DRK.png', url: 'product3.html' },
+  { name: 'MAISON MARGIELA FUTURE', price: 999, image: 'images/futures.jpg', url: 'product4.html' },
+  { name: 'YZY WET TANK TOP', price: 20, image: 'images/yeezywet1.png', url: 'product5.html' },
+  { name: 'XO PENDANT - THE WEEKND REPLICA', price: 500, image: 'images/XOprod.png', url: 'product6.html' }
+];
+
+const productUrlMap = Object.fromEntries(productCatalog.map((product) => [product.name, product.url]));
+
+function getCart() {
+  return JSON.parse(localStorage.getItem('cart')) || [];
+}
+
+function saveCart(cart) {
+  localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+function getProductUrl(product) {
+  return product.url || productUrlMap[product.name] || '#';
+}
 
 function loadCart() {
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const cart = getCart();
   const itemsContainer = document.querySelector('.items-container');
+  const emptyMessage = itemsContainer.querySelector('.cart-empty-message');
+
   itemsContainer.querySelectorAll('.item-row').forEach((row) => row.remove());
+  if (emptyMessage) {
+    emptyMessage.remove();
+  }
 
   if (!cart.length) {
-    itemsContainer.innerHTML += '<p style="text-align:center;padding:40px;font-size:20px">Your cart is empty</p>';
+    itemsContainer.insertAdjacentHTML('beforeend', '<p class="cart-empty-message" style="text-align:center;padding:40px;font-size:20px">Your cart is empty</p>');
     document.querySelector('.summary-price').textContent = '0 ' + euro;
+    renderRecommendations(cart);
     return;
   }
 
   cart.forEach((product) => {
+    const price = Number(product.price) || 0;
+    const quantity = Number(product.quantity) || 1;
+    const productUrl = getProductUrl(product);
     const row = document.createElement('div');
     row.className = 'item-row';
-    row.innerHTML = `<div class="item-image"><img src="${product.image}" alt="Product"></div><section class="itemcart"><a>${product.name}</a><p class="item-price">${product.price} ${euro}</p></section><div class="quantity-control"><button class="qty-btn" onclick="decQty(this)">-</button><input type="number" class="qty-input" value="${product.quantity}" min="1" max="999" onchange="updCart(this);updPrices()"><button class="qty-btn" onclick="incQty(this);updCart(this);updPrices()">+</button></div><div class="item-total"><p class="total-price">${product.price * product.quantity} ${euro}</p></div><button class="bin-button" onclick="remItem(this)"><img src="images/trash.svg" class="binb" alt="Remove"></button>`;
+    row.innerHTML = `<div class="item-image"><img src="${product.image}" alt="Product"></div><section class="itemcart"><a class="cart-product-link" href="${productUrl}">${product.name}</a><p class="item-price">${price} ${euro}</p></section><div class="quantity-control"><button class="qty-btn" onclick="decQty(this)">-</button><input type="number" class="qty-input" value="${quantity}" min="1" max="999" onchange="updCart(this);updPrices()"><button class="qty-btn" onclick="incQty(this);updCart(this);updPrices()">+</button></div><div class="item-total"><p class="total-price">${price * quantity} ${euro}</p></div><button class="bin-button" onclick="remItem(this)"><img src="images/trash.svg" class="binb" alt="Remove"></button>`;
     itemsContainer.appendChild(row);
   });
 
   updPrices();
+  renderRecommendations(cart);
 }
 
 function updCart(input) {
   const row = input.closest('.item-row');
   const quantity = parseInt(input.value, 10);
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const cart = getCart();
   const productName = row.querySelector('.itemcart a').textContent;
   const cartItem = cart.find((item) => item.name === productName);
 
   if (cartItem) {
-    cartItem.quantity = quantity;
-    localStorage.setItem('cart', JSON.stringify(cart));
+    cartItem.quantity = Math.max(1, quantity);
+    saveCart(cart);
   }
 }
 
 function remItem(button) {
   const row = button.closest('.item-row');
   const productName = row.querySelector('.itemcart a').textContent;
-  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  let cart = getCart();
 
   cart = cart.filter((item) => item.name !== productName);
-  localStorage.setItem('cart', JSON.stringify(cart));
+  saveCart(cart);
 
   row.style.opacity = '0';
   row.style.transform = 'scale(0.8)';
@@ -182,6 +221,59 @@ function updPrices() {
   });
 
   document.querySelector('.summary-price').textContent = total + ' ' + euro;
+}
+
+function addRecommendedToCart(productName) {
+  const product = productCatalog.find((item) => item.name === productName);
+  if (!product) {
+    return;
+  }
+
+  const cart = getCart();
+  const existing = cart.find((item) => item.name === product.name);
+
+  if (existing) {
+    existing.quantity += 1;
+  } else {
+    cart.push({
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      url: product.url,
+      quantity: 1
+    });
+  }
+
+  saveCart(cart);
+  loadCart();
+}
+
+function renderRecommendations(cart) {
+  const container = document.querySelector('.recommendations-grid');
+  if (!container) {
+    return;
+  }
+
+  const inCart = new Set(cart.map((item) => item.name));
+  const recommendations = productCatalog.filter((product) => !inCart.has(product.name)).slice(0, 3);
+
+  if (!recommendations.length) {
+    container.innerHTML = '<p class="recommendations-empty">You already have our top picks in your cart.</p>';
+    return;
+  }
+
+  container.innerHTML = recommendations.map((product) => `
+    <article class="recommendation-card">
+      <a class="recommendation-image-link" href="${product.url}">
+        <img src="${product.image}" alt="${product.name}">
+      </a>
+      <div class="recommendation-copy">
+        <a class="recommendation-title" href="${product.url}">${product.name}</a>
+        <p class="recommendation-price">${product.price} ${euro}</p>
+      </div>
+      <button class="recommendation-btn" type="button" onclick="addRecommendedToCart('${product.name.replace(/'/g, "\\'")}')">ADD TO CART</button>
+    </article>
+  `).join('');
 }
 
 window.addEventListener('load', loadCart);
