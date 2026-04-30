@@ -2,12 +2,98 @@
 window.toggleMenu=()=>document.getElementById('menu')?.classList.toggle('active');
 window.scrollToSection=()=>document.getElementById('uvod')?.scrollIntoView({behavior:'smooth'});
 window.toggleText=(c)=>c?.classList.toggle('active');
+window.closePopup=()=>{
+  const popup = document.getElementById('successPopup');
+  if (popup) popup.classList.remove('show');
+};
+window.showPopup=()=>{
+  let popup = document.getElementById('successPopup');
+
+  if (!popup) {
+    popup = document.createElement('div');
+    popup.id = 'successPopup';
+    popup.className = 'success-popup';
+    popup.innerHTML = `
+      <div class="success-popup-content">
+        <button class="success-popup-close" type="button" aria-label="Close popup" onclick="closePopup()">&times;</button>
+        <p>SUCCESSFULLY ADDED TO CART</p>
+        <div class="success-popup-actions">
+          <button class="success-popup-btn secondary" type="button" onclick="closePopup()">CONTINUE SHOPPING</button>
+          <a class="success-popup-btn primary" href="kosik.html">TO CART</a>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(popup);
+  }
+
+  popup.classList.add('show');
+};
 
 // Event listeners (wait for DOM)
 document.addEventListener('DOMContentLoaded',()=>{
   const search = document.getElementById('mysearch');
   const input = document.querySelector('.search-input');
   const image = document.getElementById('myImage');
+  const addToCartButton = document.getElementById('addToCartBtn');
+  const accountTriggers = document.querySelectorAll('.acc[href="#popup"]');
+  const accountPopups = document.querySelectorAll('.popup');
+
+  accountPopups.forEach((popup) => {
+    document.body.appendChild(popup);
+
+    popup.addEventListener('click', (event) => {
+      if (event.target === popup) {
+        popup.classList.remove('show-account-popup');
+        window.location.hash = '';
+      }
+    });
+
+    popup.querySelectorAll('.close').forEach((closeButton) => {
+      closeButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        popup.classList.remove('show-account-popup');
+        window.location.hash = '';
+      });
+    });
+  });
+
+  accountTriggers.forEach((trigger) => {
+    trigger.addEventListener('click', (event) => {
+      event.preventDefault();
+      const popup = document.getElementById('popup');
+      if (popup) {
+        popup.classList.add('show-account-popup');
+      }
+    });
+  });
+
+  if (addToCartButton) {
+    const freshButton = addToCartButton.cloneNode(true);
+    addToCartButton.replaceWith(freshButton);
+
+    freshButton.addEventListener('click', function () {
+      const name = this.getAttribute('data-product-name');
+      const price = this.getAttribute('data-product-price');
+      const imageSrc = this.getAttribute('data-product-image');
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const existing = cart.find((item) => item.name === name);
+
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({
+          name,
+          price,
+          image: imageSrc,
+          url: window.location.href,
+          quantity: 1
+        });
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+      showPopup();
+    });
+  }
 
   if (search && input) {
     const searchPanel = document.createElement('div');
@@ -111,6 +197,13 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   if (image) {
     image.addEventListener('click',()=>window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'}));
+  }
+});
+
+document.addEventListener('click', (event) => {
+  const successPopup = document.getElementById('successPopup');
+  if (successPopup && successPopup.classList.contains('show') && event.target === successPopup) {
+    closePopup();
   }
 });
 

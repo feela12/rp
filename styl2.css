@@ -79,7 +79,7 @@
 .popup {
     position: fixed;
     inset: 0; 
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(120, 120, 120, 0.72);
 
     display: flex;
     align-items: center;
@@ -92,30 +92,35 @@
 }
 
 
-.popup:target {
+.popup:target,
+.popup.show-account-popup {
     opacity: 1;
     pointer-events: auto;
 }
 
 .popup-content {
     background: white;
-    padding: 30px 40px;
-    border-radius: 10px;
+    padding: 32px 36px;
+    border-radius: 14px;
     text-align: center;
-    font-size: 60px;
+    font-size: clamp(2.2rem, 5vw, 3.75rem);
     font-family:'League Gothic';
+    width: min(92vw, 560px);
+    color: #000;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
 }
 
 .close {
     display: inline-block;
     margin-top: 20px;
-    padding: 8px 200px;
+    min-width: min(100%, 240px);
+    padding: 12px 28px;
     background: #222;
     color: white;
     text-decoration: none;
-    border-radius: 6px;
+    border-radius: 8px;
     font-family:'League Gothic';
-    font-size:40px;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
 }
 
 .products {
@@ -171,7 +176,7 @@
 .success-popup {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(120, 120, 120, 0.72);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -188,15 +193,21 @@
 
 .success-popup-content {
   background: white;
-  padding: 40px 50px;
-  border-radius: 10px;
+  padding: 36px 32px 28px;
+  border-radius: 14px;
   text-align: center;
-  font-size: 50px;
+  font-size: clamp(2rem, 4.5vw, 3.125rem);
   font-family: 'League Gothic';
   z-index: 999999;
   position: relative;
-  min-width: 300px;
+  width: min(92vw, 560px);
+  min-width: 0;
   color: #000;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
+}
+
+.success-popup-content p {
+  margin: 0 0 22px;
 }
 
 .success-popup-close {
@@ -217,6 +228,42 @@
   color: #333;
 }
 
+.success-popup-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.success-popup-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+  padding: 12px 22px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: 'League Gothic';
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  cursor: pointer;
+  border: 2px solid #000;
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.success-popup-btn.primary {
+  background: #000;
+  color: #fff;
+}
+
+.success-popup-btn.secondary {
+  background: #fff;
+  color: #000;
+}
+
+.success-popup-btn:hover {
+  transform: translateY(-2px);
+}
+
 @media (max-width: 768px) {
   .popup-content,
   .success-popup-content {
@@ -230,6 +277,11 @@
     width: 100%;
     padding: 10px 16px;
     font-size: clamp(1.4rem, 5vw, 2rem);
+  }
+
+  .success-popup-btn {
+    width: 100%;
+    min-width: 0;
   }
 
   .products:hover .image-card {

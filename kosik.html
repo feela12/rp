@@ -83,7 +83,7 @@
 <section class="price-summary">
   <div class="summary-content">
     <p class="summary-label">SUBTOTAL</p>
-    <p class="summary-price">0 €</p>
+    <p class="summary-price">0 &euro;</p>
   </div>
 </section>
 
@@ -95,7 +95,96 @@
 </section>
 
 <script>
-function loadCart(){const c=JSON.parse(localStorage.getItem('cart'))||[],ic=document.querySelector('.items-container');ic.querySelectorAll('.item-row').forEach(x=>x.remove());if(!c.length){ic.innerHTML+='<p style="text-align:center;padding:40px;font-size:20px">Your cart is empty</p>';document.querySelector('.summary-price').textContent='0 €';return;}c.forEach(p=>{const r=document.createElement('div');r.className='item-row';r.innerHTML=`<div class="item-image"><img src="${p.image}" alt="Product"></div><section class="itemcart"><a>${p.name}</a><p class="item-price">${p.price} €</p></section><div class="quantity-control"><button class="qty-btn" onclick="decQty(this)">−</button><input type="number" class="qty-input" value="${p.quantity}" min="1" max="999" onchange="updCart(this);updPrices()"><button class="qty-btn" onclick="incQty(this);updCart(this);updPrices()">+</button></div><div class="item-total"><p class="total-price">${p.price*p.quantity} €</p></div><button class="bin-button" onclick="remItem(this)"><img src="images/trash.svg" class="binb" alt="Remove"></button>`;ic.appendChild(r);});updPrices();}function updCart(inp){const r=inp.closest('.item-row'),pc=parseInt(r.querySelector('.item-price').textContent),q=parseInt(inp.value),c=JSON.parse(localStorage.getItem('cart'))||[],pn=r.querySelector('.itemcart a').textContent,ci=c.find(x=>x.name===pn);if(ci){ci.quantity=q;localStorage.setItem('cart',JSON.stringify(c));}}function remItem(btn){const r=btn.closest('.item-row'),pn=r.querySelector('.itemcart a').textContent;let c=JSON.parse(localStorage.getItem('cart'))||[];c=c.filter(x=>x.name!==pn);localStorage.setItem('cart',JSON.stringify(c));r.style.opacity='0';r.style.transform='scale(0.8)';setTimeout(()=>{r.remove();updPrices();loadCart();},300);}function incQty(btn){const inp=btn.previousElementSibling;inp.value=parseInt(inp.value)+1;updPrices();}function decQty(btn){const inp=btn.nextElementSibling;if(parseInt(inp.value)>1)inp.value=parseInt(inp.value)-1;updPrices();}function updPrices(){let t=0;document.querySelectorAll('.item-row').forEach(r=>{const pc=parseInt(r.querySelector('.item-price').textContent),q=parseInt(r.querySelector('.qty-input').value),it=pc*q;r.querySelector('.total-price').textContent=it+' €';t+=it;});document.querySelector('.summary-price').textContent=t+' €';}window.addEventListener('load',loadCart);
+<script>
+const euro = String.fromCharCode(8364);
+
+function loadCart() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const itemsContainer = document.querySelector('.items-container');
+  itemsContainer.querySelectorAll('.item-row').forEach((row) => row.remove());
+
+  if (!cart.length) {
+    itemsContainer.innerHTML += '<p style="text-align:center;padding:40px;font-size:20px">Your cart is empty</p>';
+    document.querySelector('.summary-price').textContent = '0 ' + euro;
+    return;
+  }
+
+  cart.forEach((product) => {
+    const row = document.createElement('div');
+    row.className = 'item-row';
+    row.innerHTML = `<div class="item-image"><img src="${product.image}" alt="Product"></div><section class="itemcart"><a>${product.name}</a><p class="item-price">${product.price} ${euro}</p></section><div class="quantity-control"><button class="qty-btn" onclick="decQty(this)">-</button><input type="number" class="qty-input" value="${product.quantity}" min="1" max="999" onchange="updCart(this);updPrices()"><button class="qty-btn" onclick="incQty(this);updCart(this);updPrices()">+</button></div><div class="item-total"><p class="total-price">${product.price * product.quantity} ${euro}</p></div><button class="bin-button" onclick="remItem(this)"><img src="images/trash.svg" class="binb" alt="Remove"></button>`;
+    itemsContainer.appendChild(row);
+  });
+
+  updPrices();
+}
+
+function updCart(input) {
+  const row = input.closest('.item-row');
+  const quantity = parseInt(input.value, 10);
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const productName = row.querySelector('.itemcart a').textContent;
+  const cartItem = cart.find((item) => item.name === productName);
+
+  if (cartItem) {
+    cartItem.quantity = quantity;
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }
+}
+
+function remItem(button) {
+  const row = button.closest('.item-row');
+  const productName = row.querySelector('.itemcart a').textContent;
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  cart = cart.filter((item) => item.name !== productName);
+  localStorage.setItem('cart', JSON.stringify(cart));
+
+  row.style.opacity = '0';
+  row.style.transform = 'scale(0.8)';
+
+  setTimeout(() => {
+    row.remove();
+    updPrices();
+    loadCart();
+  }, 300);
+}
+
+function incQty(button) {
+  const input = button.previousElementSibling;
+  input.value = parseInt(input.value, 10) + 1;
+  updPrices();
+}
+
+function decQty(button) {
+  const input = button.nextElementSibling;
+
+  if (parseInt(input.value, 10) <= 1) {
+    remItem(button.closest('.item-row').querySelector('.bin-button'));
+    return;
+  }
+
+  input.value = parseInt(input.value, 10) - 1;
+  updCart(input);
+  updPrices();
+}
+
+function updPrices() {
+  let total = 0;
+
+  document.querySelectorAll('.item-row').forEach((row) => {
+    const price = parseInt(row.querySelector('.item-price').textContent, 10);
+    const quantity = parseInt(row.querySelector('.qty-input').value, 10);
+    const itemTotal = price * quantity;
+
+    row.querySelector('.total-price').textContent = itemTotal + ' ' + euro;
+    total += itemTotal;
+  });
+
+  document.querySelector('.summary-price').textContent = total + ' ' + euro;
+}
+
+window.addEventListener('load', loadCart);
 </script>
 
 
@@ -122,4 +211,7 @@ function loadCart(){const c=JSON.parse(localStorage.getItem('cart'))||[],ic=docu
       <img class="inv" src="images/fb.svg" height="50px" width="50px">
   </a>
   </footer>
-<html>
+</body>
+</html>
+
+
