@@ -31,16 +31,27 @@
     return amount;
   }
 
-  function fitModel(model, camera, controls) {
+  function readCameraPadding(value) {
+    const amount = Number.parseFloat(value);
+    return Number.isFinite(amount) ? amount : 1.45;
+  }
+
+  function fitModel(model, camera, controls, viewer) {
     const box = new THREE.Box3().setFromObject(model);
     const size = box.getSize(new THREE.Vector3());
     const center = box.getCenter(new THREE.Vector3());
     const maxSize = Math.max(size.x, size.y, size.z) || 1;
+    const verticalFov = THREE.MathUtils.degToRad(camera.fov);
+    const horizontalFov = 2 * Math.atan(Math.tan(verticalFov / 2) * camera.aspect);
+    const fitHeight = size.y / (2 * Math.tan(verticalFov / 2));
+    const fitWidth = size.x / (2 * Math.tan(horizontalFov / 2));
+    const fitDepth = size.z * 0.8;
+    const distance = Math.max(fitHeight, fitWidth, fitDepth, maxSize * 0.35) * readCameraPadding(viewer.dataset.cameraPadding);
 
     model.position.sub(center);
     camera.near = maxSize / 100;
-    camera.far = maxSize * 100;
-    camera.position.set(maxSize * 0.08, maxSize * 0.18, maxSize * 1.85);
+    camera.far = distance * 20;
+    camera.position.set(distance * 0.06, distance * 0.14, distance);
     camera.updateProjectionMatrix();
 
     controls.target.set(0, 0, 0);
@@ -82,13 +93,17 @@
   }
 
   function createLights(scene) {
-    const hemi = new THREE.HemisphereLight(0xffffff, 0x242424, 1.8);
-    const key = new THREE.DirectionalLight(0xffffff, 2.2);
-    const fill = new THREE.DirectionalLight(0xffffff, 0.8);
+    const hemi = new THREE.HemisphereLight(0xfffbf0, 0x171717, 1.45);
+    const key = new THREE.DirectionalLight(0xffffff, 3.1);
+    const rim = new THREE.DirectionalLight(0xcfe0ff, 1.6);
+    const fill = new THREE.DirectionalLight(0xffead1, 0.95);
+    const top = new THREE.DirectionalLight(0xffffff, 1.15);
 
-    key.position.set(4, 5, 5);
-    fill.position.set(-4, 2, -3);
-    scene.add(hemi, key, fill);
+    key.position.set(-3.5, 5, 4.5);
+    rim.position.set(4, 3, -5);
+    fill.position.set(3.5, 1.8, 3);
+    top.position.set(0, 6, 0.5);
+    scene.add(hemi, key, rim, fill, top);
   }
 
   function mountThreeModel(viewer) {
@@ -96,7 +111,7 @@
     if (!src) return null;
 
     disposeViewer(viewer);
-    viewer.classList.remove('three-model--error');
+    viewer.classList.remove('three-model--error', 'three-model--loaded');
     viewer.classList.add('three-model');
     viewer.textContent = '';
 
@@ -160,10 +175,18 @@
         if (child.isMesh) {
           child.castShadow = false;
           child.receiveShadow = false;
+          const materials = Array.isArray(child.material) ? child.material : [child.material];
+          materials.filter(Boolean).forEach((material) => {
+            if ('envMapIntensity' in material) {
+              material.envMapIntensity = 1.35;
+            }
+            material.needsUpdate = true;
+          });
         }
       });
       scene.add(instance.model);
-      fitModel(instance.model, camera, controls);
+      fitModel(instance.model, camera, controls, viewer);
+      viewer.classList.add('three-model--loaded');
     }, undefined, () => {
       viewer.classList.add('three-model--error');
       viewer.textContent = '3D model unavailable';
