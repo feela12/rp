@@ -37,11 +37,27 @@
         <img src="images/user.svg" height="50" width="55" alt="ucet">
       </a>
 
-      <!-- popup okno pro prihlaseni -->
+            <!-- popup okno pro prihlaseni -->
       <div id="popup" class="popup">
-        <div class="popup-content">
-          <p>YOU ARE SIGNED IN &#10003;</p>
-          <a href="#" class="close">OK</a>
+        <div class="popup-content login-popup">
+          <a href="#" class="login-close-x">&times;</a>
+          <div class="login-header">
+            <div class="profile-image">IC</div>
+            <div class="review-author">
+              <h3>WELCOME BACK</h3>
+              <p class="review-title">Login to your account</p>
+            </div>
+          </div>
+          
+          <form class="login-form" onsubmit="event.preventDefault();">
+            <input type="email" placeholder="EMAIL ADDRESS" class="login-input" required>
+            <input type="password" placeholder="PASSWORD" class="login-input" required>
+            <button type="submit" class="login-submit">LOG IN</button>
+          </form>
+          
+          <div class="login-extra">
+            <p class="review-text">DON'T HAVE AN ACCOUNT? <a href="#">SIGN UP</a></p>
+          </div>
         </div>
       </div>
 
