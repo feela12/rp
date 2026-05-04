@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       }
     });
 
-    popup.querySelectorAll('.close').forEach((closeButton) => {
+    popup.querySelectorAll('.close, .login-close-x').forEach((closeButton) => {
       closeButton.addEventListener('click', (event) => {
         event.preventDefault();
         popup.classList.remove('show-account-popup');

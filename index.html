@@ -9,14 +9,21 @@
 
   <!-- hlavni styly -->
   <link rel="stylesheet" href="styl.css">
-  <link rel="stylesheet" href="styl2.css">
 
   <!-- google fonts -->
   <link href="https://fonts.googleapis.com/css?family=League+Gothic|Cinzel|IBM+Plex+Mono&display=swap" rel="stylesheet">
 
   <!-- ikony a skripty -->
   <script src="https://kit.fontawesome.com/649771f08a.js" crossorigin="anonymous"></script>
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+</script>
+<script src="three-models.js"></script>
   <script src="script.js"></script>
   <script src="script2.js"></script>
 </head>
@@ -33,19 +40,20 @@
       </a>
 
       <!-- tlacitko uctu -->
-      <a href="#popup" class="acc">
+      <a href="#popup" class="acc" aria-label="Otevrit prihlaseni">
         <img src="images/user.svg" height="50" width="55" alt="ucet">
       </a>
 
-            <!-- popup okno pro prihlaseni -->
+      <!-- popup okno pro prihlaseni -->
       <div id="popup" class="popup">
         <div class="popup-content login-popup">
           <a href="#" class="login-close-x">&times;</a>
+          <div class="login-kicker">ICZZ MEMBERSHIP</div>
           <div class="login-header">
-            <div class="profile-image">IC</div>
-            <div class="review-author">
+            <div class="profile-image login-profile-image">IC</div>
+            <div class="login-heading-group">
               <h3>WELCOME BACK</h3>
-              <p class="review-title">Login to your account</p>
+              <p class="review-title login-subtitle">Login to your account</p>
             </div>
           </div>
           
@@ -54,9 +62,16 @@
             <input type="password" placeholder="PASSWORD" class="login-input" required>
             <button type="submit" class="login-submit">LOG IN</button>
           </form>
+
+          <div class="login-divider"><span>or continue with</span></div>
+
+          <div class="login-secondary-actions">
+            <a href="#" class="login-ghost-btn">APPLE ID</a>
+            <a href="#" class="login-ghost-btn">GOOGLE</a>
+          </div>
           
           <div class="login-extra">
-            <p class="review-text">DON'T HAVE AN ACCOUNT? <a href="#">SIGN UP</a></p>
+            <p class="review-text login-footnote">DON'T HAVE AN ACCOUNT? <a href="#">SIGN UP</a></p>
           </div>
         </div>
       </div>
@@ -105,7 +120,7 @@
   <section class="promo-carousel" aria-label="Promo akce - carousel">
     <div class="promo-track" id="promoTrack">
       <!-- slide 1 - free delivery -->
-      <article class="promo-slide" role="group" aria-roledescription="slide" aria-label="FREE DELIVERY">
+      <article class="promo-slide is-active" role="group" aria-roledescription="slide" aria-label="FREE DELIVERY">
         <img src="images/yeezywet3.png" alt="YZY WET TANK TOP" loading="lazy">
         <div class="promo-middle-text">
           <a href="product5.html">YZY WET TANK TOP - YZY VULTURES</a>
@@ -284,15 +299,14 @@
         <!-- produkt 1 - great chaos chain -->
         <div class="image-card" onclick="toggleText(this)">
           <a href="product1.html">
-            <model-viewer
-              src="https://feela12.github.io/Z-v-re-n--projekt-SAP/finalmodel.glb"
-              alt="3D model great chaos chain"
-              auto-rotate
-              auto-rotate-delay="0"
-              rotation-per-second="400%"
-              shadow-intensity="0"
-              style="pointer-events: none;">
-            </model-viewer>
+            <div
+              class="three-model"
+              data-model-src="https://feela12.github.io/Z-v-re-n--projekt-SAP/finalmodel.glb"
+              data-model-alt="3D model great chaos chain"
+              data-auto-rotate
+              data-rotation-speed="400%"
+              style="pointer-events: none;"
+            ></div>
           </a>
 
           <div class="image-paragraph">
@@ -310,15 +324,14 @@
         <!-- produkt 2 - rick owens brutalist -->
         <div class="image-card" onclick="toggleText(this)">
           <a href="product2.html">
-            <model-viewer
-              src="https://feela12.github.io/Z-v-re-n--projekt-SAP/base_basic_shaded.glb"
-              alt="3D model rick owens brutalist"
-              auto-rotate
-              auto-rotate-delay="0"
-              shadow-intensity="0"
+            <div
+              class="three-model"
+              data-model-src="https://feela12.github.io/Z-v-re-n--projekt-SAP/base_basic_shaded.glb"
+              data-model-alt="3D model rick owens brutalist"
+              data-auto-rotate
+              data-rotation-speed="400%"
               style="pointer-events: none;"
-              rotation-per-second="400%">
-            </model-viewer>
+            ></div>
           </a>
 
           <div class="image-paragraph">
@@ -338,15 +351,14 @@
         <!-- produkt 3 - rick owens drkshdw -->
         <div class="image-card" onclick="toggleText(this)">
           <a href="product3.html">
-            <model-viewer
-              src="https://feela12.github.io/Z-v-re-n--projekt-SAP/base_basic_shaded_rick-compressed.glb"
-              alt="3D model rick owens drkshdw"
-              auto-rotate
-              auto-rotate-delay="0"
-              shadow-intensity="0"
+            <div
+              class="three-model"
+              data-model-src="https://feela12.github.io/Z-v-re-n--projekt-SAP/base_basic_shaded_rick-compressed.glb"
+              data-model-alt="3D model rick owens drkshdw"
+              data-auto-rotate
+              data-rotation-speed="400%"
               style="pointer-events: none;"
-              rotation-per-second="400%">
-            </model-viewer>
+            ></div>
           </a>
 
           <div class="image-paragraph">
@@ -365,15 +377,14 @@
         <!-- produkt 4 - XO chain -->
         <div class="image-card" onclick="toggleText(this)">
           <a href="product6.html">
-            <model-viewer
-              src="https://feela12.github.io/Z-v-re-n--projekt-SAP/XOm.glb"
-              alt="3D model XO chain"
-              auto-rotate
-              auto-rotate-delay="0"
-              shadow-intensity="0"
+            <div
+              class="three-model"
+              data-model-src="https://feela12.github.io/Z-v-re-n--projekt-SAP/XOm.glb"
+              data-model-alt="3D model XO chain"
+              data-auto-rotate
+              data-rotation-speed="400%"
               style="pointer-events: none;"
-              rotation-per-second="400%">
-            </model-viewer>
+            ></div>
           </a>
 
           <div class="image-paragraph">

@@ -5,11 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ICZZ | MAISON MARGIELA FUTURE</title>
 <link rel="icon" type="image/x-icon" href="images/favikon2.png">
-<link rel="stylesheet" href="styl.css">
-<link rel="stylesheet" href="styl2.css">
+  <link rel="stylesheet" href="styl.css">
 <link href="https://fonts.googleapis.com/css?family=League+Gothic|Cinzel|IBM+Plex+Mono&display=swap" rel="stylesheet">
 <script src="https://kit.fontawesome.com/649771f08a.js" crossorigin="anonymous"></script>
-<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+</script>
+<script src="three-models.js"></script>
 <script src="product-fullscreen.js"></script>
 <script src="script.js"></script>
 </head>
@@ -74,16 +81,17 @@
     <!-- Levá strana - 3D model / Obrázek se šipkami -->
     <div class="product-left">
         <button class="display-arrow left" onclick="prevImage()">&#10094;</button>
-        <model-viewer 
-            id="mainViewer"
-            src="https://feela12.github.io/Z-v-re-n--projekt-SAP/base_mm6.glb"
-            alt="3D model"
-            shadow-intensity="0"
-            style="width: 100%; max-width: 600px; height: 500px;"
-            auto-rotate
-            auto-rotate-delay="0"
-            rotation-per-second="10deg"
-            disable-zoom            camera-controls        ></model-viewer>
+        <div
+          id="mainViewer"
+          class="three-model"
+          data-model-src="https://feela12.github.io/Z-v-re-n--projekt-SAP/base_mm6.glb"
+          data-model-alt="3D model"
+          data-auto-rotate
+          data-rotation-speed="10deg"
+          data-disable-zoom
+          data-camera-controls
+          style="width: 100%; max-width: 600px; height: 500px;"
+        ></div>
         <button class="display-arrow right" onclick="nextImage()">&#10095;</button>
     </div>
     

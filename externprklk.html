@@ -5,7 +5,15 @@
     <meta charset="UTF-8">
     <title>ICZZ & Co.</title>
     <link href='https://fonts.googleapis.com/css?family=League Gothic' rel='stylesheet'>
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+</script>
+<script src="three-models.js"></script>
    
     <style>
         
@@ -72,21 +80,14 @@
 
 
 <a href = "index.html">
-  <model-viewer  
-  src="https://feela12.github.io/Z-v-re-n--projekt-SAP/base_basic_pbr_logo.glb"
-
-  alt="3D logo"
-  auto-rotate
-  auto-rotate-delay="0"
-  rotation-per-second="800%"
-  style="width: 800px; height: 400px; margin: 250px auto; display: flex;"
-  
-  shadow-intensity="0"
-  
-  style="pointer-events: none;"
-  
->
-</model-viewer>
+  <div
+    class="three-model"
+    data-model-src="https://feela12.github.io/Z-v-re-n--projekt-SAP/base_basic_pbr_logo.glb"
+    data-model-alt="3D logo"
+    data-auto-rotate
+    data-rotation-speed="800%"
+    style="width: 800px; height: 400px; margin: 250px auto; display: flex; pointer-events: none;"
+  ></div>
 </a>
 <section class="napis">
 <p class="nadpisc">STREETWEAR</p>

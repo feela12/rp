@@ -17,8 +17,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeButton = modal.querySelector('.product-fullscreen__close');
   let activeMedia = null;
 
+  function disposeMedia(node) {
+    if (node?.classList.contains('three-model')) {
+      window.ICZZThreeModels?.dispose(node);
+    }
+  }
+
   function closeFullscreen() {
     if (activeMedia) {
+      disposeMedia(activeMedia);
       activeMedia.remove();
       activeMedia = null;
     }
@@ -32,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!node) return;
 
     if (activeMedia) {
+      disposeMedia(activeMedia);
       activeMedia.remove();
       activeMedia = null;
     }
@@ -41,6 +49,19 @@ document.addEventListener('DOMContentLoaded', () => {
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('fullscreen-open');
+
+    if (activeMedia.classList.contains('three-model')) {
+      const modelNode = activeMedia;
+      if (window.ICZZThreeModels) {
+        window.ICZZThreeModels.mount(modelNode);
+      } else {
+        window.addEventListener('iczz-three-ready', () => {
+          if (document.body.contains(modelNode)) {
+            window.ICZZThreeModels?.mount(modelNode);
+          }
+        }, { once: true });
+      }
+    }
   }
 
   function buildImage(src, alt) {
@@ -52,16 +73,16 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function buildModel(sourceViewer) {
-    const viewer = document.createElement('model-viewer');
-    viewer.className = 'product-fullscreen__model';
+    const viewer = document.createElement('div');
+    viewer.className = 'product-fullscreen__model three-model';
 
     Array.from(sourceViewer.attributes).forEach((attr) => {
-      if (attr.name !== 'id' && attr.name !== 'style') {
+      if (!['id', 'style', 'class'].includes(attr.name)) {
         viewer.setAttribute(attr.name, attr.value);
       }
     });
 
-    viewer.setAttribute('camera-controls', '');
+    viewer.setAttribute('data-camera-controls', '');
     viewer.setAttribute('touch-action', 'pan-y');
     return viewer;
   }

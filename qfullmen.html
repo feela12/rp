@@ -4,11 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styl.css" />
-    <link rel="stylesheet" href="styl2.css" />
   
   <link href='https://fonts.googleapis.com/css?family=League Gothic' rel='stylesheet'>
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-  <link rel="stylesheet" href="styl2.css" />
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+</script>
+<script src="three-models.js"></script>
   <script src="script.js"></script>
     <title>ICZZ|Men</title>
 </head>
@@ -76,20 +82,14 @@
  <div class="image-gallery">
       <div class="image-card" onclick="toggleText(this)">
         <a href = "product1.html">
-        <model-viewer 
-  src="https://feela12.github.io/Z-v-re-n--projekt-SAP/finalmodel.glb"
-
-  alt="3D logo"
-  auto-rotate
-  auto-rotate-delay="0"
-  rotation-per-second="400%"
-  shadow-intensity="0"
-  style="width: 650px; height: 400px; margin: left; display: flex;"
-  a href = "product1.html"
-  style="pointer-events: none;"
->
-
-</model-viewer>
+        <div
+          class="three-model"
+          data-model-src="https://feela12.github.io/Z-v-re-n--projekt-SAP/finalmodel.glb"
+          data-model-alt="3D logo"
+          data-auto-rotate
+          data-rotation-speed="400%"
+          style="width: 650px; height: 400px; margin: left; display: flex; pointer-events: none;"
+        ></div>
         </a>
 
         <div class="image-paragraph">
@@ -102,19 +102,14 @@
 
       <div class="image-card" onclick="toggleText(this)">
         <a href = "product2.html">
-        <model-viewer 
-  src="https://feela12.github.io/Z-v-re-n--projekt-SAP/base_basic_shaded.glb"
-
-  alt="3D logo"
-  auto-rotate
-  auto-rotate-delay="0"
-  shadow-intensity="0"
-  style="width: 650px; height: 400px; margin: auto 0; display: flex;"
-  style="pointer-events: none;"
-  rotation-per-second="400%"
->
-
-</model-viewer>
+        <div
+          class="three-model"
+          data-model-src="https://feela12.github.io/Z-v-re-n--projekt-SAP/base_basic_shaded.glb"
+          data-model-alt="3D logo"
+          data-auto-rotate
+          data-rotation-speed="400%"
+          style="width: 650px; height: 400px; margin: auto 0; display: flex; pointer-events: none;"
+        ></div>
 </a>
         <div class="image-paragraph">
         <a href = "product2.html">
@@ -135,18 +130,14 @@
 
       <div class="image-card" onclick="toggleText(this)">
         <a href = "product3.html">
-   <model-viewer 
-  src="https://feela12.github.io/Z-v-re-n--projekt-SAP/base_basic_shaded_rick-compressed.glb"
-
-  alt="3D logo"
-  auto-rotate
-  auto-rotate-delay="0"
-  shadow-intensity="0"
-  style="width: 650px; height: 400px; margin: right; display: flex;"
-  style="pointer-events: none;"
-  rotation-per-second="400%"
->
-</model-viewer>
+   <div
+     class="three-model"
+     data-model-src="https://feela12.github.io/Z-v-re-n--projekt-SAP/base_basic_shaded_rick-compressed.glb"
+     data-model-alt="3D logo"
+     data-auto-rotate
+     data-rotation-speed="400%"
+     style="width: 650px; height: 400px; margin: right; display: flex; pointer-events: none;"
+   ></div>
 </a>
         <div class="image-paragraph">
          <a href = "product3.html" class="paragraph-text">
