@@ -23,9 +23,7 @@
     }
   }
 </script>
-<script src="three-models.js"></script>
-  <script src="script.js"></script>
-  <script src="script2.js"></script>
+<script src="app.js" defer></script>
 </head>
 
 <body>
@@ -36,7 +34,7 @@
     <section class="fixed-section">
       <!-- logo -->
       <a href="index.html">
-        <img src="images/favikon.png" class="header-logo" alt="ICZZ logo">
+        <img src="images/logogo.png" class="header-logo" alt="ICZZ logo">
       </a>
 
       <!-- tlacitko uctu -->
@@ -50,7 +48,6 @@
           <a href="#" class="login-close-x">&times;</a>
           <div class="login-kicker">ICZZ MEMBERSHIP</div>
           <div class="login-header">
-            <div class="profile-image login-profile-image">IC</div>
             <div class="login-heading-group">
               <h3>WELCOME BACK</h3>
               <p class="review-title login-subtitle">Login to your account</p>
@@ -60,6 +57,10 @@
           <form class="login-form" onsubmit="event.preventDefault();">
             <input type="email" placeholder="EMAIL ADDRESS" class="login-input" required>
             <input type="password" placeholder="PASSWORD" class="login-input" required>
+            <label class="login-remember">
+              <input type="checkbox" name="remember">
+              <span>Remember me</span>
+            </label>
             <button type="submit" class="login-submit">LOG IN</button>
           </form>
 
@@ -177,9 +178,6 @@
     <div class="promo-dots" id="promoDots" aria-hidden="true"></div>
     <span class="sr-only" id="carouselStatus">Slide 1 of 4</span>
   </section>
-
-  <!-- skript pro carousel -->
-  <script src="script3.js"></script>
 
   <!-- ===========================================
        KATEGORIE - NAVIGACE PRODUKTU
@@ -414,10 +412,10 @@
       <!-- recenze 1 - john drake -->
       <div class="review-card">
         <div class="review-profile">
-          <div class="profile-image">JD</div>
+          <div class="profile-image">TS</div>
           <div class="review-author">
-            <h3>John Drake</h3>
-            <p class="review-title">Fashion Entrepreneur</p>
+            <h3>Travis Scott</h3>
+            <p class="review-title">Performer, artist</p>
           </div>
         </div>
         <p class="review-text">"The quality is absolutely insane. I've been in the fashion game for 15 years and this is the level of craftsmanship I've been waiting for. Worth every penny."</p>
@@ -474,7 +472,7 @@
       <div class="badges-carousel-track" id="badgesTrack">
         <!-- ikonky se automaticky duplikuji pro plynuly cyklus -->
         <div class="badge-item">
-          <img src="images/favikon.png" alt="Logo" height="80px" width="100px">
+          <img src="images/logogo.png" alt="Logo" class="badge-logo-main" height="80px" width="100px">
         </div>
         <div class="badge-item">
           <img src="images/shopify.svg" alt="Shopify" height="80px" width="80px">
@@ -483,10 +481,16 @@
           <img src="images/stripe.svg" alt="Stripe" class="badge-logo-stripe" height="80px" width="80px">
         </div>
         <div class="badge-item">
-          <img src="images/dhl.svg" alt="DHL" height="80px" width="80px">
+          <img src="images/dhl.png" alt="DHL" height="80px" width="80px">
         </div>
         <div class="badge-item">
           <img src="images/packeta.svg" alt="Packeta" height="80px" width="80px">
+        </div>
+        <div class="badge-item">
+          <img src="images/ppl.png" alt="PPL" height="80px" width="80px">
+        </div>
+        <div class="badge-item">
+          <img src="images/fast1.png" alt="Fast Delivery" height="80px" width="80px">
         </div>
       </div>
     </div>
@@ -522,12 +526,12 @@
   <footer class="footer">
     <hr class="line">
     <div class="rights">
-      <p>&copy; 2026 Filip V&aacute;pen&iacute;k. V&scaron;echna pr&aacute;va vyhrazena.</p>
+      <p>&copy; 2026 Filip Vápeník. Všechna práva vyhrazena.</p>
     </div>
 
     <!-- socialni site -->
     <a href="#index">
-      <img src="images/favikon.png" height="50px" width="65px" alt="logo">
+      <img src="images/logogo.png" height="50px" width="65px" alt="logo">
     </a>
     <a href="externprklk.html">
       <img class="inv" src="images/shopify.svg" height="50px" width="50px" alt="shopify">

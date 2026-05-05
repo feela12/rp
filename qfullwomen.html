@@ -14,8 +14,7 @@
     }
   }
 </script>
-<script src="three-models.js"></script>
-  <script src="script.js"></script>
+<script src="app.js" defer></script>
     <title>ICZZ|Women</title>
 </head>
 <header>
@@ -23,16 +22,43 @@
   <section class="fixed-section">
    
      <a href="index.html">
-    <img src="images/favikon.png" class="header-logo" alt="ICZZ logo">
+    <img src="images/logogo.png" class="header-logo" alt="ICZZ logo">
      </a>
   <a href="#popup" class="acc">
     <img src="images/user.svg" height="50" width="55">
 </a>
 
 <div id="popup" class="popup">
-    <div class="popup-content">
-        <p>YOU ARE SIGNED IN ✓</p>
-        <a href="#" class="close">OK</a>
+    <div class="popup-content login-popup">
+        <a href="#" class="login-close-x">&times;</a>
+        <div class="login-kicker">ICZZ MEMBERSHIP</div>
+        <div class="login-header">
+            <div class="login-heading-group">
+                <h3>WELCOME BACK</h3>
+                <p class="review-title login-subtitle">Login to your account</p>
+            </div>
+        </div>
+
+        <form class="login-form" onsubmit="event.preventDefault();">
+            <input type="email" placeholder="EMAIL ADDRESS" class="login-input" required>
+            <input type="password" placeholder="PASSWORD" class="login-input" required>
+            <label class="login-remember">
+                <input type="checkbox" name="remember">
+                <span>Remember me</span>
+            </label>
+            <button type="submit" class="login-submit">LOG IN</button>
+        </form>
+
+        <div class="login-divider"><span>or continue with</span></div>
+
+        <div class="login-secondary-actions">
+            <a href="#" class="login-ghost-btn">APPLE ID</a>
+            <a href="#" class="login-ghost-btn">GOOGLE</a>
+        </div>
+
+        <div class="login-extra">
+            <p class="review-text login-footnote">DON'T HAVE AN ACCOUNT? <a href="#">SIGN UP</a></p>
+        </div>
     </div>
 </div>
   <a href="kosik.html" class="kos">
@@ -161,7 +187,7 @@
     <p>&copy; 2026 Filip Vápeník. Všechna práva vyhrazena.</p>
     </div>
       <a href="#index">
-        <img src="images/favikon.png" height="50px" width="65px">
+        <img src="images/logogo.png" height="50px" width="65px">
       </a>
       <a href="externprklk.html">
       <img class="inv" src="images/shopify.svg" height="50px" width="50px">
