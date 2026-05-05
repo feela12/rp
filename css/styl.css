@@ -8,10 +8,10 @@
   --header-side-gap: 20px;
   --header-icon-size: 50px;
   --header-cart-width: 60px;
-  --header-logo-width: 90px;
-  --header-logo-height: 56px;
+  --header-logo-width: 118px;
+  --header-logo-height: 72px;
   --header-bar-height: 88px;
-  --header-theme-left: 20px;
+  --header-control-gap: 20px;
   --header-account-right: 95px;
   --header-cart-right: 24px;
   --accent: #111;
@@ -80,7 +80,6 @@ a {
 .main, .main2 {
   position: relative;
   width: 100%;
-  min-height: 60vh;
   height: auto;
   overflow: visible;
   font-family:"IBM Plex Mono", monospace, bold;
@@ -573,10 +572,11 @@ text-transform: uppercase;
 .kos{right:var(--header-cart-right)}
 .acc{right:var(--header-account-right)}
 .kosprod{right:110px;top:70px}
-.search{position:absolute;right:calc(var(--header-account-right) + var(--header-icon-size) + 20px);z-index:9999;display:flex;align-items:center;justify-content:flex-end;cursor:pointer;transform-origin:right center;transition:.3s ease;width:var(--header-icon-size)}
+.search{position:absolute;right:calc(var(--header-account-right) + var(--header-icon-size) + var(--header-icon-size) + var(--header-control-gap) + var(--header-control-gap));z-index:9999;display:flex;align-items:center;justify-content:flex-end;cursor:pointer;transform-origin:right center;transition:.3s ease;width:var(--header-icon-size)}
 .search img{order:2;transition:transform .5s ease-in-out}
 .acc img,.search img,#icon{width:var(--header-icon-size);height:var(--header-icon-size)}
 .kos img{width:var(--header-cart-width);height:var(--header-icon-size)}
+.acc img,.search img,.kos img,#icon{display:block}
 .header-logo{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:var(--header-logo-width);height:var(--header-logo-height);object-fit:contain;z-index:1001}
 .search.move img{transform:scale(1.06) rotate(90deg)}
 
@@ -1760,10 +1760,10 @@ nav {
     --header-side-gap: 18px;
     --header-icon-size: 42px;
     --header-cart-width: 50px;
-    --header-logo-width: 76px;
-    --header-logo-height: 58px;
+    --header-logo-width: 100px;
+    --header-logo-height: 72px;
     --header-bar-height: 100px;
-    --header-theme-left: 18px;
+    --header-control-gap: 16px;
     --header-account-right: 74px;
     --header-cart-right: 18px;
   }
@@ -1782,10 +1782,10 @@ nav {
     --header-side-gap: 12px;
     --header-icon-size: 34px;
     --header-cart-width: 40px;
-    --header-logo-width: 72px;
-    --header-logo-height: 54px;
+    --header-logo-width: 92px;
+    --header-logo-height: 62px;
     --header-bar-height: 88px;
-    --header-theme-left: 14px;
+    --header-control-gap: 10px;
     --header-account-right: 52px;
     --header-cart-right: 12px;
   }
@@ -1796,9 +1796,9 @@ nav {
   }
 
   .header-logo {
+    top: 50%;
     left: 50%;
-    top: 14px;
-    transform: translateX(-50%);
+    transform: translate(-50%,-50%);
   }
 
   .search,
@@ -1827,10 +1827,10 @@ nav {
   :root {
     --header-icon-size: 24px;
     --header-cart-width: 28px;
-    --header-logo-width: 58px;
-    --header-logo-height: 42px;
+    --header-logo-width: 72px;
+    --header-logo-height: 50px;
     --header-bar-height: 72px;
-    --header-theme-left: 10px;
+    --header-control-gap: 6px;
     --header-account-right: 40px;
     --header-cart-right: 10px;
   }
@@ -1843,9 +1843,9 @@ nav {
   }
 
   .header-logo {
+    top: 50%;
     left: 50%;
-    top: 12px;
-    transform: translateX(-50%);
+    transform: translate(-50%,-50%);
   }
 
   .search.move ~ .search-input {
@@ -2233,11 +2233,21 @@ body.fullscreen-open {
 .product-right .nadpisc {
   font-family: 'IBM Plex Mono', monospace, bold;
   font-size: 40px;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 2px;
   margin: 0 0 20px 0;
   float: none;
   text-align: left;
+}
+
+.product-right .nadpisc a {
+  display: inline-block;
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 8px;
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
 }
 
 .product-right .ricktext {
@@ -3056,6 +3066,10 @@ body.fullscreen-open {
     color: #ffffff;
   }
 
+  .product-right .nadpisc a {
+    text-shadow: 0 3px 10px rgba(255, 255, 255, 0.18);
+  }
+
   .discount {
     color: #999999;
   }
@@ -3181,7 +3195,8 @@ body.fullscreen-open {
 
 .sunmoon{
   position: absolute;
-  left: var(--header-theme-left);
+  right: calc(var(--header-account-right) + var(--header-icon-size) + var(--header-control-gap));
+  left: auto;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
@@ -3191,6 +3206,11 @@ body.fullscreen-open {
   font-family:"IBM Plex Mono", monospace, bold;
   font-size: clamp(0.72rem, 1.5vw, 0.95rem);
   white-space: nowrap;
+  margin-bottom: 8px;
+}
+
+.footer .rights p{
+  margin: 0;
 }
 .nadpisfav{
   font-family: 'IBM Plex Mono', monospace, bold;
@@ -3892,6 +3912,10 @@ body.fullscreen-open {
     transform:translateY(-50%);
   }
 
+  .search img{
+    margin-top:-2px;
+  }
+
   .acc{
     right:var(--header-account-right);
   }
@@ -3918,6 +3942,7 @@ body.fullscreen-open {
 
   .header-logo{
     top:50%;
+    left:50%;
     transform:translate(-50%,-50%);
   }
 
@@ -3928,6 +3953,10 @@ body.fullscreen-open {
     top:50%;
     bottom:auto;
     transform:translateY(-50%);
+  }
+
+  .search img{
+    margin-top:-2px;
   }
 
   .promo-arrow{

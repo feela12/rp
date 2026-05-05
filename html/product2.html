@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ICZZ | RICK OWENS BRUTALIST CHAIN</title>
-<link rel="icon" type="image/x-icon" href="images/favikon2.png">
-  <link rel="stylesheet" href="styl.css">
+<link rel="icon" type="image/x-icon" href="../images/logos/favikon2.png">
+  <link rel="stylesheet" href="../css/styl.css">
 <link href="https://fonts.googleapis.com/css?family=League+Gothic|Cinzel|IBM+Plex+Mono&display=swap" rel="stylesheet">
 <script src="https://kit.fontawesome.com/649771f08a.js" crossorigin="anonymous"></script>
 <script type="importmap">
@@ -16,7 +16,7 @@
     }
   }
 </script>
-<script src="app.js" defer></script>
+<script src="../javascript/app.js" defer></script>
 </head>
 <body>
 <header>
@@ -24,10 +24,10 @@
   <section class="fixed-section">
    
      <a href="index.html">
-    <img src="images/logogo.png" class="header-logo" alt="ICZZ logo">
+    <img src="../images/logos/logogo.png" class="header-logo" alt="ICZZ logo">
      </a>
   <a href="#popup" class="acc">
-    <img src="images/user.svg" height="50" width="55">
+    <img src="../images/icons/user.svg" height="50" width="55">
 </a>
 
 <div id="popup" class="popup">
@@ -64,14 +64,14 @@
     </div>
 </div>
   <a href="kosik.html" class="kos">
-    <img src="images/kosik.svg" height="50px" width="60px">
+    <img src="../images/icons/kosik.svg" height="50px" width="60px">
   </a>  
 <div class="search" id="mysearch">
     <input type="text" class="search-input" placeholder="Search..." onclick="event.stopPropagation()">
-    <img src="images/lupa.svg" alt="Search" width="50" height="50">
+    <img src="../images/icons/lupa.svg" alt="Search" width="50" height="50">
 </div>
 <div class="sunmoon">
-<img id="icon" src="images/moon.svg" height="50px" width="50px" top="50px" onclick="toggleDarkMode()">
+<img id="icon" src="../images/icons/moon.svg" height="50px" width="50px" top="50px" onclick="toggleDarkMode()">
 </div>
 <script>
   function toggleDarkMode() {
@@ -81,10 +81,10 @@
   
     if (document.body.classList.contains("dark")) {
       localStorage.setItem("mode", "dark");
-      icon.src = "images/sun.svg";
+      icon.src = "../images/icons/sun.svg";
     } else {
       localStorage.setItem("mode", "light");
-      icon.src = "images/moon.svg";
+      icon.src = "../images/icons/moon.svg";
     }
   }
   
@@ -94,9 +94,9 @@
   
     if (localStorage.getItem("mode") === "dark") {
       document.body.classList.add("dark");
-      icon.src = "images/sun.svg";
+      icon.src = "../images/icons/sun.svg";
     } else {
-      icon.src = "images/moon.svg";
+      icon.src = "../images/icons/moon.svg";
     }
   }
   </script>
@@ -123,22 +123,22 @@
     <!-- Prostřední strana - Galerie -->
     <div class="product-gallery">
         <div class="gallery-images">
-            <img src="images/3dmodel.png" alt="3D Model" onclick="showImage(this, 'model')">
-            <img src="images/chain2.png" alt="Image 2" onclick="showImage(this, 'image')">
-            <img src="images/chain1.jpeg" alt="Image 3" onclick="showImage(this, 'image')">
+            <img src="../images/products/3dmodel.png" alt="3D Model" onclick="showImage(this, 'model')">
+            <img src="../images/products/chain2.png" alt="Image 2" onclick="showImage(this, 'image')">
+            <img src="../images/products/chain1.jpeg" alt="Image 3" onclick="showImage(this, 'image')">
         </div>
     </div>
     
     <!-- Pravá strana - Popis, cena, tlačítko -->
     <div class="product-right">
-        <p class="nadpisc">RICK OWENS SS20 BRUTALIST CHAIN</p>
+        <p class="nadpisc"><a href="product2.html">RICK OWENS SS20 BRUTALIST CHAIN</a></p>
         <p class="ricktext"> 
             Tento ikonický řetěz z kolekce Rick Owens Spring/Summer 2020 je výrazným statement doplňkem, který spojuje industriální estetiku s avantgardním designem. Masivní kovové články působí surovým, brutalistním dojmem, zatímco geometrický přívěsek dodává celku dramatickou, téměř sochařskou kvalitu.
 
 Každý detail tohoto kousku reflektuje charakteristickou Owensovu filozofii – temnou eleganci, nekompromisní minimalismus a futuristickou siluetu.
         </p>
         <p class="cenovka">1200 €</p>
-        <button id="addToCartBtn" data-product-name="RICK OWENS SS20 BRUTALIST CHAIN" data-product-price="1200" data-product-image="images/chain1.jpeg">ADD TO CART</button>
+        <button id="addToCartBtn" data-product-name="RICK OWENS SS20 BRUTALIST CHAIN" data-product-price="1200" data-product-image="../images/products/chain1.jpeg">ADD TO CART</button>
     </div>
 </section>
     
@@ -150,22 +150,22 @@ Každý detail tohoto kousku reflektuje charakteristickou Owensovu filozofii –
     <p>&copy; 2026 Filip Vápeník. Všechna práva vyhrazena.</p>
     </div>
       <a href="#index">
-        <img src="images/logogo.png" height="50px" width="65px">
+        <img src="../images/logos/logogo.png" height="50px" width="65px">
       </a>
       <a href="externprklk.html">
-      <img class="inv" src="images/shopify.svg" height="50px" width="50px">
+      <img class="inv" src="../images/logos/shopify.svg" height="50px" width="50px">
   </a>
     <a href="https://instagram.com">
-      <img class="inv" src="images/ig.svg" height="50px" width="50px">
+      <img class="inv" src="../images/icons/ig.svg" height="50px" width="50px">
   </a>
   <a href="https://x.com">
-    <img class="inv" src="images/x.svg" height="50px" width="50px">
+    <img class="inv" src="../images/icons/x.svg" height="50px" width="50px">
 </a>
   <a href="https://facebook.com">
-      <img class="inv" src="images/fb.svg" height="50px" width="50px">
+      <img class="inv" src="../images/icons/fb.svg" height="50px" width="50px">
   </a>
   </footer>
     
-<script>let i=0,imgs=['images/greatsand.png','images/2chaos.png','images/3chaos.png'],types=['model','image','image'];function showImage(e,t){const v=document.getElementById('mainViewer'),x=document.getElementById('mainImage');if(x)x.remove();if(t==='model'){v.style.display='block';i=0;}else{v.style.display='none';v.insertAdjacentHTML('beforebegin','<img id="mainImage" src="'+e.src+'" style="width:100%;max-width:600px;height:500px;object-fit:contain;">');}}function prevImage(){i=(i-1+imgs.length)%imgs.length;showImage(document.querySelectorAll('.gallery-images img')[i],types[i]);}function nextImage(){i=(i+1)%imgs.length;showImage(document.querySelectorAll('.gallery-images img')[i],types[i]);}function handleCart(){const n=this.getAttribute('data-product-name'),p=this.getAttribute('data-product-price'),img=this.getAttribute('data-product-image'),cart=JSON.parse(localStorage.getItem('cart'))||[],ex=cart.find(j=>j.name===n);if(ex)ex.quantity+=1;else cart.push({name:n,price:p,image:img,quantity:1});localStorage.setItem('cart',JSON.stringify(cart));showPopup();}function showPopup(){let p=document.getElementById('successPopup');if(!p){p=document.createElement('div');p.id='successPopup';p.className='success-popup';p.innerHTML='<div class="success-popup-content"><button class="success-popup-close" onclick="closePopup()">×</button><p>SUCCESSFULLY ADDED TO CART</p></div>';document.body.appendChild(p);}p.classList.add('show');setTimeout(()=>p.classList.remove('show'),3000);}function closePopup(){const p=document.getElementById('successPopup');if(p)p.classList.remove('show');}document.addEventListener('DOMContentLoaded',()=>{const b=document.getElementById('addToCartBtn');if(b)b.addEventListener('click',handleCart);});document.addEventListener('click',e=>{const p=document.getElementById('successPopup');if(p&&p.classList.contains('show')&&e.target===p)closePopup();});const mv=document.getElementById('mainViewer');if(mv){mv.addEventListener('mousemove',e=>{const rect=mv.getBoundingClientRect(),x=(e.clientX-rect.left)/rect.width,y=(e.clientY-rect.top)/rect.height;if(x>0.2&&x<0.8&&y>0.2&&y<0.8){mv.style.touchAction='none';}else{mv.style.touchAction='pan-y';}});mv.addEventListener('mouseleave',()=>{mv.style.touchAction='pan-y';});}</script>
+<script>let i=0,imgs=['../images/products/greatsand.png','../images/products/2chaos.png','../images/products/3chaos.png'],types=['model','image','image'];function showImage(e,t){const v=document.getElementById('mainViewer'),x=document.getElementById('mainImage');if(x)x.remove();if(t==='model'){v.style.display='block';i=0;}else{v.style.display='none';v.insertAdjacentHTML('beforebegin','<img id="mainImage" src="'+e.src+'" style="width:100%;max-width:600px;height:500px;object-fit:contain;">');}}function prevImage(){i=(i-1+imgs.length)%imgs.length;showImage(document.querySelectorAll('.gallery-images img')[i],types[i]);}function nextImage(){i=(i+1)%imgs.length;showImage(document.querySelectorAll('.gallery-images img')[i],types[i]);}function handleCart(){const n=this.getAttribute('data-product-name'),p=this.getAttribute('data-product-price'),img=this.getAttribute('data-product-image'),cart=JSON.parse(localStorage.getItem('cart'))||[],ex=cart.find(j=>j.name===n);if(ex)ex.quantity+=1;else cart.push({name:n,price:p,image:img,quantity:1});localStorage.setItem('cart',JSON.stringify(cart));showPopup();}function showPopup(){let p=document.getElementById('successPopup');if(!p){p=document.createElement('div');p.id='successPopup';p.className='success-popup';p.innerHTML='<div class="success-popup-content"><button class="success-popup-close" onclick="closePopup()">×</button><p>SUCCESSFULLY ADDED TO CART</p></div>';document.body.appendChild(p);}p.classList.add('show');setTimeout(()=>p.classList.remove('show'),3000);}function closePopup(){const p=document.getElementById('successPopup');if(p)p.classList.remove('show');}document.addEventListener('DOMContentLoaded',()=>{const b=document.getElementById('addToCartBtn');if(b)b.addEventListener('click',handleCart);});document.addEventListener('click',e=>{const p=document.getElementById('successPopup');if(p&&p.classList.contains('show')&&e.target===p)closePopup();});const mv=document.getElementById('mainViewer');if(mv){mv.addEventListener('mousemove',e=>{const rect=mv.getBoundingClientRect(),x=(e.clientX-rect.left)/rect.width,y=(e.clientY-rect.top)/rect.height;if(x>0.2&&x<0.8&&y>0.2&&y<0.8){mv.style.touchAction='none';}else{mv.style.touchAction='pan-y';}});mv.addEventListener('mouseleave',()=>{mv.style.touchAction='pan-y';});}</script>
 </body>
 </html>

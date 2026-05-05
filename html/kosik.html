@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ICZZ|Cart</title>
-<link rel="stylesheet" href="styl.css">
+<link rel="stylesheet" href="../css/styl.css">
 <link href='https://fonts.googleapis.com/css?family=League+Gothic|Cinzel|IBM+Plex+Mono&display=swap' rel='stylesheet'>
 <script src="https://kit.fontawesome.com/649771f08a.js" crossorigin="anonymous"></script>
-<script src="app.js" defer></script>
+<script src="../javascript/app.js" defer></script>
 </head>
 <body>
  <header>
@@ -15,10 +15,10 @@
   <section class="fixed-section">
    
      <a href="index.html">
-    <img src="images/logogo.png" class="header-logo" alt="ICZZ logo">
+    <img src="../images/logos/logogo.png" class="header-logo" alt="ICZZ logo">
      </a>
   <a href="#popup" class="acc">
-    <img src="images/user.svg" height="50" width="55">
+    <img src="../images/icons/user.svg" height="50" width="55">
 </a>
 
 <div id="popup" class="popup">
@@ -55,14 +55,14 @@
     </div>
 </div>
   <a href="kosik.html" class="kos">
-    <img src="images/kosik.svg" height="50px" width="60px">
+    <img src="../images/icons/kosik.svg" height="50px" width="60px">
   </a>  
 <div class="search" id="mysearch">
-  <img src="images/lupa.svg" alt="Search" width="50" height="50">
+  <img src="../images/icons/lupa.svg" alt="Search" width="50" height="50">
 </div>
 <input type="text" class="search-input" placeholder="Search..." onclick="event.stopPropagation()">
 <div class="sunmoon">
-<img id="icon" src="images/moon.svg" height="50px" width="50px" top="50px" onclick="toggleDarkMode()">
+<img id="icon" src="../images/icons/moon.svg" height="50px" width="50px" top="50px" onclick="toggleDarkMode()">
 </div>
 <script>
   function toggleDarkMode() {
@@ -72,10 +72,10 @@
   
     if (document.body.classList.contains("dark")) {
       localStorage.setItem("mode", "dark");
-      icon.src = "images/sun.svg";
+      icon.src = "../images/icons/sun.svg";
     } else {
       localStorage.setItem("mode", "light");
-      icon.src = "images/moon.svg";
+      icon.src = "../images/icons/moon.svg";
     }
   }
   
@@ -85,9 +85,9 @@
   
     if (localStorage.getItem("mode") === "dark") {
       document.body.classList.add("dark");
-      icon.src = "images/sun.svg";
+      icon.src = "../images/icons/sun.svg";
     } else {
-      icon.src = "images/moon.svg";
+      icon.src = "../images/icons/moon.svg";
     }
   }
   </script>
@@ -130,12 +130,12 @@
 <script>
 const euro = String.fromCharCode(8364);
 const productCatalog = [
-  { name: 'A GREAT CHAOS CHAIN - REPLICA', price: 800, image: 'images/3chaos.png', url: 'product1.html' },
-  { name: 'RICK OWENS SS20 BRUTALIST CHAIN', price: 1200, image: 'images/chain1.jpeg', url: 'product2.html' },
-  { name: 'RICK OWENS DRKSHDW', price: 2500, image: 'images/DRK.png', url: 'product3.html' },
-  { name: 'MAISON MARGIELA FUTURE', price: 999, image: 'images/futures.jpg', url: 'product4.html' },
-  { name: 'YZY WET TANK TOP', price: 20, image: 'images/yeezywet1.png', url: 'product5.html' },
-  { name: 'XO PENDANT - THE WEEKND REPLICA', price: 500, image: 'images/XOprod.png', url: 'product6.html' }
+  { name: 'A GREAT CHAOS CHAIN - REPLICA', price: 800, image: '../images/products/3chaos.png', url: 'product1.html' },
+  { name: 'RICK OWENS SS20 BRUTALIST CHAIN', price: 1200, image: '../images/products/chain1.jpeg', url: 'product2.html' },
+  { name: 'RICK OWENS DRKSHDW', price: 2500, image: '../images/products/DRK.png', url: 'product3.html' },
+  { name: 'MAISON MARGIELA FUTURE', price: 999, image: '../images/products/futures.jpg', url: 'product4.html' },
+  { name: 'YZY WET TANK TOP', price: 20, image: '../images/products/yeezywet1.png', url: 'product5.html' },
+  { name: 'XO PENDANT - THE WEEKND REPLICA', price: 500, image: '../images/products/XOprod.png', url: 'product6.html' }
 ];
 
 const productUrlMap = Object.fromEntries(productCatalog.map((product) => [product.name, product.url]));
@@ -175,7 +175,7 @@ function loadCart() {
     const productUrl = getProductUrl(product);
     const row = document.createElement('div');
     row.className = 'item-row';
-    row.innerHTML = `<div class="item-image"><img src="${product.image}" alt="Product"></div><section class="itemcart"><a class="cart-product-link" href="${productUrl}">${product.name}</a><p class="item-price">${price} ${euro}</p></section><div class="quantity-control"><button class="qty-btn" onclick="decQty(this)">-</button><input type="number" class="qty-input" value="${quantity}" min="1" max="999" onchange="updCart(this);updPrices()"><button class="qty-btn" onclick="incQty(this);updCart(this);updPrices()">+</button></div><div class="item-total"><p class="total-price">${price * quantity} ${euro}</p></div><button class="bin-button" onclick="remItem(this)"><img src="images/trash.svg" class="binb" alt="Remove"></button>`;
+    row.innerHTML = `<div class="item-image"><img src="${product.image}" alt="Product"></div><section class="itemcart"><a class="cart-product-link" href="${productUrl}">${product.name}</a><p class="item-price">${price} ${euro}</p></section><div class="quantity-control"><button class="qty-btn" onclick="decQty(this)">-</button><input type="number" class="qty-input" value="${quantity}" min="1" max="999" onchange="updCart(this);updPrices()"><button class="qty-btn" onclick="incQty(this);updCart(this);updPrices()">+</button></div><div class="item-total"><p class="total-price">${price * quantity} ${euro}</p></div><button class="bin-button" onclick="remItem(this)"><img src="../images/icons/trash.svg" class="binb" alt="Remove"></button>`;
     itemsContainer.appendChild(row);
   });
 
@@ -313,19 +313,19 @@ window.addEventListener('load', loadCart);
     <p>&copy; 2026. Filip Vápeník. All rights reserved.</p>
     </div>
       <a href="#index">
-        <img src="images/logogo.png" height="50px" width="65px">
+        <img src="../images/logos/logogo.png" height="50px" width="65px">
       </a>
       <a href="externprklk.html">
-      <img class="inv" src="images/shopify.svg" height="50px" width="50px">
+      <img class="inv" src="../images/logos/shopify.svg" height="50px" width="50px">
   </a>
     <a href="https://instagram.com">
-      <img class="inv" src="images/ig.svg" height="50px" width="50px">
+      <img class="inv" src="../images/icons/ig.svg" height="50px" width="50px">
   </a>
   <a href="https://x.com">
-    <img class="inv" src="images/x.svg" height="50px" width="50px">
+    <img class="inv" src="../images/icons/x.svg" height="50px" width="50px">
 </a>
   <a href="https://facebook.com">
-      <img class="inv" src="images/fb.svg" height="50px" width="50px">
+      <img class="inv" src="../images/icons/fb.svg" height="50px" width="50px">
   </a>
   </footer>
 </body>

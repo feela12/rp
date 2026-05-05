@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styl.css" />
+    <link rel="stylesheet" href="../css/styl.css" />
   
   <link href='https://fonts.googleapis.com/css?family=League Gothic' rel='stylesheet'>
 <script type="importmap">
@@ -14,18 +14,19 @@
     }
   }
 </script>
-<script src="app.js" defer></script>
-    <title>ICZZ|Women</title>
+<script src="../javascript/app.js" defer></script>
+    <title>ICZZ|Men</title>
 </head>
-<header>
+<body>
+ <header>
     
   <section class="fixed-section">
    
      <a href="index.html">
-    <img src="images/logogo.png" class="header-logo" alt="ICZZ logo">
+    <img src="../images/logos/logogo.png" class="header-logo" alt="ICZZ logo">
      </a>
   <a href="#popup" class="acc">
-    <img src="images/user.svg" height="50" width="55">
+    <img src="../images/icons/user.svg" height="50" width="55">
 </a>
 
 <div id="popup" class="popup">
@@ -62,14 +63,14 @@
     </div>
 </div>
   <a href="kosik.html" class="kos">
-    <img src="images/kosik.svg" height="50px" width="60px">
+    <img src="../images/icons/kosik.svg" height="50px" width="60px">
   </a>  
 <div class="search" id="mysearch">
     <input type="text" class="search-input" placeholder="Search..." onclick="event.stopPropagation()">
-    <img src="images/lupa.svg" alt="Search" width="50" height="50">
+    <img src="../images/icons/lupa.svg" alt="Search" width="50" height="50">
 </div>
 <div class="sunmoon">
-<img id="icon" src="images/moon.svg" height="50px" width="50px" top="50px" onclick="toggleDarkMode()">
+<img id="icon" src="../images/icons/moon.svg" height="50px" width="50px" top="50px" onclick="toggleDarkMode()">
 </div>
 <script>
   function toggleDarkMode() {
@@ -79,10 +80,10 @@
   
     if (document.body.classList.contains("dark")) {
       localStorage.setItem("mode", "dark");
-      icon.src = "images/sun.svg";
+      icon.src = "../images/icons/sun.svg";
     } else {
       localStorage.setItem("mode", "light");
-      icon.src = "images/moon.svg";
+      icon.src = "../images/icons/moon.svg";
     }
   }
   
@@ -92,24 +93,24 @@
   
     if (localStorage.getItem("mode") === "dark") {
       document.body.classList.add("dark");
-      icon.src = "images/sun.svg";
+      icon.src = "../images/icons/sun.svg";
     } else {
-      icon.src = "images/moon.svg";
+      icon.src = "../images/icons/moon.svg";
     }
   }
   </script>
 </header>
 </section>
 <p class="gnadpis">
-  WOMEN
+  MEN
 </p>
- <section id="uvod" class="content">
+  <section id="uvod" class="content">
  <div class="image-gallery">
       <div class="image-card" onclick="toggleText(this)">
-        <a href = "product5.html">
+        <a href = "product1.html">
         <div
           class="three-model"
-          data-model-src="https://feela12.github.io/Z-v-re-n--projekt-SAP/Meshy_AI_YZY_WET_women_tank_to_0420200251_texture.glb"
+          data-model-src="https://feela12.github.io/Z-v-re-n--projekt-SAP/finalmodel.glb"
           data-model-alt="3D logo"
           data-auto-rotate
           data-rotation-speed="400%"
@@ -118,18 +119,18 @@
         </a>
 
         <div class="image-paragraph">
-  <a href = "product5.html">
-    <p class="paragraph-text"><div class="paragraph-text">YZY WET TANK TOP</div></p>
-    <p  class="paragraph-text"><div class="paragraph-text">20 €</div></p>
+  <a href = "product1.html">
+    <p class="paragraph-text"><div class="paragraph-text">A GREAT CHAOS CHAIN</div></p>
+    <p  class="paragraph-text"><div class="paragraph-text">1000 €</div></p>
   </a>
 </div>
 </div>
 
       <div class="image-card" onclick="toggleText(this)">
-        <a href = "product6.html">
+        <a href = "product2.html">
         <div
           class="three-model"
-          data-model-src="https://feela12.github.io/Z-v-re-n--projekt-SAP/XOm.glb"
+          data-model-src="https://feela12.github.io/Z-v-re-n--projekt-SAP/base_basic_shaded.glb"
           data-model-alt="3D logo"
           data-auto-rotate
           data-rotation-speed="400%"
@@ -137,15 +138,15 @@
         ></div>
 </a>
         <div class="image-paragraph">
-        <a href = "product6.html">
+        <a href = "product2.html">
           <p >
             <div class="paragraph-text">
-            XO PENDANT - THE WEEKND REPLICA
+            RICK OWENS BRUTALIST NECKLACE
             </div>
           </p>
           <p >
             <div class="paragraph-text">
-            500 €
+            1200 €
             </div>
           </p>
 
@@ -187,19 +188,19 @@
     <p>&copy; 2026 Filip Vápeník. Všechna práva vyhrazena.</p>
     </div>
       <a href="#index">
-        <img src="images/logogo.png" height="50px" width="65px">
+        <img src="../images/logos/logogo.png" height="50px" width="65px">
       </a>
       <a href="externprklk.html">
-      <img class="inv" src="images/shopify.svg" height="50px" width="50px">
+      <img class="inv" src="../images/logos/shopify.svg" height="50px" width="50px">
   </a>
     <a href="https://instagram.com">
-      <img class="inv" src="images/ig.svg" height="50px" width="50px">
+      <img class="inv" src="../images/icons/ig.svg" height="50px" width="50px">
   </a>
   <a href="https://x.com">
-    <img class="inv" src="images/x.svg" height="50px" width="50px">
+    <img class="inv" src="../images/icons/x.svg" height="50px" width="50px">
 </a>
   <a href="https://facebook.com">
-      <img class="inv" src="images/fb.svg" height="50px" width="50px">
+      <img class="inv" src="../images/icons/fb.svg" height="50px" width="50px">
   </a>
   </footer>
     

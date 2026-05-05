@@ -1,14 +1,14 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="cs">
 <head>
   <!-- zakladni meta tagy a nastaveni -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ICZZ</title>
-  <link rel="icon" type="image/x-icon" href="images/favikon2.png">
+  <link rel="icon" type="image/x-icon" href="../images/logos/logogo.png">
 
   <!-- hlavni styly -->
-  <link rel="stylesheet" href="styl.css">
+  <link rel="stylesheet" href="../css/styl.css">
 
   <!-- google fonts -->
   <link href="https://fonts.googleapis.com/css?family=League+Gothic|Cinzel|IBM+Plex+Mono&display=swap" rel="stylesheet">
@@ -23,26 +23,26 @@
     }
   }
 </script>
-<script src="app.js" defer></script>
+<script src="../javascript/app.js" defer></script>
 </head>
 
 <body>
   <!-- ===========================================
-       HLAVICKA - LOGO A NAVIGACE
+       HEADER - LOGO - SEARCH - CART - ACC
        =========================================== -->
   <header>
     <section class="fixed-section">
-      <!-- logo -->
+      <!-- LOGO -->
       <a href="index.html">
-        <img src="images/logogo.png" class="header-logo" alt="ICZZ logo">
+        <img src="../images/logos/logogo.png" class="header-logo" alt="ICZZ logo">
       </a>
 
-      <!-- tlacitko uctu -->
+      <!-- ACCOUNT -->
       <a href="#popup" class="acc" aria-label="Otevrit prihlaseni">
-        <img src="images/user.svg" height="50" width="55" alt="ucet">
+        <img src="../images/icons/user.svg" height="50" width="55" alt="ucet">
       </a>
 
-      <!-- popup okno pro prihlaseni -->
+      <!-- popup okno for prihlaseni -->
       <div id="popup" class="popup">
         <div class="popup-content login-popup">
           <a href="#" class="login-close-x">&times;</a>
@@ -59,7 +59,7 @@
             <input type="password" placeholder="PASSWORD" class="login-input" required>
             <label class="login-remember">
               <input type="checkbox" name="remember">
-              <span>Remember me</span>
+              <span>REMEMBER ME</span>
             </label>
             <button type="submit" class="login-submit">LOG IN</button>
           </form>
@@ -79,18 +79,18 @@
 
       <!-- kosik -->
       <a href="kosik.html" class="kos">
-        <img src="images/kosik.svg" height="50px" width="60px" alt="kosik">
+        <img src="../images/icons/kosik.svg" height="50px" width="60px" alt="kosik">
       </a>
 
       <!-- vyhledavani -->
       <div class="search" id="mysearch">
-        <img src="images/lupa.svg" alt="Search" width="50" height="50">
+        <img src="../images/icons/lupa.svg" alt="Search" width="50" height="50">
       </div>
       <input type="text" class="search-input" placeholder="Search..." onclick="event.stopPropagation()">
 
       <!-- prepinac tmavy/svetly rezim -->
       <div class="sunmoon">
-        <img id="icon" src="images/moon.svg" height="50px" width="50px" top="50px" onclick="toggleDarkMode()" alt="rezim">
+        <img id="icon" src="../images/icons/moon.svg" height="50px" width="50px" top="50px" onclick="toggleDarkMode()" alt="rezim">
       </div>
 
       <!-- javascript pro prepinac rezimu -->
@@ -100,7 +100,7 @@
                 m = localStorage.getItem('mode') === 'dark' ? 'light' : 'dark';
           document.body.classList.toggle('dark');
           localStorage.setItem('mode', m);
-          i.src = m === 'dark' ? 'images/sun.svg' : 'images/moon.svg';
+          i.src = m === 'dark' ? '../images/icons/sun.svg' : '../images/icons/moon.svg';
         }
 
         window.toggleText = (c) => c.classList.toggle('active');
@@ -109,35 +109,35 @@
           const i = document.getElementById('icon'),
                 m = localStorage.getItem('mode') || 'light';
           document.body.classList.toggle('dark', m === 'dark');
-          i.src = m === 'dark' ? 'images/sun.svg' : 'images/moon.svg';
+          i.src = m === 'dark' ? '../images/icons/sun.svg' : '../images/icons/moon.svg';
         };
       </script>
     </section>
   </header>
 
   <!-- ===========================================
-       PROMO CAROUSEL - HLAVNI SLIDESHOW
+       Main Carousel
        =========================================== -->
   <section class="promo-carousel" aria-label="Promo akce - carousel">
     <div class="promo-track" id="promoTrack">
       <!-- slide 1 - free delivery -->
       <article class="promo-slide is-active" role="group" aria-roledescription="slide" aria-label="FREE DELIVERY">
-        <img src="images/yeezywet3.png" alt="YZY WET TANK TOP" loading="lazy">
+        <img src="../images/products/yeezywet3.png" alt="YZY WET TANK TOP" loading="lazy">
         <div class="promo-middle-text">
           <a href="product5.html">YZY WET TANK TOP - YZY VULTURES</a>
         </div>
       </article>
 
-      <!-- slide 2 - prazdny -->
+      <!-- slide 2 - rick owens drkshdw -->
       <article class="promo-slide" role="group" aria-roledescription="slide" aria-label="Back in stock">
-        <img src="images/DRK2.png" alt="Back in stock" loading="lazy">
+        <img src="../images/products/DRK2.png" alt="Back in stock" loading="lazy">
         <div class="promo-middle-text">
           <a href="product3.html">RICK OWENS DRKSHDW - NEW ARRIVAL</a>
         </div>
       </article>
       <!-- slide 3 - back in stock -->
       <article class="promo-slide" role="group" aria-roledescription="slide" aria-label="Back in stock">
-        <img src="images/chain2.png" alt="Back in stock" loading="lazy">
+        <img src="../images/products/chain2.png" alt="Back in stock" loading="lazy">
         <div class="promo-middle-text">
           <a href="product2.html">BRUTALIST CHAIN BACK IN STOCK</a>
         </div>
@@ -145,7 +145,7 @@
 
       <!-- slide 4 - 20% off -->
       <article class="promo-slide" role="group" aria-roledescription="slide" aria-label="20% OFF">
-        <img src="images/3chaos.png" alt="20% OFF" loading="lazy">
+        <img src="../images/products/3chaos.png" alt="20% OFF" loading="lazy">
         <div class="promo-middle-text">
           <a href="product1.html">Great Chaos Chain 20% OFF</a>
         </div>
@@ -153,7 +153,7 @@
 
       <!-- slide 5 - video -->
       <article class="promo-slide" role="group" aria-roledescription="slide" aria-label="View">
-        <video autoplay muted loop playsinline id="videoslid" class="video-container" src="videos/1slide.mp4">
+        <video autoplay muted loop playsinline id="videoslid" class="video-container" src="../videos/1slide.mp4">
         </video>
         <div class="promo-middle-text">
           <a href="product1.html">VIEW</a>
@@ -190,24 +190,24 @@
   </section>
 
   <!-- ===========================================
-       HERO SEKCE - UVODNI OBRAZ S TEXTEM
+       Smooth Scroll
        =========================================== -->
   <section class="main" id="home">
     <div class="hero-overlay">
       <div class="arrow-group">
         <button class="arrow-btn left" onclick="scrollToSection()" aria-label="Dolů">
-          <img src="images/sipka.svg" height="40" width="40" alt="sipka vlevo" class="sipka" />
+          <img src="../images/icons/sipka.svg" height="40" width="40" alt="sipka vlevo" class="sipka" />
         </button>
         <h1 class="clickable-heading" onclick="scrollToSection()">POPULAR ITEMS</h1>
         <button class="arrow-btn right" onclick="scrollToSection()" aria-label="Dolů">
-          <img src="images/sipka.svg" height="40" width="40" alt="sipka vpravo" class="sipka" />
+          <img src="../images/icons/sipka.svg" height="40" width="40" alt="sipka vpravo" class="sipka" />
         </button>
       </div>
     </div>
   </section>
 
   <!-- ===========================================
-       CELEBRITY SEKCE - SLAVNE OSOBY
+       Famous People Wearing Our Items
        =========================================== -->
   <section class="moje-sekce">
     <div class="celeb-section-head">
@@ -215,12 +215,12 @@
     </div>
     <div class="carousel-wrapper">
       <div class="carousel" id="carousel">
-        <!-- slide 1 - kanye west -->
+        <!-- slide 1 - Ye -->
         <div class="slide">
           <div class="slide-visuals">
-            <div class="slide-frame"><img src="images/ye.jpg" alt="kanye west 1" height="600" width="70"></div>
-            <div class="slide-frame"><img src="images/futures.jpg" alt="kanye west 2" height="600" width="70"></div>
-            <div class="slide-frame"><img src="images/ye2.png" alt="kanye west 3" height="600" width="70"></div>
+            <div class="slide-frame"><img src="../images/editorial/ye.jpg" alt="kanye west 1" height="600" width="70"></div>
+            <div class="slide-frame"><img src="../images/products/futures.jpg" alt="kanye west 2" height="600" width="70"></div>
+            <div class="slide-frame"><img src="../images/editorial/ye2.png" alt="kanye west 3" height="600" width="70"></div>
           </div>
           <div class="slide-copy">
             <div class="slide-title"><a>Ye f.k.a Kanye West</a></div>
@@ -233,9 +233,9 @@
         <!-- slide 2 - ken carson -->
         <div class="slide">
           <div class="slide-visuals">
-            <div class="slide-frame"><img src="images/ken.jpg" alt="ken carson 1" height="600" width="70"></div>
-            <div class="slide-frame"><img src="images/ken2.jpg" alt="ken carson 2" height="600" width="70"></div>
-            <div class="slide-frame"><img src="images/ken3.png" alt="ken carson 3" height="600" width="70"></div>
+            <div class="slide-frame"><img src="../images/editorial/ken.jpg" alt="ken carson 1" height="600" width="70"></div>
+            <div class="slide-frame"><img src="../images/editorial/ken2.jpg" alt="ken carson 2" height="600" width="70"></div>
+            <div class="slide-frame"><img src="../images/editorial/ken3.png" alt="ken carson 3" height="600" width="70"></div>
           </div>
           <div class="slide-copy">
             <div class="slide-title"><a>Ken Carson</a></div>
@@ -248,9 +248,9 @@
         <!-- slide 3 - rick owens -->
         <div class="slide">
           <div class="slide-visuals">
-            <div class="slide-frame"><img src="images/ricko.jpg" alt="rick owens 1" height="600" width="70"></div>
-            <div class="slide-frame"><img src="images/ricko2.jpg" alt="rick owens 2" height="600" width="70"></div>
-            <div class="slide-frame"><img src="images/ricko3.jpg" alt="rick owens 3" height="600" width="70"></div>
+            <div class="slide-frame"><img src="../images/editorial/ricko.jpg" alt="rick owens 1" height="600" width="70"></div>
+            <div class="slide-frame"><img src="../images/editorial/ricko2.jpg" alt="rick owens 2" height="600" width="70"></div>
+            <div class="slide-frame"><img src="../images/editorial/ricko3.jpg" alt="rick owens 3" height="600" width="70"></div>
           </div>
           <div class="slide-copy">
             <div class="slide-title"><a>Rick Owens</a></div>
@@ -264,7 +264,7 @@
       </div>
     </div>
 
-    <!-- javascript pro celebrity carousel -->
+    <!-- javascript pro famous people -->
     <script>
       const carousel = document.getElementById('carousel');
 
@@ -375,7 +375,7 @@
 
         <hr>
 
-        <!-- produkt 4 - XO chain -->
+        <!-- produkt 4 - XO pendant -->
         <div class="image-card" onclick="toggleText(this)">
           <a href="product6.html">
             <div
@@ -390,7 +390,7 @@
           </a>
 
           <div class="image-paragraph">
-            <a href="product6.html"><div class="paragraph-text">XO CHAIN</div><div class="paragraph-text">900 &euro;</div></a>
+            <a href="product6.html"><div class="paragraph-text">XO PENDANT</div><div class="paragraph-text">900 &euro;</div></a>
             <div class="product-rating">
               <span class="product-star">&#9733;</span>
               <span class="product-star">&#9733;</span>
@@ -409,7 +409,7 @@
 
     <!-- sekce s recenzemi -->
     <div class="reviews-container">
-      <!-- recenze 1 - john drake -->
+      <!-- recenze 1 - Travis Scott -->
       <div class="review-card">
         <div class="review-profile">
           <div class="profile-image">TS</div>
@@ -472,25 +472,25 @@
       <div class="badges-carousel-track" id="badgesTrack">
         <!-- ikonky se automaticky duplikuji pro plynuly cyklus -->
         <div class="badge-item">
-          <img src="images/logogo.png" alt="Logo" class="badge-logo-main" height="80px" width="100px">
+          <img src="../images/logos/logogo.png" alt="Logo" class="badge-logo-main" height="80px" width="100px">
         </div>
         <div class="badge-item">
-          <img src="images/shopify.svg" alt="Shopify" height="80px" width="80px">
+          <img src="../images/logos/shopify.svg" alt="Shopify" height="80px" width="80px">
         </div>
         <div class="badge-item">
-          <img src="images/stripe.svg" alt="Stripe" class="badge-logo-stripe" height="80px" width="80px">
+          <img src="../images/logos/stripe.svg" alt="Stripe" class="badge-logo-stripe" height="80px" width="80px">
         </div>
         <div class="badge-item">
-          <img src="images/dhl.png" alt="DHL" height="80px" width="80px">
+          <img src="../images/logos/dhl.png" alt="DHL" height="80px" width="80px">
         </div>
         <div class="badge-item">
-          <img src="images/packeta.svg" alt="Packeta" height="80px" width="80px">
+          <img src="../images/logos/packeta.svg" alt="Packeta" height="80px" width="80px">
         </div>
         <div class="badge-item">
-          <img src="images/ppl.png" alt="PPL" height="80px" width="80px">
+          <img src="../images/logos/ppl.png" alt="PPL" height="80px" width="80px">
         </div>
         <div class="badge-item">
-          <img src="images/fast1.png" alt="Fast Delivery" height="80px" width="80px">
+          <img src="../images/logos/fast1.png" alt="Fast Delivery" height="80px" width="80px">
         </div>
       </div>
     </div>
@@ -531,19 +531,19 @@
 
     <!-- socialni site -->
     <a href="#index">
-      <img src="images/logogo.png" height="50px" width="65px" alt="logo">
+      <img src="../images/logos/logogo.png" height="50px" width="65px" alt="logo">
     </a>
     <a href="externprklk.html">
-      <img class="inv" src="images/shopify.svg" height="50px" width="50px" alt="shopify">
+      <img class="inv" src="../images/logos/shopify.svg" height="50px" width="50px" alt="shopify">
     </a>
     <a href="https://instagram.com">
-      <img class="inv" src="images/ig.svg" height="50px" width="50px" alt="instagram">
+      <img class="inv" src="../images/icons/ig.svg" height="50px" width="50px" alt="instagram">
     </a>
     <a href="https://x.com">
-      <img class="inv" src="images/x.svg" height="50px" width="50px" alt="x">
+      <img class="inv" src="../images/icons/x.svg" height="50px" width="50px" alt="x">
     </a>
     <a href="https://facebook.com">
-      <img class="inv" src="images/fb.svg" height="50px" width="50px" alt="facebook">
+      <img class="inv" src="../images/icons/fb.svg" height="50px" width="50px" alt="facebook">
     </a>
   </footer>
 
