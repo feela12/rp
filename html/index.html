@@ -183,7 +183,7 @@
        KATEGORIE - NAVIGACE PRODUKTU
        =========================================== -->
   <section class="category-bar">
-    <a href="#">IN-STOCK</a>
+    <a href="qfullinstock.html">IN-STOCK</a>
     <a href="#">2026 COLLECTION</a>
     <a href="qfullmen.html">MEN</a>
     <a href="qfullwomen.html">WOMEN</a>
@@ -214,7 +214,7 @@
       <h2>FAMOUS PEOPLE WEARING OUR ITEMS</h2>
     </div>
     <div class="carousel-wrapper">
-      <div class="carousel" id="carousel">
+      <div class="carousel celebrity-carousel" id="carousel">
         <!-- slide 1 - Ye -->
         <div class="slide">
           <div class="slide-visuals">
@@ -223,10 +223,10 @@
             <div class="slide-frame"><img src="../images/editorial/ye2.png" alt="kanye west 3" height="600" width="70"></div>
           </div>
           <div class="slide-copy">
-            <div class="slide-title"><a>Ye f.k.a Kanye West</a></div>
-            <div class="slide-meta"><a>Wearing</a></div>
-            <div class="slide-product"><a href="product4.html" class="prodhref">Maison Margiela Futures</a></div>
-            <div class="slide-note"><a>During his YEEZUS tour</a></div>
+            <div class="slide-title"><a>YE F.K.A KANYE WEST</a></div>
+            <div class="slide-meta"><a>WEARING</a></div>
+            <div class="slide-product"><a href="product4.html" class="prodhref">MAISON MARGIELA FUTURES</a></div>
+            <div class="slide-note"><a>DURING HIS YEEZUS TOUR</a></div>
           </div>
         </div>
 
@@ -238,10 +238,10 @@
             <div class="slide-frame"><img src="../images/editorial/ken3.png" alt="ken carson 3" height="600" width="70"></div>
           </div>
           <div class="slide-copy">
-            <div class="slide-title"><a>Ken Carson</a></div>
-            <div class="slide-meta"><a>Wearing</a></div>
-            <div class="slide-product"><a href="product1.html" class="prodhref">Great Chaos Chain</a></div>
-            <div class="slide-note"><a>During his GREAT CHAOS tour</a></div>
+            <div class="slide-title"><a>KEN CARSON</a></div>
+            <div class="slide-meta"><a>WEARING</a></div>
+            <div class="slide-product"><a href="product1.html" class="prodhref">GREAT CHAOS CHAIN</a></div>
+            <div class="slide-note"><a>DURING HIS GREAT CHAOS TOUR</a></div>
           </div>
         </div>
 
@@ -253,10 +253,10 @@
             <div class="slide-frame"><img src="../images/editorial/ricko3.jpg" alt="rick owens 3" height="600" width="70"></div>
           </div>
           <div class="slide-copy">
-            <div class="slide-title"><a>Rick Owens</a></div>
-            <div class="slide-meta"><a>Presenting his</a></div>
-            <div class="slide-product"><a href="product3.html" class="prodhref">DRKSHDW collection</a></div>
-            <div class="slide-note"><a>During his SS20 show in Paris</a></div>
+            <div class="slide-title"><a>RICK OWENS</a></div>
+            <div class="slide-meta"><a>PRESENTING HIS</a></div>
+            <div class="slide-product"><a href="product3.html" class="prodhref">DRKSHDW COLLECTION</a></div>
+            <div class="slide-note"><a>DURING HIS SS20 SHOW IN PARIS</a></div>
           </div>
         </div>
 
@@ -264,21 +264,6 @@
       </div>
     </div>
 
-    <!-- javascript pro famous people -->
-    <script>
-      const carousel = document.getElementById('carousel');
-
-      setInterval(() => {
-        const slideWidth = carousel.clientWidth;
-        const maxScroll = carousel.scrollWidth - slideWidth;
-
-        if (carousel.scrollLeft >= maxScroll - 5) {
-          carousel.scrollLeft = 0;
-        } else {
-          carousel.scrollLeft += slideWidth;
-        }
-      }, 4000);
-    </script>
   </section>
 
   <!-- ===========================================
@@ -304,6 +289,9 @@
               data-auto-rotate
               data-rotation-speed="60%"
               data-camera-padding="1.55"
+              data-tone-exposure="1.5"
+              data-light-intensity="1.18"
+              data-env-intensity="2"
               style="pointer-events: none;"
             ></div>
           </a>
@@ -467,6 +455,8 @@
       </div>
     </div>
 
+    <h3 class="payment-delivery-title">PAYMENT & DELIVERY</h3>
+
     <!-- carousel s duveryhodnymi znaky -->
     <div class="badges-carousel-wrapper" id="badgesCarousel">
       <div class="badges-carousel-track" id="badgesTrack">
@@ -526,7 +516,11 @@
   <footer class="footer">
     <hr class="line">
     <div class="rights">
-      <p>&copy; 2026 Filip Vápeník. Všechna práva vyhrazena.</p>
+      <p>&copy; 2026 Filip Vápeník. All rights reserved.</p>
+      <p>CONTACTS</p>
+      <p>info@iczz.com</p>
+      <p>+420 123 456 789</p>
+      <p>123 Paris Street, Prague, Czech Republic</p>
     </div>
 
     <!-- socialni site -->

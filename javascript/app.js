@@ -58,6 +58,16 @@ const whenReady = () => new Promise((resolve) => onReady(resolve));
       return Number.isFinite(amount) ? amount : 1.45;
     }
 
+    function readViewerNumber(value, fallback) {
+      const amount = Number.parseFloat(value);
+      return Number.isFinite(amount) ? amount : fallback;
+    }
+
+    function readModelOffset(value) {
+      const amount = Number.parseFloat(value);
+      return Number.isFinite(amount) ? amount : 0;
+    }
+
     function fitModel(model, camera, controls, viewer) {
       const box = new THREE.Box3().setFromObject(model);
       const size = box.getSize(new THREE.Vector3());
@@ -71,6 +81,9 @@ const whenReady = () => new Promise((resolve) => onReady(resolve));
       const distance = Math.max(fitHeight, fitWidth, fitDepth, maxSize * 0.35) * readCameraPadding(viewer.dataset.cameraPadding);
 
       model.position.sub(center);
+      model.position.x += readModelOffset(viewer.dataset.modelOffsetX) * maxSize;
+      model.position.y += readModelOffset(viewer.dataset.modelOffsetY) * maxSize;
+      model.position.z += readModelOffset(viewer.dataset.modelOffsetZ) * maxSize;
       camera.near = maxSize / 100;
       camera.far = distance * 20;
       camera.position.set(distance * 0.06, distance * 0.14, distance);
@@ -114,12 +127,12 @@ const whenReady = () => new Promise((resolve) => onReady(resolve));
       });
     }
 
-    function createLights(scene) {
-      const hemi = new THREE.HemisphereLight(0xfffbf0, 0x171717, 1.45);
-      const key = new THREE.DirectionalLight(0xffffff, 3.1);
-      const rim = new THREE.DirectionalLight(0xcfe0ff, 1.6);
-      const fill = new THREE.DirectionalLight(0xffead1, 0.95);
-      const top = new THREE.DirectionalLight(0xffffff, 1.15);
+    function createLights(scene, intensity = 1) {
+      const hemi = new THREE.HemisphereLight(0xfffbf0, 0x171717, 1.45 * intensity);
+      const key = new THREE.DirectionalLight(0xffffff, 3.1 * intensity);
+      const rim = new THREE.DirectionalLight(0xcfe0ff, 1.6 * intensity);
+      const fill = new THREE.DirectionalLight(0xffead1, 0.95 * intensity);
+      const top = new THREE.DirectionalLight(0xffffff, 1.15 * intensity);
 
       key.position.set(-3.5, 5, 4.5);
       rim.position.set(4, 3, -5);
@@ -145,16 +158,18 @@ const whenReady = () => new Promise((resolve) => onReady(resolve));
       const env = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
       const prefersControls = viewer.hasAttribute('data-camera-controls');
       const autoRotate = viewer.hasAttribute('data-auto-rotate');
+      const lightIntensity = readViewerNumber(viewer.dataset.lightIntensity, 1);
+      const materialEnvIntensity = readViewerNumber(viewer.dataset.envIntensity, 1.35);
 
       scene.environment = env;
-      createLights(scene);
+      createLights(scene, lightIntensity);
 
       pmrem.dispose();
       renderer.setClearColor(0x000000, 0);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.2;
+      renderer.toneMappingExposure = readViewerNumber(viewer.dataset.toneExposure, 1.2);
       renderer.domElement.setAttribute('aria-label', viewer.dataset.modelAlt || '3D model');
       renderer.domElement.setAttribute('role', 'img');
       viewer.appendChild(renderer.domElement);
@@ -200,7 +215,7 @@ const whenReady = () => new Promise((resolve) => onReady(resolve));
             const materials = Array.isArray(child.material) ? child.material : [child.material];
             materials.filter(Boolean).forEach((material) => {
               if ('envMapIntensity' in material) {
-                material.envMapIntensity = 1.35;
+                material.envMapIntensity = materialEnvIntensity;
               }
               material.needsUpdate = true;
             });
@@ -601,8 +616,85 @@ onReady(() => {
 });
 
 // Shared navigation, search, and cart popup helpers
+let activePageScrollAnimation = null;
+
+function easeInOutCubic(progress) {
+  return progress < 0.5
+    ? 4 * progress * progress * progress
+    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+}
+
+function animateNumber({ from, to, duration = 760, onUpdate, onComplete }) {
+  const start = performance.now();
+  let frameId = 0;
+  let cancelled = false;
+
+  function step(now) {
+    if (cancelled) return;
+
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = easeInOutCubic(progress);
+
+    onUpdate(from + (to - from) * eased);
+
+    if (progress < 1) {
+      frameId = requestAnimationFrame(step);
+      return;
+    }
+
+    if (onComplete) onComplete();
+  }
+
+  frameId = requestAnimationFrame(step);
+
+  return () => {
+    cancelled = true;
+    cancelAnimationFrame(frameId);
+  };
+}
+
+function smoothScrollWindowTo(targetY, duration = 820) {
+  if (activePageScrollAnimation) {
+    activePageScrollAnimation();
+  }
+
+  const maxY = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+  const to = Math.min(Math.max(targetY, 0), maxY);
+
+  activePageScrollAnimation = animateNumber({
+    from: window.scrollY || window.pageYOffset,
+    to,
+    duration,
+    onUpdate: (value) => window.scrollTo(0, value),
+    onComplete: () => {
+      activePageScrollAnimation = null;
+    }
+  });
+}
+
+function smoothScrollElementTo(element, targetLeft, duration = 760) {
+  return animateNumber({
+    from: element.scrollLeft,
+    to: targetLeft,
+    duration,
+    onUpdate: (value) => {
+      element.scrollLeft = value;
+    }
+  });
+}
+
 window.toggleMenu = () => document.getElementById('menu')?.classList.toggle('active');
-window.scrollToSection = () => document.getElementById('uvod')?.scrollIntoView({ behavior: 'smooth' });
+window.scrollToSection = () => {
+  const target = document.getElementById('uvod');
+  if (!target) return;
+
+  const header = document.querySelector('.fixed-section');
+  const headerHeight = header ? header.getBoundingClientRect().height : 0;
+  const targetY = target.getBoundingClientRect().top + (window.scrollY || window.pageYOffset) - headerHeight - 10;
+
+  smoothScrollWindowTo(targetY);
+};
 window.toggleText = (card) => card?.classList.toggle('active');
 window.closePopup = () => {
   const popup = document.getElementById('successPopup');
@@ -808,6 +900,69 @@ onReady(() => {
       });
     });
   }
+});
+
+// Celebrity carousel. Uses transform instead of native smooth scrolling so it works consistently across PCs.
+onReady(() => {
+  const carousel = document.getElementById('carousel');
+  if (!carousel) return;
+
+  const slides = Array.from(carousel.querySelectorAll('.slide'));
+  if (slides.length <= 1) return;
+
+  let autoplayId = null;
+  let isPaused = false;
+  let activeIndex = 0;
+  const autoplayInterval = 4000;
+
+  function renderCarousel() {
+    carousel.style.transform = `translate3d(${-activeIndex * 100}%, 0, 0)`;
+    slides.forEach((slide, index) => {
+      slide.setAttribute('aria-hidden', index === activeIndex ? 'false' : 'true');
+    });
+  }
+
+  function goToNextSlide() {
+    if (isPaused) return;
+    activeIndex = (activeIndex + 1) % slides.length;
+    renderCarousel();
+  }
+
+  function startAutoplay() {
+    if (autoplayId) return;
+    autoplayId = setInterval(goToNextSlide, autoplayInterval);
+  }
+
+  function stopAutoplay() {
+    if (autoplayId) {
+      clearInterval(autoplayId);
+      autoplayId = null;
+    }
+  }
+
+  function pause() {
+    isPaused = true;
+    stopAutoplay();
+  }
+
+  function resume() {
+    isPaused = false;
+    startAutoplay();
+  }
+
+  carousel.addEventListener('mouseenter', pause);
+  carousel.addEventListener('mouseleave', resume);
+  carousel.addEventListener('focusin', pause);
+  carousel.addEventListener('focusout', resume);
+  carousel.addEventListener('touchstart', pause, { passive: true });
+  carousel.addEventListener('touchend', resume, { passive: true });
+
+  window.addEventListener('resize', () => {
+    renderCarousel();
+  });
+
+  renderCarousel();
+  startAutoplay();
 });
 
 // Homepage promo carousel
