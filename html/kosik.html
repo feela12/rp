@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ICZZ|Cart</title>
 <link rel="stylesheet" href="../css/styl.css">
-<link href='https://fonts.googleapis.com/css?family=League+Gothic|Cinzel|IBM+Plex+Mono&display=swap' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=IBM+Plex+Mono&display=swap' rel='stylesheet'>
 <script src="https://kit.fontawesome.com/649771f08a.js" crossorigin="anonymous"></script>
 <script src="../javascript/app.js" defer></script>
 </head>
@@ -28,7 +28,7 @@
         <div class="login-header">
             <div class="login-heading-group">
                 <h3>WELCOME BACK</h3>
-                <p class="review-title login-subtitle">Login to your account</p>
+                <p class="review-title login-subtitle">LOGIN TO YOUR ACCOUNT</p>
             </div>
         </div>
 
@@ -37,12 +37,12 @@
             <input type="password" placeholder="PASSWORD" class="login-input" required>
             <label class="login-remember">
                 <input type="checkbox" name="remember">
-                <span>Remember me</span>
+                <span>REMEMBER ME</span>
             </label>
             <button type="submit" class="login-submit">LOG IN</button>
         </form>
 
-        <div class="login-divider"><span>or continue with</span></div>
+        <div class="login-divider"><span>OR CONTINUE WITH</span></div>
 
         <div class="login-secondary-actions">
             <a href="#" class="login-ghost-btn">APPLE ID</a>
@@ -133,7 +133,7 @@ const productCatalog = [
   { name: 'A GREAT CHAOS CHAIN - REPLICA', price: 800, image: '../images/products/3chaos.png', url: 'product1.html' },
   { name: 'RICK OWENS SS20 BRUTALIST CHAIN', price: 1200, image: '../images/products/chain1.jpeg', url: 'product2.html' },
   { name: 'RICK OWENS DRKSHDW', price: 2500, image: '../images/products/DRK.png', url: 'product3.html' },
-  { name: 'MAISON MARGIELA FUTURE', price: 999, image: '../images/products/futures.jpg', url: 'product4.html' },
+  { name: 'MAISON MARGIELA FUTURE', price: 999, image: '../images/products/margiela1.png', url: 'product4.html' },
   { name: 'YZY WET TANK TOP', price: 20, image: '../images/products/yeezywet1.png', url: 'product5.html' },
   { name: 'XO PENDANT - THE WEEKND REPLICA', price: 500, image: '../images/products/XOprod.png', url: 'product6.html' }
 ];
@@ -163,7 +163,7 @@ function loadCart() {
   }
 
   if (!cart.length) {
-    itemsContainer.insertAdjacentHTML('beforeend', '<p class="cart-empty-message" style="text-align:center;padding:40px;font-size:20px">Your cart is empty</p>');
+    itemsContainer.insertAdjacentHTML('beforeend', '<p class="cart-empty-message" style="text-align:center;padding:40px;font-size:20px">YOUR CART IS EMPTY</p>');
     document.querySelector('.summary-price').textContent = '0 ' + euro;
     renderRecommendations(cart);
     return;
@@ -310,7 +310,11 @@ window.addEventListener('load', loadCart);
 <footer class="footer">
     <hr class="line">
     <div class="rights">
-    <p>&copy; 2026. Filip Vápeník. All rights reserved.</p>
+      <p>&copy; 2026 Filip Vápeník. All rights reserved.</p>
+      <p>CONTACTS</p>
+      <p>info@iczz.com</p>
+      <p>+420 123 456 789</p>
+      <p>123 Paris Street, Prague, Czech Republic</p>
     </div>
       <a href="#index">
         <img src="../images/logos/logogo.png" height="50px" width="65px">

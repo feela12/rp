@@ -275,6 +275,91 @@ const whenReady = () => new Promise((resolve) => onReady(resolve));
   });
 })();
 
+// Product gallery controls
+onReady(() => {
+  const productSection = document.querySelector('.producttest');
+  if (!productSection) return;
+
+  const itemSelector = '.gallery-images .gallery-model-tile, .gallery-images img';
+  let activeIndex = 0;
+
+  function getGalleryItems() {
+    return Array.from(document.querySelectorAll(itemSelector));
+  }
+
+  function getMediaType(item, explicitType) {
+    if (explicitType) return explicitType;
+    return item?.classList.contains('gallery-model-tile') ? 'model' : 'image';
+  }
+
+  function setActiveItem(item) {
+    const items = getGalleryItems();
+    const nextIndex = items.indexOf(item);
+
+    items.forEach((galleryItem, index) => {
+      const isActive = galleryItem === item;
+      galleryItem.classList.toggle('is-active', isActive);
+
+      if (galleryItem.matches('button')) {
+        galleryItem.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      }
+
+      if (isActive) {
+        activeIndex = index;
+      }
+    });
+
+    if (nextIndex >= 0) {
+      activeIndex = nextIndex;
+    }
+  }
+
+  window.showImage = (item, explicitType) => {
+    const viewer = document.getElementById('mainViewer');
+    if (!viewer || !item) return;
+
+    const previousImage = document.getElementById('mainImage');
+    if (previousImage) previousImage.remove();
+
+    setActiveItem(item);
+
+    if (getMediaType(item, explicitType) === 'model') {
+      viewer.style.display = 'block';
+      return;
+    }
+
+    viewer.style.display = 'none';
+
+    const image = document.createElement('img');
+    image.id = 'mainImage';
+    image.className = 'product-main-image';
+    image.src = item.src;
+    image.alt = item.alt || '';
+    viewer.insertAdjacentElement('beforebegin', image);
+  };
+
+  window.prevImage = () => {
+    const items = getGalleryItems();
+    if (!items.length) return;
+
+    activeIndex = (activeIndex - 1 + items.length) % items.length;
+    window.showImage(items[activeIndex]);
+  };
+
+  window.nextImage = () => {
+    const items = getGalleryItems();
+    if (!items.length) return;
+
+    activeIndex = (activeIndex + 1) % items.length;
+    window.showImage(items[activeIndex]);
+  };
+
+  const firstItem = getGalleryItems()[0];
+  if (firstItem) {
+    setActiveItem(firstItem);
+  }
+});
+
 // Product media fullscreen
 onReady(() => {
   const productSection = document.querySelector('.producttest');
