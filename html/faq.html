@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/styl.css" />
+  
+  <link href='https://fonts.googleapis.com/css?family=IBM+Plex+Mono&display=swap' rel='stylesheet'>
+
+<script src="../javascript/app.js" defer></script>
+    <title>ICZZ|FAQ</title>
+</head>
+<body>
+ <header>
+    
+  <section class="fixed-section">
+   
+     <a href="index.html">
+    <img src="../images/logos/logogo.png" class="header-logo" alt="ICZZ logo">
+     </a>
+  <a href="#popup" class="acc">
+    <img src="../images/icons/user.svg" height="50" width="55">
+</a>
+
+<div id="popup" class="popup">
+    <div class="popup-content login-popup">
+        <a href="#" class="login-close-x">&times;</a>
+        <div class="login-kicker">ICZZ MEMBERSHIP</div>
+        <div class="login-header">
+            <div class="login-heading-group">
+                <h3>WELCOME BACK</h3>
+                <p class="review-title login-subtitle">Login to your account</p>
+            </div>
+        </div>
+
+        <form class="login-form" onsubmit="event.preventDefault();">
+            <input type="email" placeholder="EMAIL ADDRESS" class="login-input" required>
+            <input type="password" placeholder="PASSWORD" class="login-input" required>
+            <label class="login-remember">
+                <input type="checkbox" name="remember">
+                <span>Remember me</span>
+            </label>
+            <button type="submit" class="login-submit">LOG IN</button>
+        </form>
+
+        <div class="login-divider"><span>or continue with</span></div>
+
+        <div class="login-secondary-actions">
+            <a href="#" class="login-ghost-btn">APPLE ID</a>
+            <a href="#" class="login-ghost-btn">GOOGLE</a>
+        </div>
+
+        <div class="login-extra">
+            <p class="review-text login-footnote">DON'T HAVE AN ACCOUNT? <a href="#">SIGN UP</a></p>
+        </div>
+    </div>
+</div>
+  <a href="kosik.html" class="kos">
+    <img src="../images/icons/kosik.svg" height="50px" width="60px">
+  </a>  
+<div class="search" id="mysearch">
+    <input type="text" class="search-input" placeholder="Search..." onclick="event.stopPropagation()">
+    <img src="../images/icons/lupa.svg" alt="Search" width="50" height="50">
+</div>
+<div class="sunmoon">
+<img id="icon" src="../images/icons/moon.svg" height="50px" width="50px" top="50px" onclick="toggleDarkMode()">
+</div>
+<script>
+  function toggleDarkMode() {
+    const icon = document.getElementById("icon");
+  
+    document.body.classList.toggle("dark");
+  
+    if (document.body.classList.contains("dark")) {
+      localStorage.setItem("mode", "dark");
+      icon.src = "../images/icons/sun.svg";
+    } else {
+      localStorage.setItem("mode", "light");
+      icon.src = "../images/icons/moon.svg";
+    }
+  }
+  
+  
+  window.onload = function () {
+    const icon = document.getElementById("icon");
+  
+    if (localStorage.getItem("mode") === "dark") {
+      document.body.classList.add("dark");
+      icon.src = "../images/icons/sun.svg";
+    } else {
+      icon.src = "../images/icons/moon.svg";
+    }
+  }
+  </script>
+</header>
+</section>
+<nav class="product-nav" aria-label="Product navigation">
+        <a href="index.html" class="back-home-link">Back to Home</a>
+    </nav>
+<p class="gnadpis">
+  FAQ
+</p>
+  <section id="uvod" class="faqtext">
+    <p class="faq1">Q: HOW CAN I CONTACT CUSTOMER SUPPORT?</p>
+    <p class="faq2">A: You can reach our customer support team by emailing info@iczz.com</p>
+    <p class="faq1">Q: WHAT IS YOUR RETURN POLICY?</p>
+    <p class="faq2">A: We offer a 30-day return policy for unused  and unworn items. Please contact our support team for assistance.</p>
+    <p class="faq1">Q: DO YOU OFFER INTERNATIONAL SHIPPING?</p>
+    <p class="faq2">A: Yes, we ship internationally. Shipping costs and delivery times may vary based on your location.</p>
+    <p class="faq1">Q: HOW CAN I TRACK MY ORDER?</p>
+    <p class="faq2">A: Once your order has been shipped, you will receive a tracking number via email. You can use this number to track your package on the carrier's website.</p>
+    <p class="faq1">Q: WHAT PAYMENT METHODS DO YOU ACCEPT?</p>
+    <p class="faq2">A: We accept major credit cards, PayPal, and Apple Pay for online purchases.</p>
+    <p class="faq1">Q: CAN I CHANGE OR CANCEL MY ORDER?</p>
+    <p class="faq2">A: If you need to change or cancel your order, please contact our customer support team as soon as possible. We will do our best to accommodate your request.</p>
+    <p class="faq1">Q: DO YOU HAVE A PHYSICAL STORE?</p>
+    <p class="faq2">A: Currently, we operate exclusively online and do not have a physical retail location.</p>
+    </section>
+<footer class="footer">
+    <hr class="line">
+    <div class="rights">
+      <p>&copy; 2026 Filip Vápeník. All rights reserved.</p>
+      <p>CONTACTS</p>
+      <p>info@iczz.com</p>
+      <p>+420 123 456 789</p>
+      <p>123 Paris Street, Prague, Czech Republic</p>
+    </div>
+      <a href="#index">
+        <img src="../images/logos/logogo.png" height="50px" width="65px">
+      </a>
+      <a href="externprklk.html">
+      <img class="inv" src="../images/logos/shopify.svg" height="50px" width="50px">
+  </a>
+    <a href="https://instagram.com">
+      <img class="inv" src="../images/icons/ig.svg" height="50px" width="50px">
+  </a>
+  <a href="https://x.com">
+    <img class="inv" src="../images/icons/x.svg" height="50px" width="50px">
+</a>
+  <a href="https://facebook.com">
+      <img class="inv" src="../images/icons/fb.svg" height="50px" width="50px">
+  </a>
+  </footer>
+    
+</body>
+</html>

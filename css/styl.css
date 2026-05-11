@@ -3536,7 +3536,12 @@ body.fullscreen-open {
   .nadpisfav{
     color: white;
   }
-  
+  .faq1{
+    color: rgb(255, 255, 255);
+  }
+  .faq2{
+    color: rgb(255, 255, 255);
+  }
 }
 
 .binb {
@@ -3596,12 +3601,11 @@ body.fullscreen-open {
 .bin{
   width: 15%;
   height:15%;
-    /* jak moc ĹˇirokĂˇ mĹŻĹľe bĂ˝t */
-     /* vycentrovĂˇnĂ­ na strĂˇnce */
+
   padding: 10px;
   margin-top:1px;
   margin-left:500px;
-  
+
   text-align:center;
   font-family:"IBM Plex Mono", monospace, bold;
   font-size:30px;
@@ -3614,8 +3618,6 @@ body.fullscreen-open {
   z-index:1000000;
 }
 
-  /* ===== Overrides: fix search overlay and cart horizontal layout ===== */
-  /* Keep search icon small so it doesn't cover header; input stays fixed under header */
   .search.move{
     width:var(--header-icon-size) !important;
     transition:width .3s !important
@@ -4355,6 +4357,36 @@ body.fullscreen-open {
     width:16px;
     height:16px;
   }
+}
+.faq{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px auto 0;
+  width: 100%;
+  margin-top: 20px;
+  font-family: "IBM Plex Mono", monospace;
+}
+.faq1{
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-weight: 700;
+  color: rgb(0, 0, 0);
+  text-decoration:underline;
+  font-family: "IBM Plex Mono", monospace, bold;
+
+}
+.faq2{
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  line-height: 1.6;
+  font-weight: 400;
+  color: rgb(0, 0, 0);
+  margin-left: 6px;
+}
+.faqtext{
+  
+  color: rgb(0, 0, 0);
+  text-align:center;
+  font-family: "IBM Plex Mono", monospace, bold;
 }
 
 

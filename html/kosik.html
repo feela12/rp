@@ -129,6 +129,7 @@
 
 <script>
 const euro = String.fromCharCode(8364);
+const CART_MAX_QUANTITY = 80;
 const productCatalog = [
   { name: 'A GREAT CHAOS CHAIN - REPLICA', price: 800, image: '../images/products/3chaos.png', url: 'product1.html' },
   { name: 'RICK OWENS SS20 BRUTALIST CHAIN', price: 1200, image: '../images/products/chain1.jpeg', url: 'product2.html' },
@@ -146,6 +147,15 @@ function getCart() {
 
 function saveCart(cart) {
   localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+function normalizeQuantity(value) {
+  const quantity = parseInt(value, 10);
+  if (Number.isNaN(quantity)) {
+    return 1;
+  }
+
+  return Math.min(CART_MAX_QUANTITY, Math.max(1, quantity));
 }
 
 function getProductUrl(product) {
@@ -171,27 +181,31 @@ function loadCart() {
 
   cart.forEach((product) => {
     const price = Number(product.price) || 0;
-    const quantity = Number(product.quantity) || 1;
+    const quantity = normalizeQuantity(product.quantity);
+    product.quantity = quantity;
     const productUrl = getProductUrl(product);
     const row = document.createElement('div');
     row.className = 'item-row';
-    row.innerHTML = `<div class="item-image"><img src="${product.image}" alt="Product"></div><section class="itemcart"><a class="cart-product-link" href="${productUrl}">${product.name}</a><p class="item-price">${price} ${euro}</p></section><div class="quantity-control"><button class="qty-btn" onclick="decQty(this)">-</button><input type="number" class="qty-input" value="${quantity}" min="1" max="999" onchange="updCart(this);updPrices()"><button class="qty-btn" onclick="incQty(this);updCart(this);updPrices()">+</button></div><div class="item-total"><p class="total-price">${price * quantity} ${euro}</p></div><button class="bin-button" onclick="remItem(this)"><img src="../images/icons/trash.svg" class="binb" alt="Remove"></button>`;
+    row.innerHTML = `<div class="item-image"><img src="${product.image}" alt="Product"></div><section class="itemcart"><a class="cart-product-link" href="${productUrl}">${product.name}</a><p class="item-price">${price} ${euro}</p></section><div class="quantity-control"><button class="qty-btn" onclick="decQty(this)">-</button><input type="number" class="qty-input" value="${quantity}" min="1" max="${CART_MAX_QUANTITY}" oninput="updCart(this);updPrices()" onchange="updCart(this);updPrices()"><button class="qty-btn" onclick="incQty(this)">+</button></div><div class="item-total"><p class="total-price">${price * quantity} ${euro}</p></div><button class="bin-button" onclick="remItem(this)"><img src="../images/icons/trash.svg" class="binb" alt="Remove"></button>`;
     itemsContainer.appendChild(row);
   });
 
+  saveCart(cart);
   updPrices();
   renderRecommendations(cart);
 }
 
 function updCart(input) {
   const row = input.closest('.item-row');
-  const quantity = parseInt(input.value, 10);
+  const quantity = normalizeQuantity(input.value);
   const cart = getCart();
   const productName = row.querySelector('.itemcart a').textContent;
   const cartItem = cart.find((item) => item.name === productName);
 
+  input.value = quantity;
+
   if (cartItem) {
-    cartItem.quantity = Math.max(1, quantity);
+    cartItem.quantity = quantity;
     saveCart(cart);
   }
 }
@@ -216,7 +230,8 @@ function remItem(button) {
 
 function incQty(button) {
   const input = button.previousElementSibling;
-  input.value = parseInt(input.value, 10) + 1;
+  input.value = normalizeQuantity(normalizeQuantity(input.value) + 1);
+  updCart(input);
   updPrices();
 }
 
@@ -238,7 +253,7 @@ function updPrices() {
 
   document.querySelectorAll('.item-row').forEach((row) => {
     const price = parseInt(row.querySelector('.item-price').textContent, 10);
-    const quantity = parseInt(row.querySelector('.qty-input').value, 10);
+    const quantity = normalizeQuantity(row.querySelector('.qty-input').value);
     const itemTotal = price * quantity;
 
     row.querySelector('.total-price').textContent = itemTotal + ' ' + euro;
@@ -258,7 +273,7 @@ function addRecommendedToCart(productName) {
   const existing = cart.find((item) => item.name === product.name);
 
   if (existing) {
-    existing.quantity += 1;
+    existing.quantity = normalizeQuantity(normalizeQuantity(existing.quantity) + 1);
   } else {
     cart.push({
       name: product.name,
@@ -332,6 +347,7 @@ window.addEventListener('load', loadCart);
       <img class="inv" src="../images/icons/fb.svg" height="50px" width="50px">
   </a>
   </footer>
+
 </body>
 </html>
 

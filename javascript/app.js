@@ -8,6 +8,16 @@ const onReady = (callback) => {
 };
 
 const whenReady = () => new Promise((resolve) => onReady(resolve));
+const APP_CART_MAX_QUANTITY = 80;
+
+function clampCartQuantity(value) {
+  const quantity = parseInt(value, 10);
+  if (Number.isNaN(quantity)) {
+    return 1;
+  }
+
+  return Math.min(APP_CART_MAX_QUANTITY, Math.max(1, quantity));
+}
 
 // 3D product viewers
 (() => {
@@ -849,7 +859,9 @@ onReady(() => {
     const freshButton = addToCartButton.cloneNode(true);
     addToCartButton.replaceWith(freshButton);
 
-    freshButton.addEventListener('click', function () {
+    freshButton.addEventListener('click', function (event) {
+      event.stopImmediatePropagation();
+
       const name = this.getAttribute('data-product-name');
       const price = this.getAttribute('data-product-price');
       const imageSrc = this.getAttribute('data-product-image');
@@ -857,7 +869,7 @@ onReady(() => {
       const existing = cart.find((item) => item.name === name);
 
       if (existing) {
-        existing.quantity += 1;
+        existing.quantity = clampCartQuantity(clampCartQuantity(existing.quantity) + 1);
       } else {
         cart.push({
           name,
@@ -870,7 +882,7 @@ onReady(() => {
 
       localStorage.setItem('cart', JSON.stringify(cart));
       showPopup();
-    });
+    }, true);
   }
 
   if (search && input) {
