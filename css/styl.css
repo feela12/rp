@@ -4385,8 +4385,282 @@ body.fullscreen-open {
 .faqtext{
   
   color: rgb(0, 0, 0);
-  text-align:center;
+  display:grid;
+  gap:24px;
+  max-width:1060px;
+  margin:44px auto 96px;
+  padding:0 clamp(16px, 4vw, 42px);
+  text-align:left;
   font-family: "IBM Plex Mono", monospace, bold;
+}
+
+.faq-card{
+  position:relative;
+  display:grid;
+  gap:8px;
+  isolation:isolate;
+}
+
+.faq-card .faq1,
+.faq-card .faq2{
+  margin:0;
+  font-family:"IBM Plex Mono", monospace;
+  overflow-wrap:anywhere;
+  position:relative;
+  z-index:1;
+}
+
+.faq-card .faq1{
+  justify-self:end;
+  width:fit-content;
+  max-width:100%;
+  padding:17px clamp(18px, 3vw, 28px);
+  border:1px solid #000;
+  border-radius:28px 28px 8px 28px;
+  background:#050505;
+  color:#fff;
+  box-shadow:0 14px 28px rgba(0,0,0,0.14);
+  text-decoration:none;
+  font-size:clamp(1rem, 1.9vw, 1.42rem);
+  line-height:1.25;
+  letter-spacing:0.01em;
+  transition:transform 180ms ease, box-shadow 180ms ease;
+}
+
+.faq-card .faq2{
+  justify-self:start;
+  max-width:920px;
+  margin-left:0;
+  margin-right:clamp(18px, 6vw, 72px);
+  padding:18px clamp(18px, 3vw, 30px);
+  border:1px solid rgba(0,0,0,0.14);
+  border-radius:28px 8px 28px 28px;
+  background:
+    linear-gradient(135deg, rgba(0,0,0,0.045), rgba(0,0,0,0) 42%),
+    #fff;
+  color:rgba(0,0,0,0.76);
+  box-shadow:0 14px 34px rgba(0,0,0,0.07);
+  font-size:clamp(0.9rem, 1.25vw, 1.08rem);
+  line-height:1.65;
+}
+
+.faq-card:hover .faq1{
+  transform:translateY(-3px);
+  box-shadow:0 18px 34px rgba(0,0,0,0.18);
+}
+
+.dark .faqtext{
+  color:#fff;
+}
+
+.dark .faq-card .faq1{
+  border-color:rgba(255,255,255,0.88);
+  background:#fff;
+  color:#000;
+  box-shadow:0 16px 34px rgba(0,0,0,0.42);
+}
+
+.dark .faq-card .faq2{
+  border-color:rgba(255,255,255,0.18);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.09), rgba(255,255,255,0) 42%),
+    #070707;
+  color:rgba(255,255,255,0.78);
+  box-shadow:0 16px 34px rgba(0,0,0,0.36);
+}
+
+@media (max-width: 640px){
+  .faqtext{
+    gap:20px;
+    margin-top:32px;
+    margin-bottom:64px;
+  }
+
+  .faq-card .faq1,
+  .faq-card .faq2{
+    width:100%;
+  }
+
+  .faq-card .faq2{
+    margin-left:0;
+    margin-right:0;
+  }
+}
+
+.scroll-reveal{
+  opacity:0;
+  transform:translateY(56px);
+  transition:opacity 700ms ease, transform 700ms ease;
+  will-change:opacity, transform;
+}
+
+.scroll-reveal.is-visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .scroll-reveal{
+    opacity:1;
+    transform:none;
+    transition:none;
+  }
+}
+
+/* Fresh shared footer */
+.footer{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:end;
+  justify-content:flex-end;
+  gap:20px 12px;
+  max-width:1180px;
+  margin:80px auto 0;
+  padding:34px clamp(18px, 4vw, 44px) 38px;
+  border:1px solid rgba(0,0,0,0.16);
+  border-radius:8px 8px 0 0;
+  background:
+    linear-gradient(135deg, rgba(0,0,0,0.045), rgba(0,0,0,0) 38%),
+    #fff;
+  box-shadow:0 -18px 45px rgba(0,0,0,0.06);
+  text-align:left;
+}
+
+.footer .line{
+  flex:0 0 100%;
+  width:100%;
+  margin:0;
+  border:0;
+  border-top:1px solid rgba(0,0,0,0.18);
+}
+
+.footer .rights{
+  display:grid;
+  flex:1 1 360px;
+  gap:7px;
+  margin:0;
+  white-space:normal;
+  line-height:1.45;
+  text-transform:uppercase;
+}
+
+.footer .rights p{
+  color:#111;
+}
+
+.footer .rights p:first-child{
+  font-size:clamp(0.86rem, 1.4vw, 1rem);
+}
+
+.footer .rights p:nth-child(2){
+  width:max-content;
+  margin:6px 0 2px;
+  padding:5px 9px;
+  border:1px solid rgba(0,0,0,0.18);
+  border-radius:999px;
+  font-size:0.72rem;
+  letter-spacing:0.08em;
+}
+
+.footer .rights p:not(:first-child):not(:nth-child(2)){
+  color:rgba(0,0,0,0.68);
+  font-size:clamp(0.78rem, 1.2vw, 0.92rem);
+}
+
+.footer > a{
+  flex:0 0 auto;
+  display:inline-grid;
+  place-items:center;
+  width:48px;
+  height:48px;
+  margin:0;
+  border:1px solid rgba(0,0,0,0.16);
+  border-radius:999px;
+  background:rgba(255,255,255,0.74);
+  transition:transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
+  vertical-align:bottom;
+}
+
+.footer > a:first-of-type{
+  width:66px;
+  border-radius:8px;
+  background:#fff;
+}
+
+.footer > a:hover{
+  transform:translateY(-4px);
+  border-color:#000;
+  background:#f2f2f2;
+}
+
+.footer > a:first-of-type:hover{
+  background:#f2f2f2;
+}
+
+.footer a img{
+  width:24px;
+  height:24px;
+  object-fit:contain;
+}
+
+.footer > a:first-of-type img{
+  width:50px;
+  height:auto;
+  filter:none;
+}
+
+.dark .footer{
+  border-color:rgba(255,255,255,0.18);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.09), rgba(255,255,255,0) 42%),
+    #050505;
+  box-shadow:0 -18px 45px rgba(0,0,0,0.4);
+}
+
+.dark .footer .line{
+  border-top-color:rgba(255,255,255,0.24);
+}
+
+.dark .footer .rights p{
+  color:#fff;
+}
+
+.dark .footer .rights p:nth-child(2){
+  border-color:rgba(255,255,255,0.28);
+}
+
+.dark .footer .rights p:not(:first-child):not(:nth-child(2)){
+  color:rgba(255,255,255,0.68);
+}
+
+.dark .footer > a{
+  border-color:rgba(255,255,255,0.2);
+  background:rgba(255,255,255,0.08);
+}
+
+.dark .footer > a:first-of-type{
+  background:#fff;
+}
+
+.dark .footer > a:hover{
+  border-color:#fff;
+  background:rgba(255,255,255,0.16);
+}
+
+@media (max-width: 720px){
+  .footer{
+    justify-content:center;
+    text-align:center;
+    margin-top:56px;
+  }
+
+  .footer .rights{
+    justify-items:center;
+  }
+
+  .footer > a{
+    margin:0 4px;
+  }
 }
 
 
