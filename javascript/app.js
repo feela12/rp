@@ -47,11 +47,78 @@ function clampCartQuantity(value) {
 // 3D product viewers
 (() => {
   const readyEventName = 'iczz-three-ready';
+  const modelViewerSelector = '.three-model[data-model-src]';
+
+  function browserHasWebGL() {
+    try {
+      const canvas = document.createElement('canvas');
+      return Boolean(
+        window.WebGLRenderingContext
+        && (canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
+      );
+    } catch (error) {
+      return false;
+    }
+  }
+
+  function isLowPowerDevice() {
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const memory = Number(navigator.deviceMemory) || 0;
+    const cores = Number(navigator.hardwareConcurrency) || 0;
+    const wantsLessMotion = window.matchMedia
+      && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    return Boolean(
+      wantsLessMotion
+      || (connection && connection.saveData)
+      || (memory && memory <= 4)
+      || (cores && cores <= 4)
+    );
+  }
+
+  function shouldUseLowQuality(viewer) {
+    if (viewer.hasAttribute('data-high-quality')) return false;
+    return true;
+  }
+
+  function getModelSource(viewer, lowQuality) {
+    if (!viewer) return '';
+    return lowQuality && viewer.dataset.modelLowSrc
+      ? viewer.dataset.modelLowSrc
+      : viewer.dataset.modelSrc;
+  }
+
+  function showModelFallback(viewer, message = '3D model unavailable') {
+    if (!viewer) return;
+
+    viewer.classList.remove('three-model--loaded');
+    viewer.classList.add('three-model--error');
+    viewer.innerHTML = '';
+
+    if (viewer.dataset.fallbackSrc) {
+      const image = document.createElement('img');
+      image.className = 'three-model__fallback-image';
+      image.src = viewer.dataset.fallbackSrc;
+      image.alt = viewer.dataset.modelAlt || '';
+      viewer.appendChild(image);
+      return;
+    }
+
+    viewer.textContent = message;
+  }
 
   (async () => {
     await whenReady();
 
-    if (!document.querySelector('.three-model[data-model-src]')) {
+    if (!document.querySelector(modelViewerSelector)) {
+      window.dispatchEvent(new Event(readyEventName));
+      return;
+    }
+
+    if (!browserHasWebGL()) {
+      document.querySelectorAll(modelViewerSelector).forEach((viewer) => {
+        showModelFallback(viewer);
+      });
       window.dispatchEvent(new Event(readyEventName));
       return;
     }
@@ -103,6 +170,14 @@ function clampCartQuantity(value) {
       return Number.isFinite(amount) ? amount : 0;
     }
 
+    function readRenderScale(value, lowQuality) {
+      const fallback = lowQuality ? 0.62 : 1;
+      const amount = Number.parseFloat(value);
+
+      if (!Number.isFinite(amount)) return fallback;
+      return Math.min(1, Math.max(0.18, amount));
+    }
+
     function fitModel(model, camera, controls, viewer) {
       const box = new THREE.Box3().setFromObject(model);
       const size = box.getSize(new THREE.Vector3());
@@ -133,22 +208,38 @@ function clampCartQuantity(value) {
       if (!instance) return;
 
       activeViewers.delete(instance);
-      instance.resizeObserver.disconnect();
+      if (instance.resizeObserver) {
+        instance.resizeObserver.disconnect();
+      }
+      if (instance.removeResizeListener) {
+        instance.removeResizeListener();
+      }
       instance.controls.dispose();
       if (instance.model) {
         disposeObject(instance.model);
       }
-      instance.environment.dispose();
+      if (instance.environment) {
+        instance.environment.dispose();
+      }
       instance.renderer.dispose();
       viewer.innerHTML = '';
       mounted.delete(viewer);
     }
 
     function disposeMaterial(material) {
-      Object.values(material).forEach((value) => {
-        if (value?.isTexture) value.dispose();
+      Object.keys(material).forEach((key) => {
+        const value = material[key];
+        if (value && value.isTexture) value.dispose();
       });
       material.dispose();
+    }
+
+    function pixelateTexture(texture) {
+      if (!texture || !texture.isTexture) return;
+
+      texture.magFilter = THREE.NearestFilter;
+      texture.minFilter = THREE.NearestMipmapNearestFilter;
+      texture.needsUpdate = true;
     }
 
     function disposeObject(object) {
@@ -177,7 +268,10 @@ function clampCartQuantity(value) {
     }
 
     function mountThreeModel(viewer) {
-      const src = viewer?.dataset.modelSrc;
+      if (!viewer) return null;
+
+      const lowQuality = shouldUseLowQuality(viewer);
+      const src = getModelSource(viewer, lowQuality);
       if (!src) return null;
 
       disposeViewer(viewer);
@@ -187,7 +281,11 @@ function clampCartQuantity(value) {
 
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(35, 1, 0.01, 1000);
-      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+      const renderer = new THREE.WebGLRenderer({
+        antialias: !lowQuality,
+        alpha: true,
+        powerPreference: lowQuality ? 'low-power' : 'high-performance'
+      });
       const controls = new OrbitControls(camera, renderer.domElement);
       const pmrem = new THREE.PMREMGenerator(renderer);
       const env = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
@@ -195,13 +293,14 @@ function clampCartQuantity(value) {
       const autoRotate = viewer.hasAttribute('data-auto-rotate');
       const lightIntensity = readViewerNumber(viewer.dataset.lightIntensity, 1);
       const materialEnvIntensity = readViewerNumber(viewer.dataset.envIntensity, 1.35);
+      const renderScale = readRenderScale(viewer.dataset.renderScale, lowQuality);
 
       scene.environment = env;
       createLights(scene, lightIntensity);
 
       pmrem.dispose();
       renderer.setClearColor(0x000000, 0);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setPixelRatio(lowQuality ? 1 : Math.min(window.devicePixelRatio || 1, 2));
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = readViewerNumber(viewer.dataset.toneExposure, 1.2);
@@ -224,19 +323,34 @@ function clampCartQuantity(value) {
         model: null,
         autoRotate,
         rotationSpeed: readRotationSpeed(viewer.dataset.rotationSpeed),
-        resizeObserver: new ResizeObserver(resize)
+        renderScale,
+        resizeObserver: null,
+        removeResizeListener: null
       };
 
       function resize() {
         const rect = viewer.getBoundingClientRect();
         const width = Math.max(1, Math.round(rect.width));
         const height = Math.max(1, Math.round(rect.height));
-        renderer.setSize(width, height, false);
+        const renderWidth = Math.max(1, Math.round(width * instance.renderScale));
+        const renderHeight = Math.max(1, Math.round(height * instance.renderScale));
+
+        renderer.setSize(renderWidth, renderHeight, false);
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
       }
 
-      instance.resizeObserver.observe(viewer);
+      if ('ResizeObserver' in window) {
+        instance.resizeObserver = new ResizeObserver(resize);
+        instance.resizeObserver.observe(viewer);
+      } else {
+        const handleWindowResize = () => resize();
+        window.addEventListener('resize', handleWindowResize);
+        instance.removeResizeListener = () => {
+          window.removeEventListener('resize', handleWindowResize);
+        };
+      }
+
       mounted.set(viewer, instance);
       activeViewers.add(instance);
       resize();
@@ -252,6 +366,19 @@ function clampCartQuantity(value) {
               if ('envMapIntensity' in material) {
                 material.envMapIntensity = materialEnvIntensity;
               }
+              if (lowQuality && 'flatShading' in material) {
+                material.flatShading = true;
+              }
+              if (lowQuality) {
+                [
+                  material.map,
+                  material.normalMap,
+                  material.roughnessMap,
+                  material.metalnessMap,
+                  material.emissiveMap,
+                  material.aoMap
+                ].forEach(pixelateTexture);
+              }
               material.needsUpdate = true;
             });
           }
@@ -260,8 +387,8 @@ function clampCartQuantity(value) {
         fitModel(instance.model, camera, controls, viewer);
         viewer.classList.add('three-model--loaded');
       }, undefined, () => {
-        viewer.classList.add('three-model--error');
-        viewer.textContent = '3D model unavailable';
+        disposeViewer(viewer);
+        showModelFallback(viewer);
       });
 
       return instance;
@@ -288,7 +415,7 @@ function clampCartQuantity(value) {
     }
 
     function mountAll() {
-      document.querySelectorAll('.three-model[data-model-src]').forEach(mountThreeModel);
+      document.querySelectorAll(modelViewerSelector).forEach(mountThreeModel);
     }
 
     window.ICZZThreeModels = {
@@ -302,9 +429,8 @@ function clampCartQuantity(value) {
     window.dispatchEvent(new Event(readyEventName));
     animate();
   })().catch(() => {
-    document.querySelectorAll('.three-model[data-model-src]').forEach((viewer) => {
-      viewer.classList.add('three-model--error');
-      viewer.textContent = '3D model unavailable';
+    document.querySelectorAll(modelViewerSelector).forEach((viewer) => {
+      showModelFallback(viewer);
     });
     window.dispatchEvent(new Event(readyEventName));
   });
@@ -324,7 +450,7 @@ onReady(() => {
 
   function getMediaType(item, explicitType) {
     if (explicitType) return explicitType;
-    return item?.classList.contains('gallery-model-tile') ? 'model' : 'image';
+    return item && item.classList.contains('gallery-model-tile') ? 'model' : 'image';
   }
 
   function setActiveItem(item) {
@@ -416,8 +542,8 @@ onReady(() => {
   let activeMedia = null;
 
   function disposeMedia(node) {
-    if (node?.classList.contains('three-model')) {
-      window.ICZZThreeModels?.dispose(node);
+    if (node && node.classList.contains('three-model') && window.ICZZThreeModels) {
+      window.ICZZThreeModels.dispose(node);
     }
   }
 
@@ -455,7 +581,9 @@ onReady(() => {
       } else {
         window.addEventListener('iczz-three-ready', () => {
           if (document.body.contains(modelNode)) {
-            window.ICZZThreeModels?.mount(modelNode);
+            if (window.ICZZThreeModels) {
+              window.ICZZThreeModels.mount(modelNode);
+            }
           }
         }, { once: true });
       }
@@ -804,7 +932,10 @@ function smoothScrollElementTo(element, targetLeft, duration = 760) {
   });
 }
 
-window.toggleMenu = () => document.getElementById('menu')?.classList.toggle('active');
+window.toggleMenu = () => {
+  const menu = document.getElementById('menu');
+  if (menu) menu.classList.toggle('active');
+};
 window.scrollToSection = () => {
   const target = document.getElementById('uvod');
   if (!target) return;
@@ -815,7 +946,9 @@ window.scrollToSection = () => {
 
   smoothScrollWindowTo(targetY);
 };
-window.toggleText = (card) => card?.classList.toggle('active');
+window.toggleText = (card) => {
+  if (card) card.classList.toggle('active');
+};
 window.closePopup = () => {
   const popup = document.getElementById('successPopup');
   if (popup) popup.classList.remove('show');
