@@ -170,6 +170,13 @@ function clampCartQuantity(value) {
       return Number.isFinite(amount) ? amount : 0;
     }
 
+    function readHexColor(value, fallback) {
+      if (!value) return fallback;
+      const normalized = value.trim().replace('#', '');
+      if (!/^[0-9a-f]{6}$/i.test(normalized)) return fallback;
+      return Number.parseInt(normalized, 16);
+    }
+
     function readRenderScale(value, lowQuality) {
       const fallback = lowQuality ? 0.62 : 1;
       const amount = Number.parseFloat(value);
@@ -267,6 +274,39 @@ function clampCartQuantity(value) {
       scene.add(hemi, key, rim, fill, top);
     }
 
+    function createJewelryLights(scene, intensity = 1) {
+      const sparkleLeft = new THREE.PointLight(0xffffff, 3.2 * intensity, 9);
+      const sparkleRight = new THREE.PointLight(0xdce9ff, 2.7 * intensity, 9);
+      const frontGlow = new THREE.PointLight(0xfff7e8, 2.4 * intensity, 8);
+
+      sparkleLeft.position.set(-2.4, 2.6, 3.2);
+      sparkleRight.position.set(2.6, 1.7, 2.4);
+      frontGlow.position.set(0, -1.4, 4);
+      scene.add(sparkleLeft, sparkleRight, frontGlow);
+    }
+
+    function polishMetalMaterial(material, viewer, materialEnvIntensity) {
+      if (!viewer.hasAttribute('data-polished-silver')) return;
+
+      const silver = readHexColor(viewer.dataset.metalColor, 0xd8dde2);
+      const roughness = readViewerNumber(viewer.dataset.metalRoughness, 0.08);
+      const envIntensity = readViewerNumber(viewer.dataset.envIntensity, Math.max(materialEnvIntensity, 4.2));
+
+      material.color = material.color || new THREE.Color();
+      material.color.setHex(silver);
+      material.map = null;
+      material.metalnessMap = null;
+      material.roughnessMap = null;
+      material.emissiveMap = null;
+      material.aoMap = null;
+
+      if ('metalness' in material) material.metalness = 1;
+      if ('roughness' in material) material.roughness = roughness;
+      if ('envMapIntensity' in material) material.envMapIntensity = envIntensity;
+      if ('clearcoat' in material) material.clearcoat = 1;
+      if ('clearcoatRoughness' in material) material.clearcoatRoughness = 0.04;
+    }
+
     function mountThreeModel(viewer) {
       if (!viewer) return null;
 
@@ -297,6 +337,9 @@ function clampCartQuantity(value) {
 
       scene.environment = env;
       createLights(scene, lightIntensity);
+      if (viewer.hasAttribute('data-jewelry-lighting')) {
+        createJewelryLights(scene, lightIntensity);
+      }
 
       pmrem.dispose();
       renderer.setClearColor(0x000000, 0);
@@ -366,6 +409,7 @@ function clampCartQuantity(value) {
               if ('envMapIntensity' in material) {
                 material.envMapIntensity = materialEnvIntensity;
               }
+              polishMetalMaterial(material, viewer, materialEnvIntensity);
               if (lowQuality && 'flatShading' in material) {
                 material.flatShading = true;
               }

@@ -4719,6 +4719,64 @@ body.fullscreen-open {
   background:rgba(255,255,255,0.16);
 }
 
+#addToCartBtn,
+.product-right #addToCartBtn{
+  position:relative;
+  overflow:hidden;
+  border:1px solid rgba(0,0,0,0.18);
+  background:
+    linear-gradient(135deg, rgba(0,0,0,0.08), rgba(0,0,0,0) 38%),
+    #fff;
+  color:#000;
+  box-shadow:0 14px 34px rgba(0,0,0,0.16);
+  transition:transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+#addToCartBtn::before,
+.product-right #addToCartBtn::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg, rgba(0,0,0,0.1), rgba(0,0,0,0) 42%);
+  opacity:0;
+  transition:opacity 180ms ease;
+  pointer-events:none;
+}
+
+#addToCartBtn:hover,
+.product-right #addToCartBtn:hover{
+  transform:translateY(-3px);
+  border-color:#000;
+  background:
+    linear-gradient(135deg, rgba(0,0,0,0.11), rgba(0,0,0,0) 42%),
+    #f2f2f2;
+  box-shadow:0 18px 42px rgba(0,0,0,0.22);
+}
+
+#addToCartBtn:hover::before,
+.product-right #addToCartBtn:hover::before{
+  opacity:1;
+}
+
+.dark #addToCartBtn,
+.dark .product-right #addToCartBtn{
+  border-color:rgba(255,255,255,0.2);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0) 42%),
+    #050505;
+  color:#fff;
+  box-shadow:0 14px 34px rgba(0,0,0,0.4);
+}
+
+.dark #addToCartBtn:hover,
+.dark .product-right #addToCartBtn:hover{
+  border-color:#fff;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.26), rgba(255,255,255,0) 44%),
+    #0d0d0d;
+  box-shadow:0 18px 44px rgba(255,255,255,0.08), 0 18px 44px rgba(0,0,0,0.5);
+}
+
 @media (max-width: 720px){
   .footer{
     justify-content:center;
