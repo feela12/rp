@@ -11,6 +11,11 @@ const whenReady = () => new Promise((resolve) => onReady(resolve));
 const APP_CART_MAX_QUANTITY = 80;
 
 onReady(() => {
+  document.querySelectorAll('#uvod .image-gallery > .image-card').forEach((item, index) => {
+    item.classList.add('scroll-reveal', 'high-demand-reveal');
+    item.style.setProperty('--reveal-delay', `${index * 140}ms`);
+  });
+
   const revealItems = document.querySelectorAll('.scroll-reveal');
 
   if (!revealItems.length) return;
@@ -25,6 +30,13 @@ onReady(() => {
       if (!entry.isIntersecting) return;
 
       entry.target.classList.add('is-visible');
+      if (entry.target.classList.contains('high-demand-reveal')) {
+        const delayValue = entry.target.style.getPropertyValue('--reveal-delay');
+        const delay = delayValue.endsWith('ms') ? Number.parseFloat(delayValue) : 0;
+        window.setTimeout(() => {
+          entry.target.style.removeProperty('--reveal-delay');
+        }, 900 + (Number.isFinite(delay) ? delay : 0));
+      }
       observer.unobserve(entry.target);
     });
   }, {
@@ -1027,35 +1039,153 @@ onReady(() => {
   const addToCartButton = document.getElementById('addToCartBtn');
   const accountTriggers = document.querySelectorAll('.acc[href="#popup"]');
   const accountPopups = document.querySelectorAll('.popup');
+  let lastAccountTrigger = null;
+
+  function closeSearchPanel() {
+    if (search) search.classList.remove('move');
+    document.querySelectorAll('.search-panel.open').forEach((panel) => {
+      panel.classList.remove('open');
+    });
+    if (input && document.activeElement === input) {
+      input.blur();
+    }
+  }
+
+  function clearPopupHash() {
+    if (window.location.hash !== '#popup') return;
+
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      return;
+    }
+
+    window.location.hash = '';
+  }
+
+  function setAccountPopupState(popup, isOpen) {
+    popup.classList.toggle('show-account-popup', isOpen);
+    popup.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+  }
+
+  function getOpenAccountPopup() {
+    return Array.from(accountPopups).find((popup) => (
+      popup.classList.contains('show-account-popup')
+      || (popup.id && window.location.hash === `#${popup.id}`)
+    ));
+  }
+
+  function openAccountPopup(popup, trigger) {
+    if (!popup) return;
+
+    closeSearchPanel();
+    lastAccountTrigger = trigger || document.activeElement;
+    accountPopups.forEach((accountPopup) => {
+      setAccountPopupState(accountPopup, accountPopup === popup);
+    });
+    document.body.classList.add('account-popup-open');
+
+    const focusFirstField = () => {
+      const firstField = popup.querySelector('input[type="email"], .login-input, input, button, a[href]');
+      if (firstField) firstField.focus({ preventScroll: true });
+    };
+
+    window.requestAnimationFrame(focusFirstField);
+    window.setTimeout(focusFirstField, 80);
+  }
+
+  function closeAccountPopup() {
+    accountPopups.forEach((popup) => {
+      setAccountPopupState(popup, false);
+    });
+    document.body.classList.remove('account-popup-open');
+    clearPopupHash();
+
+    if (lastAccountTrigger && document.contains(lastAccountTrigger)) {
+      lastAccountTrigger.focus({ preventScroll: true });
+    }
+  }
+
+  function normalizeCloseButton(closeButton) {
+    closeButton.classList.add('login-close-x');
+    closeButton.textContent = 'EXIT';
+    closeButton.setAttribute('aria-label', 'Close login popup');
+
+    if (closeButton.tagName.toLowerCase() === 'button') {
+      closeButton.type = 'button';
+    }
+
+    return closeButton;
+  }
+
+  function prepareLoginForm(popup) {
+    const emailInput = popup.querySelector('input[type="email"]');
+    const passwordInput = popup.querySelector('input[type="password"]');
+
+    popup.setAttribute('role', 'dialog');
+    popup.setAttribute('aria-modal', 'true');
+    popup.setAttribute('aria-hidden', popup.classList.contains('show-account-popup') ? 'false' : 'true');
+
+    if (emailInput) {
+      emailInput.name = emailInput.name || 'email';
+      emailInput.autocomplete = 'email';
+      emailInput.inputMode = 'email';
+      emailInput.setAttribute('aria-label', 'Email address');
+    }
+
+    if (passwordInput) {
+      passwordInput.name = passwordInput.name || 'password';
+      passwordInput.autocomplete = 'current-password';
+      passwordInput.setAttribute('aria-label', 'Password');
+    }
+  }
 
   accountPopups.forEach((popup) => {
     document.body.appendChild(popup);
+    prepareLoginForm(popup);
 
     popup.addEventListener('click', (event) => {
       if (event.target === popup) {
-        popup.classList.remove('show-account-popup');
-        window.location.hash = '';
+        closeAccountPopup();
       }
     });
 
-    popup.querySelectorAll('.close, .login-close-x').forEach((closeButton) => {
-      closeButton.addEventListener('click', (event) => {
+    popup.querySelectorAll('.login-close-x, .close').forEach((closeButton) => {
+      const button = normalizeCloseButton(closeButton);
+
+      button.addEventListener('click', (event) => {
         event.preventDefault();
-        popup.classList.remove('show-account-popup');
-        window.location.hash = '';
+        event.stopPropagation();
+        closeAccountPopup();
       });
     });
   });
 
+  document.addEventListener('click', (event) => {
+    const closeButton = event.target.closest('.popup .close, .popup .login-close-x');
+    if (!closeButton) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    closeAccountPopup();
+  }, true);
+
   accountTriggers.forEach((trigger) => {
     trigger.addEventListener('click', (event) => {
       event.preventDefault();
-      const popup = document.getElementById('popup');
-      if (popup) {
-        popup.classList.add('show-account-popup');
-      }
+      openAccountPopup(document.getElementById('popup'), trigger);
     });
   });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && getOpenAccountPopup()) {
+      event.preventDefault();
+      closeAccountPopup();
+    }
+  });
+
+  if (window.location.hash === '#popup') {
+    openAccountPopup(document.getElementById('popup'));
+  }
 
   if (addToCartButton) {
     const freshButton = addToCartButton.cloneNode(true);

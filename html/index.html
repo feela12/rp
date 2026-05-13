@@ -45,7 +45,7 @@
       <!-- popup okno for prihlaseni -->
       <div id="popup" class="popup">
         <div class="popup-content login-popup">
-          <a href="#" class="login-close-x">&times;</a>
+          <a href="#" class="login-close-x" aria-label="Close login popup">EXIT</a>
           <div class="login-kicker">ICZZ MEMBERSHIP</div>
           <div class="login-header">
             <div class="login-heading-group">
@@ -492,7 +492,7 @@
           <img src="../images/logos/shopify.svg" alt="Shopify" height="80px" width="80px">
         </div>
         <div class="badge-item">
-          <img src="../images/logos/stripe.svg" alt="Stripe" class="badge-logo-stripe" height="80px" width="80px">
+          <img src="../images/logos/stripe-ar21.svg" alt="Stripe" class="badge-logo-stripe" height="80px" width="80px">
         </div>
         <div class="badge-item">
           <img src="../images/logos/dhl.png" alt="DHL" height="80px" width="80px">
@@ -517,25 +517,58 @@
 
     <!-- javascript pro carousel ikon -->
     <script>
-      // nekonecny scroll carouselu s ikonami
       const badgesTrack = document.getElementById('badgesTrack');
-      if (badgesTrack) {
-        const badges = Array.from(badgesTrack.children);
-        const badgeWidth = badges[0].offsetWidth + 30; // sirka + mezera
+      if (badgesTrack && !badgesTrack.dataset.loopReady) {
+        const badges = Array.from(badgesTrack.children).filter((badge) => badge.classList.contains('badge-item'));
 
-        // duplikace ikon pro plynuly cyklus
-        badges.forEach(badge => {
-          const clone = badge.cloneNode(true);
-          badgesTrack.appendChild(clone);
-        });
+        if (badges.length) {
+          const createGroup = (items, isDuplicate = false) => {
+            const group = document.createElement('div');
+            group.className = 'badges-carousel-group';
 
-        // reset animace po dokonceni cyklu
-        badgesTrack.addEventListener('animationiteration', () => {
-          badgesTrack.style.animation = 'none';
-          setTimeout(() => {
-            badgesTrack.style.animation = 'scrollBadges 20s linear infinite';
-          }, 10);
-        });
+            if (isDuplicate) {
+              group.setAttribute('aria-hidden', 'true');
+            }
+
+            items.forEach((badge) => {
+              group.appendChild(isDuplicate ? badge.cloneNode(true) : badge);
+            });
+
+            return group;
+          };
+
+          const wrapper = document.getElementById('badgesCarousel');
+          const visibleWidth = wrapper ? wrapper.getBoundingClientRect().width : badgesTrack.getBoundingClientRect().width;
+          const firstGroupItems = [...badges];
+          const badgeWidth = badges[0].getBoundingClientRect().width || 120;
+          const estimatedGap = 30;
+          const targetWidth = visibleWidth + badgeWidth + estimatedGap;
+
+          while (firstGroupItems.length * (badgeWidth + estimatedGap) < targetWidth) {
+            firstGroupItems.push(...badges.map((badge) => badge.cloneNode(true)));
+          }
+
+          const firstGroup = createGroup(firstGroupItems);
+          const duplicateGroup = createGroup(firstGroupItems, true);
+
+          badgesTrack.textContent = '';
+          badgesTrack.append(firstGroup, duplicateGroup);
+          badgesTrack.dataset.loopReady = 'true';
+
+          const updateBadgeLoop = () => {
+            const trackStyles = window.getComputedStyle(badgesTrack);
+            const trackGap = Number.parseFloat(trackStyles.columnGap || trackStyles.gap) || 0;
+            const distance = firstGroup.getBoundingClientRect().width + trackGap;
+
+            badgesTrack.style.setProperty('--badges-scroll-distance', `${distance}px`);
+            badgesTrack.style.setProperty('--badge-scroll-duration', `${Math.max(60, distance / 24)}s`);
+            badgesTrack.classList.add('is-ready');
+          };
+
+          updateBadgeLoop();
+          window.addEventListener('load', updateBadgeLoop, { once: true });
+          window.addEventListener('resize', updateBadgeLoop);
+        }
       }
     </script>
   </section>
@@ -547,6 +580,7 @@
     <hr class="line">
     <div class="rights">
       <p>&copy; 2026 Filip Vápeník. All rights reserved.</p>
+      <p class="footer-disclaimer">SHOWCASE PROJECT ONLY - PRODUCTS CANNOT BE PURCHASED HERE.</p>
       <p>CONTACTS</p>
       <p>info@iczz.com</p>
       <p>+420 123 456 789</p>
