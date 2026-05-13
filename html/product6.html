@@ -70,35 +70,8 @@
     <img src="../images/icons/lupa.svg" alt="Search" width="50" height="50">
 </div>
 <div class="sunmoon">
-<img id="icon" src="../images/icons/moon.svg" height="50px" width="50px" top="50px" onclick="toggleDarkMode()">
+<img id="icon" src="../images/icons/moon.svg" height="50px" width="50px" top="50px">
 </div>
-<script>
-  function toggleDarkMode() {
-    const icon = document.getElementById("icon");
-  
-    document.body.classList.toggle("dark");
-  
-    if (document.body.classList.contains("dark")) {
-      localStorage.setItem("mode", "dark");
-      icon.src = "../images/icons/sun.svg";
-    } else {
-      localStorage.setItem("mode", "light");
-      icon.src = "../images/icons/moon.svg";
-    }
-  }
-  
-  
-  window.onload = function () {
-    const icon = document.getElementById("icon");
-  
-    if (localStorage.getItem("mode") === "dark") {
-      document.body.classList.add("dark");
-      icon.src = "../images/icons/sun.svg";
-    } else {
-      icon.src = "../images/icons/moon.svg";
-    }
-  }
-  </script>
 </header>
 </section>
 <section class="producttest">

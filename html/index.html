@@ -90,28 +90,8 @@
 
       <!-- prepinac tmavy/svetly rezim -->
       <div class="sunmoon">
-        <img id="icon" src="../images/icons/moon.svg" height="50px" width="50px" top="50px" onclick="toggleDarkMode()" alt="rezim">
+        <img id="icon" src="../images/icons/moon.svg" height="50px" width="50px" top="50px" alt="rezim">
       </div>
-
-      <!-- javascript pro prepinac rezimu -->
-      <script>
-        function toggleDarkMode() {
-          const i = document.getElementById('icon'),
-                m = localStorage.getItem('mode') === 'dark' ? 'light' : 'dark';
-          document.body.classList.toggle('dark');
-          localStorage.setItem('mode', m);
-          i.src = m === 'dark' ? '../images/icons/sun.svg' : '../images/icons/moon.svg';
-        }
-
-        window.toggleText = (c) => c.classList.toggle('active');
-
-        window.onload = () => {
-          const i = document.getElementById('icon'),
-                m = localStorage.getItem('mode') || 'light';
-          document.body.classList.toggle('dark', m === 'dark');
-          i.src = m === 'dark' ? '../images/icons/sun.svg' : '../images/icons/moon.svg';
-        };
-      </script>
     </section>
   </header>
 

@@ -988,6 +988,30 @@ function smoothScrollElementTo(element, targetLeft, duration = 760) {
   });
 }
 
+function syncThemeIcon() {
+  const icon = document.getElementById('icon');
+  if (!icon) return;
+
+  icon.src = document.body.classList.contains('dark')
+    ? '../images/icons/sun.svg'
+    : '../images/icons/moon.svg';
+}
+
+function applySavedTheme() {
+  const mode = localStorage.getItem('mode') || 'light';
+
+  document.body.classList.toggle('dark', mode === 'dark');
+  syncThemeIcon();
+}
+
+window.toggleDarkMode = () => {
+  const nextMode = document.body.classList.contains('dark') ? 'light' : 'dark';
+
+  document.body.classList.toggle('dark', nextMode === 'dark');
+  localStorage.setItem('mode', nextMode);
+  syncThemeIcon();
+};
+
 window.toggleMenu = () => {
   const menu = document.getElementById('menu');
   if (menu) menu.classList.toggle('active');
@@ -1031,6 +1055,15 @@ window.showPopup = () => {
 
   popup.classList.add('show');
 };
+
+onReady(() => {
+  applySavedTheme();
+
+  const themeToggle = document.getElementById('icon');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', window.toggleDarkMode);
+  }
+});
 
 onReady(() => {
   const search = document.getElementById('mysearch');
