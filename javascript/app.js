@@ -1,3 +1,9 @@
+const THREE_VERSION = '0.160.0';
+const THREE_CDN_ORIGIN = 'https://esm.sh';
+const THREE_MODULE_URL = `${THREE_CDN_ORIGIN}/three@${THREE_VERSION}/es2022/three.mjs`;
+const THREE_ADDONS_BASE_URL = `${THREE_CDN_ORIGIN}/three@${THREE_VERSION}/es2022/examples/jsm/`;
+const THREE_DRACO_DECODER_URL = `https://unpkg.com/three@${THREE_VERSION}/examples/jsm/libs/draco/`;
+
 const onReady = (callback) => {
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', callback, { once: true });
@@ -72,9 +78,11 @@ onReady(() => {
     { name: 'XO PENDANT - THE WEEKND REPLICA', url: 'product6.html' },
     { name: 'GRADUATION - ACTION FIGURE', url: 'product7.html' },
     { name: 'GRADUATION CD', url: 'product8.html' },
-    { name: 'BULLY CD', url: 'product9.html' }
+    { name: 'BULLY CD', url: 'product9.html' },
+    { name: 'MICHAEL JACKSON - THRILLER CD', url: 'product10.html', image: '../images/products/mj1.png' }
   ];
   const productUrlMap = Object.fromEntries(productCatalog.map((product) => [product.name, product.url]));
+  const productImageMap = Object.fromEntries(productCatalog.filter((product) => product.image).map((product) => [product.name, product.image]));
 
   function getCart() {
     try {
@@ -90,6 +98,10 @@ onReady(() => {
 
   function getProductUrl(product) {
     return product.url || productUrlMap[product.name] || '#';
+  }
+
+  function getProductImage(product) {
+    return productImageMap[product.name] || product.image || '';
   }
 
   function updatePrices() {
@@ -147,12 +159,14 @@ onReady(() => {
     const price = Number(product.price) || 0;
     const quantity = clampCartQuantity(product.quantity);
     const productUrl = getProductUrl(product);
+    const productImage = getProductImage(product);
     const row = document.createElement('div');
 
     product.quantity = quantity;
+    product.image = productImage;
     row.className = 'item-row';
     row.innerHTML = `
-      <div class="item-image"><img src="${product.image}" alt="Product"></div>
+      <div class="item-image"><img src="${productImage}" alt="Product"></div>
       <section class="itemcart">
         <a class="cart-product-link" href="${productUrl}">${product.name}</a>
         <p class="item-price">${price} ${euro}</p>
@@ -406,21 +420,21 @@ onReady(() => {
     if (runtime) return Promise.resolve(runtime);
     if (runtimePromise) return runtimePromise;
 
-    addResourceHint('preconnect', 'https://unpkg.com');
+    addResourceHint('preconnect', THREE_CDN_ORIGIN);
     [
-      'https://unpkg.com/three@0.160.0/build/three.module.js',
-      'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js',
-      'https://unpkg.com/three@0.160.0/examples/jsm/loaders/DRACOLoader.js',
-      'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js',
-      'https://unpkg.com/three@0.160.0/examples/jsm/environments/RoomEnvironment.js'
+      THREE_MODULE_URL,
+      `${THREE_ADDONS_BASE_URL}loaders/GLTFLoader.mjs`,
+      `${THREE_ADDONS_BASE_URL}loaders/DRACOLoader.mjs`,
+      `${THREE_ADDONS_BASE_URL}controls/OrbitControls.mjs`,
+      `${THREE_ADDONS_BASE_URL}environments/RoomEnvironment.mjs`
     ].forEach((href) => addResourceHint('modulepreload', href, '', 'high'));
 
     runtimePromise = Promise.all([
-      import('three'),
-      import('three/addons/loaders/GLTFLoader.js'),
-      import('three/addons/loaders/DRACOLoader.js'),
-      import('three/addons/controls/OrbitControls.js'),
-      import('three/addons/environments/RoomEnvironment.js')
+      import(THREE_MODULE_URL),
+      import(`${THREE_ADDONS_BASE_URL}loaders/GLTFLoader.mjs`),
+      import(`${THREE_ADDONS_BASE_URL}loaders/DRACOLoader.mjs`),
+      import(`${THREE_ADDONS_BASE_URL}controls/OrbitControls.mjs`),
+      import(`${THREE_ADDONS_BASE_URL}environments/RoomEnvironment.mjs`)
     ]).then(([
       THREE,
       { GLTFLoader },
@@ -435,7 +449,7 @@ onReady(() => {
       const activeViewers = new Set();
       let isAnimating = false;
 
-      dracoLoader.setDecoderPath('https://unpkg.com/three@0.160.0/examples/jsm/libs/draco/');
+      dracoLoader.setDecoderPath(THREE_DRACO_DECODER_URL);
       loader.setDRACOLoader(dracoLoader);
 
       function readRotationSpeed(value) {
@@ -1004,6 +1018,36 @@ onReady(() => {
   if (firstItem) {
     setActiveItem(firstItem);
   }
+
+  document.querySelectorAll('.display-arrow.left').forEach((button) => {
+    button.addEventListener('click', window.prevImage);
+  });
+
+  document.querySelectorAll('.display-arrow.right').forEach((button) => {
+    button.addEventListener('click', window.nextImage);
+  });
+
+  getGalleryItems().forEach((item) => {
+    item.addEventListener('click', () => {
+      window.showImage(item);
+    });
+  });
+
+  const mainViewer = document.getElementById('mainViewer');
+  if (mainViewer) {
+    mainViewer.addEventListener('mousemove', (event) => {
+      const rect = mainViewer.getBoundingClientRect();
+      const x = (event.clientX - rect.left) / rect.width;
+      const y = (event.clientY - rect.top) / rect.height;
+      const isInInteractiveArea = x > 0.2 && x < 0.8 && y > 0.2 && y < 0.8;
+
+      mainViewer.style.touchAction = isInInteractiveArea ? 'none' : 'pan-y';
+    });
+
+    mainViewer.addEventListener('mouseleave', () => {
+      mainViewer.style.touchAction = 'pan-y';
+    });
+  }
 });
 
 // Product media fullscreen
@@ -1471,19 +1515,41 @@ window.showPopup = () => {
     popup.className = 'success-popup';
     popup.innerHTML = `
       <div class="success-popup-content">
-        <button class="success-popup-close" type="button" aria-label="Close popup" onclick="closePopup()">&times;</button>
+        <button class="success-popup-close" type="button" aria-label="Close popup" data-popup-action="close">&times;</button>
         <p>SUCCESSFULLY ADDED TO CART</p>
         <div class="success-popup-actions">
-          <button class="success-popup-btn secondary" type="button" onclick="closePopup()">CONTINUE SHOPPING</button>
+          <button class="success-popup-btn secondary" type="button" data-popup-action="close">CONTINUE SHOPPING</button>
           <a class="success-popup-btn primary" href="kosik.html">TO CART</a>
         </div>
       </div>
     `;
     document.body.appendChild(popup);
+
+    popup.querySelectorAll('[data-popup-action="close"]').forEach((button) => {
+      button.addEventListener('click', window.closePopup);
+    });
   }
 
   popup.classList.add('show');
 };
+
+onReady(() => {
+  document.querySelectorAll('.login-form').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+    });
+  });
+
+  document.querySelectorAll('.arrow-btn, .clickable-heading').forEach((control) => {
+    control.addEventListener('click', window.scrollToSection);
+  });
+
+  document.querySelectorAll('.image-card').forEach((card) => {
+    card.addEventListener('click', () => {
+      window.toggleText(card);
+    });
+  });
+});
 
 onReady(() => {
   applySavedTheme();
@@ -1659,17 +1725,20 @@ onReady(() => {
       const name = this.getAttribute('data-product-name');
       const price = this.getAttribute('data-product-price');
       const imageSrc = this.getAttribute('data-product-image');
+      const productUrl = this.getAttribute('data-product-url') || window.location.href;
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       const existing = cart.find((item) => item.name === name);
 
       if (existing) {
         existing.quantity = clampCartQuantity(clampCartQuantity(existing.quantity) + 1);
+        existing.image = imageSrc || existing.image;
+        existing.url = productUrl;
       } else {
         cart.push({
           name,
           price,
           image: imageSrc,
-          url: window.location.href,
+          url: productUrl,
           quantity: 1
         });
       }
@@ -1791,6 +1860,62 @@ onReady(() => {
       });
     });
   }
+});
+
+// Homepage trust badge carousel
+onReady(() => {
+  const badgesTrack = document.getElementById('badgesTrack');
+  if (!badgesTrack || badgesTrack.dataset.loopReady) return;
+
+  const badges = Array.from(badgesTrack.children).filter((badge) => badge.classList.contains('badge-item'));
+  if (!badges.length) return;
+
+  const createGroup = (items, isDuplicate = false) => {
+    const group = document.createElement('div');
+    group.className = 'badges-carousel-group';
+
+    if (isDuplicate) {
+      group.setAttribute('aria-hidden', 'true');
+    }
+
+    items.forEach((badge) => {
+      group.appendChild(isDuplicate ? badge.cloneNode(true) : badge);
+    });
+
+    return group;
+  };
+
+  const wrapper = document.getElementById('badgesCarousel');
+  const visibleWidth = wrapper ? wrapper.getBoundingClientRect().width : badgesTrack.getBoundingClientRect().width;
+  const firstGroupItems = [...badges];
+  const badgeWidth = badges[0].getBoundingClientRect().width || 120;
+  const estimatedGap = 30;
+  const targetWidth = visibleWidth + badgeWidth + estimatedGap;
+
+  while (firstGroupItems.length * (badgeWidth + estimatedGap) < targetWidth) {
+    firstGroupItems.push(...badges.map((badge) => badge.cloneNode(true)));
+  }
+
+  const firstGroup = createGroup(firstGroupItems);
+  const duplicateGroup = createGroup(firstGroupItems, true);
+
+  badgesTrack.textContent = '';
+  badgesTrack.append(firstGroup, duplicateGroup);
+  badgesTrack.dataset.loopReady = 'true';
+
+  const updateBadgeLoop = () => {
+    const trackStyles = window.getComputedStyle(badgesTrack);
+    const trackGap = Number.parseFloat(trackStyles.columnGap || trackStyles.gap) || 0;
+    const distance = firstGroup.getBoundingClientRect().width + trackGap;
+
+    badgesTrack.style.setProperty('--badges-scroll-distance', `${distance}px`);
+    badgesTrack.style.setProperty('--badge-scroll-duration', `${Math.max(60, distance / 24)}s`);
+    badgesTrack.classList.add('is-ready');
+  };
+
+  updateBadgeLoop();
+  window.addEventListener('load', updateBadgeLoop, { once: true });
+  window.addEventListener('resize', updateBadgeLoop);
 });
 
 // Celebrity carousel. Uses transform instead of native smooth scrolling so it works consistently across PCs.

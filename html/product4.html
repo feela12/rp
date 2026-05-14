@@ -7,15 +7,6 @@
 <link rel="icon" type="image/x-icon" href="../images/logos/favikon2.png">
   <link rel="stylesheet" href="../css/styl.css">
 <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
-<script src="https://kit.fontawesome.com/649771f08a.js" crossorigin="anonymous"></script>
-<script type="importmap">
-  {
-    "imports": {
-      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-    }
-  }
-</script>
 <script src="../javascript/app.js" defer></script>
 </head>
 <body>
@@ -43,7 +34,7 @@
             </div>
         </div>
 
-        <form class="login-form" onsubmit="event.preventDefault();">
+        <form class="login-form">
             <input type="email" placeholder="EMAIL ADDRESS" class="login-input" required>
             <input type="password" placeholder="PASSWORD" class="login-input" required>
             <label class="login-remember">
@@ -69,7 +60,7 @@
     <img src="../images/icons/kosik.svg" height="50px" width="60px">
   </a>  
 <div class="search" id="mysearch">
-    <input type="text" class="search-input" placeholder="Search..." onclick="event.stopPropagation()">
+    <input type="text" class="search-input" placeholder="Search...">
     <img src="../images/icons/lupa.svg" alt="Search" width="50" height="50">
 </div>
 <div class="sunmoon">
@@ -80,7 +71,7 @@
 <section class="producttest">
     <!-- Levá strana - 3D model / Obrázek se šipkami -->
     <div class="product-left">
-        <button class="display-arrow left" onclick="prevImage()">&#10094;</button>
+        <button class="display-arrow left">&#10094;</button>
         <div
           id="mainViewer"
           class="three-model"
@@ -94,18 +85,18 @@
           data-camera-controls
           style="width: 100%; max-width: 600px; height: 500px;"
         ></div>
-        <button class="display-arrow right" onclick="nextImage()">&#10095;</button>
+        <button class="display-arrow right">&#10095;</button>
     </div>
     
     <!-- Prostřední strana - Galerie -->
     <div class="product-gallery">
         <div class="gallery-images">
-            <button class="gallery-model-tile is-active" type="button" onclick="showImage(this, 'model')" aria-label="Show 3D model" aria-pressed="true">
+            <button class="gallery-model-tile is-active" type="button" aria-label="Show 3D model" aria-pressed="true">
                 <span class="gallery-model-orbit" aria-hidden="true"><span class="gallery-model-cube"></span></span>
                 <span class="gallery-model-text"><span class="gallery-model-title">3D</span><span class="gallery-model-label">VIEW</span></span>
             </button>
-            <img src="../images/products/margiela1.png" alt="Image 2" onclick="showImage(this, 'image')">
-            <img src="../images/products/margiela2.png" alt="Image 3" onclick="showImage(this, 'image')">
+            <img src="../images/products/margiela1.png" alt="Image 2">
+            <img src="../images/products/margiela2.png" alt="Image 3">
         </div>
     </div>
     
@@ -147,7 +138,5 @@
       <img class="inv" src="../images/icons/fb.svg" height="50px" width="50px">
   </a>
   </footer>
-    
-<script>let i=0,imgs=['../images/products/greatsand.png','../images/products/2chaos.png','../images/products/3chaos.png'],types=['model','image','image'];function showImage(e,t){const v=document.getElementById('mainViewer'),x=document.getElementById('mainImage');if(x)x.remove();if(t==='model'){v.style.display='block';i=0;}else{v.style.display='none';v.insertAdjacentHTML('beforebegin','<img id="mainImage" src="'+e.src+'" style="width:100%;max-width:600px;height:500px;object-fit:contain;">');}}function prevImage(){i=(i-1+imgs.length)%imgs.length;showImage(document.querySelectorAll('.gallery-images img')[i],types[i]);}function nextImage(){i=(i+1)%imgs.length;showImage(document.querySelectorAll('.gallery-images img')[i],types[i]);}function handleCart(){const n=this.getAttribute('data-product-name'),p=this.getAttribute('data-product-price'),img=this.getAttribute('data-product-image'),cart=JSON.parse(localStorage.getItem('cart'))||[],ex=cart.find(j=>j.name===n);if(ex)ex.quantity+=1;else cart.push({name:n,price:p,image:img,quantity:1});localStorage.setItem('cart',JSON.stringify(cart));showPopup();}function showPopup(){let p=document.getElementById('successPopup');if(!p){p=document.createElement('div');p.id='successPopup';p.className='success-popup';p.innerHTML='<div class="success-popup-content"><button class="success-popup-close" onclick="closePopup()">×</button><p>SUCCESSFULLY ADDED TO CART</p></div>';document.body.appendChild(p);}p.classList.add('show');setTimeout(()=>p.classList.remove('show'),3000);}function closePopup(){const p=document.getElementById('successPopup');if(p)p.classList.remove('show');}document.addEventListener('DOMContentLoaded',()=>{const b=document.getElementById('addToCartBtn');if(b)b.addEventListener('click',handleCart);});document.addEventListener('click',e=>{const p=document.getElementById('successPopup');if(p&&p.classList.contains('show')&&e.target===p)closePopup();});const mv=document.getElementById('mainViewer');if(mv){mv.addEventListener('mousemove',e=>{const rect=mv.getBoundingClientRect(),x=(e.clientX-rect.left)/rect.width,y=(e.clientY-rect.top)/rect.height;if(x>0.2&&x<0.8&&y>0.2&&y<0.8){mv.style.touchAction='none';}else{mv.style.touchAction='pan-y';}});mv.addEventListener('mouseleave',()=>{mv.style.touchAction='pan-y';});}</script>
 </body>
 </html>

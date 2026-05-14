@@ -1,28 +1,12 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-  <!-- zakladni meta tagy a nastaveni -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ICZZ</title>
   <link rel="icon" type="image/x-icon" href="../images/logos/logogo.png">
-
-  <!-- hlavni styly -->
   <link rel="stylesheet" href="../css/styl.css">
-
-  <!-- google fonts -->
   <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
-
-  <!-- ikony a skripty -->
-  <script src="https://kit.fontawesome.com/649771f08a.js" crossorigin="anonymous"></script>
-<script type="importmap">
-  {
-    "imports": {
-      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-    }
-  }
-</script>
 <script src="../javascript/app.js" defer></script>
 </head>
 
@@ -54,7 +38,7 @@
             </div>
           </div>
           
-          <form class="login-form" onsubmit="event.preventDefault();">
+          <form class="login-form">
             <input type="email" placeholder="EMAIL ADDRESS" class="login-input" required>
             <input type="password" placeholder="PASSWORD" class="login-input" required>
             <label class="login-remember">
@@ -77,7 +61,7 @@
         </div>
       </div>
 
-      <!-- kosik -->
+      <!-- kosik cart -->
       <a href="kosik.html" class="kos">
         <img src="../images/icons/kosik.svg" height="50px" width="60px" alt="kosik">
       </a>
@@ -86,7 +70,7 @@
       <div class="search" id="mysearch">
         <img src="../images/icons/lupa.svg" alt="Search" width="50" height="50">
       </div>
-      <input type="text" class="search-input" placeholder="Search..." onclick="event.stopPropagation()">
+      <input type="text" class="search-input" placeholder="Search...">
 
       <!-- prepinac tmavy/svetly rezim -->
       <div class="sunmoon">
@@ -96,7 +80,7 @@
   </header>
 
   <!-- ===========================================
-       Main Carousel
+       hlavni Carousel
        =========================================== -->
   <section class="promo-carousel" aria-label="Promo akce - carousel">
     <div class="promo-track" id="promoTrack">
@@ -107,7 +91,7 @@
           <a href="product5.html">YZY WET TANK TOP - YZY VULTURES</a>
         </div>
       </article>
-
+      <!-- slide 2 - graduation cd -->
       <article class="promo-slide" role="group" aria-roledescription="slide" aria-label="Back in stock">
         <img src="../images/products/gradrek.png" alt="Graduation CD" loading="lazy">
         <div class="promo-middle-text">
@@ -115,14 +99,14 @@
         </div>
       </article>
 
-      <!-- slide 2 - rick owens drkshdw -->
+      <!-- slide 3 - rick owens drkshdw -->
       <article class="promo-slide" role="group" aria-roledescription="slide" aria-label="Back in stock">
         <img src="../images/products/DRK2.png" alt="Back in stock" loading="lazy">
         <div class="promo-middle-text">
           <a href="product3.html">RICK OWENS DRKSHDW - NEW ARRIVAL</a>
         </div>
       </article>
-      <!-- slide 3 - back in stock -->
+      <!-- slide 4 - back in stock -->
       <article class="promo-slide" role="group" aria-roledescription="slide" aria-label="Back in stock">
         <img src="../images/products/chain2.png" alt="Back in stock" loading="lazy">
         <div class="promo-middle-text">
@@ -130,7 +114,7 @@
         </div>
       </article>
 
-      <!-- slide 4 - 20% off -->
+      <!-- slide 5 - 20% off -->
       <article class="promo-slide" role="group" aria-roledescription="slide" aria-label="20% OFF">
         <img src="../images/products/3chaos.png" alt="20% OFF" loading="lazy">
         <div class="promo-middle-text">
@@ -138,7 +122,7 @@
         </div>
       </article>
 
-      <!-- slide 5 - video -->
+      <!-- slide 6 - video -->
       <article class="promo-slide" role="group" aria-roledescription="slide" aria-label="View">
         <video autoplay muted loop playsinline id="videoslid" class="video-container" src="../videos/1slide.mp4">
         </video>
@@ -177,16 +161,16 @@
   </section>
 
   <!-- ===========================================
-       Smooth Scroll
+       Smooth Scroll do sekce HIGH-DEMAND
        =========================================== -->
   <section class="main" id="home">
     <div class="hero-overlay">
       <div class="arrow-group">
-        <button class="arrow-btn left" onclick="scrollToSection()" aria-label="Dolů">
+        <button class="arrow-btn left" aria-label="Dolů">
           <img src="../images/icons/sipka.svg" height="40" width="40" alt="sipka vlevo" class="sipka" />
         </button>
-        <h1 class="clickable-heading" onclick="scrollToSection()">POPULAR ITEMS</h1>
-        <button class="arrow-btn right" onclick="scrollToSection()" aria-label="Dolů">
+        <h1 class="clickable-heading">POPULAR ITEMS</h1>
+        <button class="arrow-btn right" aria-label="Dolů">
           <img src="../images/icons/sipka.svg" height="40" width="40" alt="sipka vpravo" class="sipka" />
         </button>
       </div>
@@ -194,7 +178,7 @@
   </section>
 
   <!-- ===========================================
-       Famous People Wearing Our Items
+       Famous People Wearing Our Items - celebrity carousel
        =========================================== -->
   <section class="moje-sekce">
     <div class="celeb-section-head">
@@ -280,7 +264,7 @@
     <div class="products">
       <div class="image-gallery">
         <!-- produkt 1 - great chaos chain -->
-        <div class="image-card" onclick="toggleText(this)">
+        <div class="image-card">
           <a href="product1.html">
             <div
               class="three-model"
@@ -310,7 +294,7 @@
         <hr>
 
         <!-- produkt 2 - rick owens brutalist -->
-        <div class="image-card" onclick="toggleText(this)">
+        <div class="image-card">
           <a href="product2.html">
             <div
               class="three-model"
@@ -339,7 +323,7 @@
         <hr>
 
         <!-- produkt 3 - rick owens drkshdw -->
-        <div class="image-card" onclick="toggleText(this)">
+        <div class="image-card">
           <a href="product3.html">
             <div
               class="three-model"
@@ -367,7 +351,7 @@
         <hr>
 
         <!-- produkt 4 - XO pendant -->
-        <div class="image-card" onclick="toggleText(this)">
+        <div class="image-card">
           <a href="product6.html">
             <div
               class="three-model"
@@ -503,62 +487,7 @@
     </div>
 
     <!-- javascript pro carousel ikon -->
-    <script>
-      const badgesTrack = document.getElementById('badgesTrack');
-      if (badgesTrack && !badgesTrack.dataset.loopReady) {
-        const badges = Array.from(badgesTrack.children).filter((badge) => badge.classList.contains('badge-item'));
-
-        if (badges.length) {
-          const createGroup = (items, isDuplicate = false) => {
-            const group = document.createElement('div');
-            group.className = 'badges-carousel-group';
-
-            if (isDuplicate) {
-              group.setAttribute('aria-hidden', 'true');
-            }
-
-            items.forEach((badge) => {
-              group.appendChild(isDuplicate ? badge.cloneNode(true) : badge);
-            });
-
-            return group;
-          };
-
-          const wrapper = document.getElementById('badgesCarousel');
-          const visibleWidth = wrapper ? wrapper.getBoundingClientRect().width : badgesTrack.getBoundingClientRect().width;
-          const firstGroupItems = [...badges];
-          const badgeWidth = badges[0].getBoundingClientRect().width || 120;
-          const estimatedGap = 30;
-          const targetWidth = visibleWidth + badgeWidth + estimatedGap;
-
-          while (firstGroupItems.length * (badgeWidth + estimatedGap) < targetWidth) {
-            firstGroupItems.push(...badges.map((badge) => badge.cloneNode(true)));
-          }
-
-          const firstGroup = createGroup(firstGroupItems);
-          const duplicateGroup = createGroup(firstGroupItems, true);
-
-          badgesTrack.textContent = '';
-          badgesTrack.append(firstGroup, duplicateGroup);
-          badgesTrack.dataset.loopReady = 'true';
-
-          const updateBadgeLoop = () => {
-            const trackStyles = window.getComputedStyle(badgesTrack);
-            const trackGap = Number.parseFloat(trackStyles.columnGap || trackStyles.gap) || 0;
-            const distance = firstGroup.getBoundingClientRect().width + trackGap;
-
-            badgesTrack.style.setProperty('--badges-scroll-distance', `${distance}px`);
-            badgesTrack.style.setProperty('--badge-scroll-duration', `${Math.max(60, distance / 24)}s`);
-            badgesTrack.classList.add('is-ready');
-          };
-
-          updateBadgeLoop();
-          window.addEventListener('load', updateBadgeLoop, { once: true });
-          window.addEventListener('resize', updateBadgeLoop);
-        }
-      }
-    </script>
-  </section>
+</section>
 
   <!-- ===========================================
        ZAPATI - FOOTER

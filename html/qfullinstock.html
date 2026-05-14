@@ -5,14 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/styl.css" />
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
-<script type="importmap">
-  {
-    "imports": {
-      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-    }
-  }
-</script>
 <script src="../javascript/app.js" defer></script>
     <title>ICZZ | In Stock</title>
 </head>
@@ -37,7 +29,7 @@
             </div>
         </div>
 
-        <form class="login-form" onsubmit="event.preventDefault();">
+        <form class="login-form">
             <input type="email" placeholder="EMAIL ADDRESS" class="login-input" required>
             <input type="password" placeholder="PASSWORD" class="login-input" required>
             <label class="login-remember">
@@ -63,7 +55,7 @@
     <img src="../images/icons/kosik.svg" height="50px" width="60px" alt="cart">
   </a>
 <div class="search" id="mysearch">
-    <input type="text" class="search-input" placeholder="Search..." onclick="event.stopPropagation()">
+    <input type="text" class="search-input" placeholder="Search...">
     <img src="../images/icons/lupa.svg" alt="Search" width="50" height="50">
 </div>
 <div class="sunmoon">
@@ -79,7 +71,7 @@
     </nav>
 <section id="uvod" class="content">
   <div class="image-gallery">
-    <div class="image-card" onclick="toggleText(this)">
+    <div class="image-card">
       <a href="product1.html">
         <div
           class="three-model"
@@ -103,7 +95,7 @@
       </div>
     </div>
 
-    <div class="image-card" onclick="toggleText(this)">
+    <div class="image-card">
       <a href="product2.html">
         <div
           class="three-model"
@@ -123,7 +115,7 @@
       </div>
     </div>
 
-    <div class="image-card" onclick="toggleText(this)">
+    <div class="image-card">
       <a href="product3.html">
         <div
           class="three-model"
@@ -144,7 +136,7 @@
       </div>
     </div>
 
-    <div class="image-card" onclick="toggleText(this)">
+    <div class="image-card">
       <a href="product4.html">
         <div
           class="three-model"
@@ -165,7 +157,7 @@
       </div>
     </div>
 
-    <div class="image-card" onclick="toggleText(this)">
+    <div class="image-card">
       <a href="product5.html">
         <div
           class="three-model"
@@ -185,7 +177,7 @@
       </div>
     </div>
 
-    <div class="image-card" onclick="toggleText(this)">
+    <div class="image-card">
       <a href="product6.html">
         <div
           class="three-model"
@@ -211,7 +203,7 @@
         </a>
       </div>
     </div>
-    <div class="image-card" onclick="toggleText(this)">
+    <div class="image-card">
       <a href="product8.html">
         <div
           class="three-model"
@@ -235,7 +227,7 @@
       </div>
     </div>
 
-    <div class="image-card" onclick="toggleText(this)">
+    <div class="image-card">
       <a href="product9.html">
         <div
           class="three-model"
@@ -259,6 +251,29 @@
       </div>
     </div>
   </div>
+  <div class="image-card">
+      <a href="product10.html">
+        <div
+          class="three-model"
+          data-model-src="https://feela12.github.io/modely/mj.glb"
+          data-fallback-src="../images/products/mj1.png"
+          data-model-alt="3D model thriller cd"
+          data-auto-rotate
+          data-rotation-speed="60%"
+          data-camera-padding="1.55"
+          data-tone-exposure="1.5"
+          data-light-intensity="1.18"
+          data-env-intensity="2"
+          style="width: 650px; height: 400px; margin: left; display: flex; pointer-events: none;"
+        ></div>
+      </a>
+      <div class="image-paragraph">
+        <a href="product10.html">
+          <div class="paragraph-text">MICHAEL JACKSON - THRILLER CD</div>
+          <div class="paragraph-text">15 &euro;</div>
+        </a>
+      </div>
+    </div>
 </section>
 
 <footer class="footer">
