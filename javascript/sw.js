@@ -9,8 +9,7 @@ const KNOWN_MODEL_URLS = [
   'https://feela12.github.io/modely/Meshy_AI_YZY_WET_women_tank_to_0420200251_texture.glb',
   'https://feela12.github.io/modely/bear.glb',
   'https://feela12.github.io/modely/gradcd.glb',
-  'https://feela12.github.io/modely/bully.glb',
-  'https://feela12.github.io/modely/base_basic_pbr_logo.glb'
+  'https://feela12.github.io/modely/bully.glb'
 ];
 
 function isModelRequest(request) {
