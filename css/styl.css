@@ -493,6 +493,9 @@ text-transform: uppercase;
 }
 
 .three-model canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   width: 100% !important;
   height: 100% !important;
   display: block;
@@ -501,11 +504,35 @@ text-transform: uppercase;
 }
 
 .three-model__fallback-image {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   min-height: inherit;
   display: block;
   object-fit: contain;
+  transition: opacity 180ms ease;
+}
+
+.three-model__loading-text {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 0;
+  padding: 18px;
+  color: #111;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: clamp(0.72rem, 1.8vw, 1rem);
+  letter-spacing: 0;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.three-model--loaded .three-model__fallback-image,
+.three-model--loaded .three-model__loading-text {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .three-model--error {

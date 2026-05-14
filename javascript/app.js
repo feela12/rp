@@ -304,371 +304,615 @@ onReady(() => {
     viewer.textContent = message;
   }
 
-  (async () => {
-    await whenReady();
+  function showModelPreview(viewer) {
+    if (!viewer) return;
+    if (viewer.querySelector('canvas, .three-model__loading-text')) return;
 
-    if (!document.querySelector(modelViewerSelector)) {
-      window.dispatchEvent(new Event(readyEventName));
-      return;
+    const loadingText = document.createElement('span');
+    loadingText.className = 'three-model__loading-text';
+    loadingText.textContent = 'loading 3D model...';
+    viewer.appendChild(loadingText);
+  }
+
+  const hintedResources = new Set();
+
+  function addResourceHint(rel, href, asType = '', priority = '') {
+    const key = `${rel}:${href}:${asType}:${priority}`;
+    if (!href || hintedResources.has(key)) return;
+
+    const link = document.createElement('link');
+    link.rel = rel;
+    link.href = href;
+    if (asType) link.as = asType;
+    if (rel === 'preconnect' || rel === 'preload' || rel === 'modulepreload') {
+      link.crossOrigin = 'anonymous';
+    }
+    if (priority && 'fetchPriority' in link) {
+      link.fetchPriority = priority;
     }
 
-    if (!browserHasWebGL()) {
-      document.querySelectorAll(modelViewerSelector).forEach((viewer) => {
-        showModelFallback(viewer);
+    hintedResources.add(key);
+    document.head.appendChild(link);
+  }
+
+  function hintModelConnection(viewer, shouldPreload = false) {
+    if (!viewer) return;
+
+    try {
+      const src = getModelSource(viewer, shouldUseLowQuality(viewer));
+      const url = new URL(src, window.location.href);
+
+      addResourceHint('preconnect', url.origin);
+      if (shouldPreload) {
+        addResourceHint('preload', url.href, 'fetch', 'high');
+      }
+    } catch (error) {
+      // Ignore malformed asset URLs and let the regular loader handle the fallback.
+    }
+  }
+
+  function collectModelSources(viewers) {
+    const sources = new Set();
+
+    viewers.forEach((viewer) => {
+      [viewer.dataset.modelSrc, viewer.dataset.modelLowSrc].filter(Boolean).forEach((src) => {
+        try {
+          sources.add(new URL(src, window.location.href).href);
+        } catch (error) {
+          // Ignore malformed model URLs.
+        }
       });
-      window.dispatchEvent(new Event(readyEventName));
-      return;
-    }
+    });
 
-    const [
-      THREE,
-      { GLTFLoader },
-      { DRACOLoader },
-      { OrbitControls },
-      { RoomEnvironment }
-    ] = await Promise.all([
+    return Array.from(sources);
+  }
+
+  function registerModelCache(viewers) {
+    if (!('serviceWorker' in navigator) || window.location.protocol === 'file:') return;
+
+    const urls = collectModelSources(viewers);
+    if (!urls.length) return;
+
+    const register = () => {
+      navigator.serviceWorker.register('../sw.js')
+        .then(() => navigator.serviceWorker.ready)
+        .then((registration) => {
+          const worker = registration.active || navigator.serviceWorker.controller;
+          if (worker) {
+            worker.postMessage({
+              type: 'ICZZ_WARM_MODELS',
+              urls
+            });
+          }
+        })
+        .catch(() => {});
+    };
+
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(register, { timeout: 2500 });
+    } else {
+      window.addEventListener('load', () => window.setTimeout(register, 1200), { once: true });
+    }
+  }
+
+  let runtime = null;
+  let runtimePromise = null;
+  let lazyObserver = null;
+  const pendingViewers = new WeakSet();
+  const loadingViewers = new WeakSet();
+  const interactionViewers = new WeakSet();
+
+  function loadThreeRuntime() {
+    if (runtime) return Promise.resolve(runtime);
+    if (runtimePromise) return runtimePromise;
+
+    addResourceHint('preconnect', 'https://unpkg.com');
+    [
+      'https://unpkg.com/three@0.160.0/build/three.module.js',
+      'https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js',
+      'https://unpkg.com/three@0.160.0/examples/jsm/loaders/DRACOLoader.js',
+      'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js',
+      'https://unpkg.com/three@0.160.0/examples/jsm/environments/RoomEnvironment.js'
+    ].forEach((href) => addResourceHint('modulepreload', href, '', 'high'));
+
+    runtimePromise = Promise.all([
       import('three'),
       import('three/addons/loaders/GLTFLoader.js'),
       import('three/addons/loaders/DRACOLoader.js'),
       import('three/addons/controls/OrbitControls.js'),
       import('three/addons/environments/RoomEnvironment.js')
-    ]);
+    ]).then(([
+      THREE,
+      { GLTFLoader },
+      { DRACOLoader },
+      { OrbitControls },
+      { RoomEnvironment }
+    ]) => {
+      const loader = new GLTFLoader();
+      const dracoLoader = new DRACOLoader();
+      const mounted = new WeakMap();
+      const clock = new THREE.Clock();
+      const activeViewers = new Set();
+      let isAnimating = false;
 
-    const loader = new GLTFLoader();
-    const dracoLoader = new DRACOLoader();
-    const mounted = new WeakMap();
-    const clock = new THREE.Clock();
-    const activeViewers = new Set();
+      dracoLoader.setDecoderPath('https://unpkg.com/three@0.160.0/examples/jsm/libs/draco/');
+      loader.setDRACOLoader(dracoLoader);
 
-    dracoLoader.setDecoderPath('https://unpkg.com/three@0.160.0/examples/jsm/libs/draco/');
-    loader.setDRACOLoader(dracoLoader);
-
-    function readRotationSpeed(value) {
-      if (!value) return 0.9;
-      const amount = Number.parseFloat(value);
-      if (!Number.isFinite(amount)) return 0.9;
-      if (value.includes('%')) return Math.max(0.3, amount / 120);
-      if (value.includes('deg')) return THREE.MathUtils.degToRad(amount);
-      return amount;
-    }
-
-    function readCameraPadding(value) {
-      const amount = Number.parseFloat(value);
-      return Number.isFinite(amount) ? amount : 1.45;
-    }
-
-    function readViewerNumber(value, fallback) {
-      const amount = Number.parseFloat(value);
-      return Number.isFinite(amount) ? amount : fallback;
-    }
-
-    function readModelOffset(value) {
-      const amount = Number.parseFloat(value);
-      return Number.isFinite(amount) ? amount : 0;
-    }
-
-    function readHexColor(value, fallback) {
-      if (!value) return fallback;
-      const normalized = value.trim().replace('#', '');
-      if (!/^[0-9a-f]{6}$/i.test(normalized)) return fallback;
-      return Number.parseInt(normalized, 16);
-    }
-
-    function readRenderScale(value, lowQuality) {
-      const fallback = lowQuality ? 0.62 : 1;
-      const amount = Number.parseFloat(value);
-
-      if (!Number.isFinite(amount)) return fallback;
-      return Math.min(1, Math.max(0.18, amount));
-    }
-
-    function fitModel(model, camera, controls, viewer) {
-      const box = new THREE.Box3().setFromObject(model);
-      const size = box.getSize(new THREE.Vector3());
-      const center = box.getCenter(new THREE.Vector3());
-      const maxSize = Math.max(size.x, size.y, size.z) || 1;
-      const verticalFov = THREE.MathUtils.degToRad(camera.fov);
-      const horizontalFov = 2 * Math.atan(Math.tan(verticalFov / 2) * camera.aspect);
-      const fitHeight = size.y / (2 * Math.tan(verticalFov / 2));
-      const fitWidth = size.x / (2 * Math.tan(horizontalFov / 2));
-      const fitDepth = size.z * 0.8;
-      const distance = Math.max(fitHeight, fitWidth, fitDepth, maxSize * 0.35) * readCameraPadding(viewer.dataset.cameraPadding);
-
-      model.position.sub(center);
-      model.position.x += readModelOffset(viewer.dataset.modelOffsetX) * maxSize;
-      model.position.y += readModelOffset(viewer.dataset.modelOffsetY) * maxSize;
-      model.position.z += readModelOffset(viewer.dataset.modelOffsetZ) * maxSize;
-      camera.near = maxSize / 100;
-      camera.far = distance * 20;
-      camera.position.set(distance * 0.06, distance * 0.14, distance);
-      camera.updateProjectionMatrix();
-
-      controls.target.set(0, 0, 0);
-      controls.update();
-    }
-
-    function disposeViewer(viewer) {
-      const instance = mounted.get(viewer);
-      if (!instance) return;
-
-      activeViewers.delete(instance);
-      if (instance.resizeObserver) {
-        instance.resizeObserver.disconnect();
-      }
-      if (instance.removeResizeListener) {
-        instance.removeResizeListener();
-      }
-      instance.controls.dispose();
-      if (instance.model) {
-        disposeObject(instance.model);
-      }
-      if (instance.environment) {
-        instance.environment.dispose();
-      }
-      instance.renderer.dispose();
-      viewer.innerHTML = '';
-      mounted.delete(viewer);
-    }
-
-    function disposeMaterial(material) {
-      Object.keys(material).forEach((key) => {
-        const value = material[key];
-        if (value && value.isTexture) value.dispose();
-      });
-      material.dispose();
-    }
-
-    function pixelateTexture(texture) {
-      if (!texture || !texture.isTexture) return;
-
-      texture.magFilter = THREE.NearestFilter;
-      texture.minFilter = THREE.NearestMipmapNearestFilter;
-      texture.needsUpdate = true;
-    }
-
-    function disposeObject(object) {
-      object.traverse((child) => {
-        if (child.geometry) child.geometry.dispose();
-        if (Array.isArray(child.material)) {
-          child.material.forEach(disposeMaterial);
-        } else if (child.material) {
-          disposeMaterial(child.material);
-        }
-      });
-    }
-
-    function createLights(scene, intensity = 1) {
-      const hemi = new THREE.HemisphereLight(0xfffbf0, 0x171717, 1.45 * intensity);
-      const key = new THREE.DirectionalLight(0xffffff, 3.1 * intensity);
-      const rim = new THREE.DirectionalLight(0xcfe0ff, 1.6 * intensity);
-      const fill = new THREE.DirectionalLight(0xffead1, 0.95 * intensity);
-      const top = new THREE.DirectionalLight(0xffffff, 1.15 * intensity);
-
-      key.position.set(-3.5, 5, 4.5);
-      rim.position.set(4, 3, -5);
-      fill.position.set(3.5, 1.8, 3);
-      top.position.set(0, 6, 0.5);
-      scene.add(hemi, key, rim, fill, top);
-    }
-
-    function createJewelryLights(scene, intensity = 1) {
-      const sparkleLeft = new THREE.PointLight(0xffffff, 3.2 * intensity, 9);
-      const sparkleRight = new THREE.PointLight(0xdce9ff, 2.7 * intensity, 9);
-      const frontGlow = new THREE.PointLight(0xfff7e8, 2.4 * intensity, 8);
-
-      sparkleLeft.position.set(-2.4, 2.6, 3.2);
-      sparkleRight.position.set(2.6, 1.7, 2.4);
-      frontGlow.position.set(0, -1.4, 4);
-      scene.add(sparkleLeft, sparkleRight, frontGlow);
-    }
-
-    function polishMetalMaterial(material, viewer, materialEnvIntensity) {
-      if (!viewer.hasAttribute('data-polished-silver')) return;
-
-      const silver = readHexColor(viewer.dataset.metalColor, 0xd8dde2);
-      const roughness = readViewerNumber(viewer.dataset.metalRoughness, 0.08);
-      const envIntensity = readViewerNumber(viewer.dataset.envIntensity, Math.max(materialEnvIntensity, 4.2));
-
-      material.color = material.color || new THREE.Color();
-      material.color.setHex(silver);
-      material.map = null;
-      material.metalnessMap = null;
-      material.roughnessMap = null;
-      material.emissiveMap = null;
-      material.aoMap = null;
-
-      if ('metalness' in material) material.metalness = 1;
-      if ('roughness' in material) material.roughness = roughness;
-      if ('envMapIntensity' in material) material.envMapIntensity = envIntensity;
-      if ('clearcoat' in material) material.clearcoat = 1;
-      if ('clearcoatRoughness' in material) material.clearcoatRoughness = 0.04;
-    }
-
-    function mountThreeModel(viewer) {
-      if (!viewer) return null;
-
-      const lowQuality = shouldUseLowQuality(viewer);
-      const src = getModelSource(viewer, lowQuality);
-      if (!src) return null;
-
-      disposeViewer(viewer);
-      viewer.classList.remove('three-model--error', 'three-model--loaded');
-      viewer.classList.add('three-model');
-      viewer.textContent = '';
-
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(35, 1, 0.01, 1000);
-      const renderer = new THREE.WebGLRenderer({
-        antialias: !lowQuality,
-        alpha: true,
-        powerPreference: lowQuality ? 'low-power' : 'high-performance'
-      });
-      const controls = new OrbitControls(camera, renderer.domElement);
-      const pmrem = new THREE.PMREMGenerator(renderer);
-      const env = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-      const prefersControls = viewer.hasAttribute('data-camera-controls');
-      const autoRotate = viewer.hasAttribute('data-auto-rotate');
-      const lightIntensity = readViewerNumber(viewer.dataset.lightIntensity, 1);
-      const materialEnvIntensity = readViewerNumber(viewer.dataset.envIntensity, 1.35);
-      const renderScale = readRenderScale(viewer.dataset.renderScale, lowQuality);
-
-      scene.environment = env;
-      createLights(scene, lightIntensity);
-      if (viewer.hasAttribute('data-jewelry-lighting')) {
-        createJewelryLights(scene, lightIntensity);
+      function readRotationSpeed(value) {
+        if (!value) return 0.9;
+        const amount = Number.parseFloat(value);
+        if (!Number.isFinite(amount)) return 0.9;
+        if (value.includes('%')) return Math.max(0.3, amount / 120);
+        if (value.includes('deg')) return THREE.MathUtils.degToRad(amount);
+        return amount;
       }
 
-      pmrem.dispose();
-      renderer.setClearColor(0x000000, 0);
-      renderer.setPixelRatio(lowQuality ? 1 : Math.min(window.devicePixelRatio || 1, 2));
-      renderer.outputColorSpace = THREE.SRGBColorSpace;
-      renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = readViewerNumber(viewer.dataset.toneExposure, 1.2);
-      renderer.domElement.setAttribute('aria-label', viewer.dataset.modelAlt || '3D model');
-      renderer.domElement.setAttribute('role', 'img');
-      viewer.appendChild(renderer.domElement);
+      function readCameraPadding(value) {
+        const amount = Number.parseFloat(value);
+        return Number.isFinite(amount) ? amount : 1.45;
+      }
 
-      controls.enablePan = false;
-      controls.enableDamping = true;
-      controls.enableZoom = !viewer.hasAttribute('data-disable-zoom');
-      controls.enabled = prefersControls;
+      function readViewerNumber(value, fallback) {
+        const amount = Number.parseFloat(value);
+        return Number.isFinite(amount) ? amount : fallback;
+      }
 
-      const instance = {
-        viewer,
-        scene,
-        camera,
-        renderer,
-        controls,
-        environment: env,
-        model: null,
-        autoRotate,
-        rotationSpeed: readRotationSpeed(viewer.dataset.rotationSpeed),
-        renderScale,
-        resizeObserver: null,
-        removeResizeListener: null
-      };
+      function readModelOffset(value) {
+        const amount = Number.parseFloat(value);
+        return Number.isFinite(amount) ? amount : 0;
+      }
 
-      function resize() {
-        const rect = viewer.getBoundingClientRect();
-        const width = Math.max(1, Math.round(rect.width));
-        const height = Math.max(1, Math.round(rect.height));
-        const renderWidth = Math.max(1, Math.round(width * instance.renderScale));
-        const renderHeight = Math.max(1, Math.round(height * instance.renderScale));
+      function readHexColor(value, fallback) {
+        if (!value) return fallback;
+        const normalized = value.trim().replace('#', '');
+        if (!/^[0-9a-f]{6}$/i.test(normalized)) return fallback;
+        return Number.parseInt(normalized, 16);
+      }
 
-        renderer.setSize(renderWidth, renderHeight, false);
-        camera.aspect = width / height;
+      function readRenderScale(value, lowQuality) {
+        const fallback = lowQuality ? 0.62 : 1;
+        const amount = Number.parseFloat(value);
+
+        if (!Number.isFinite(amount)) return fallback;
+        return Math.min(1, Math.max(0.18, amount));
+      }
+
+      function fitModel(model, camera, controls, viewer) {
+        const box = new THREE.Box3().setFromObject(model);
+        const size = box.getSize(new THREE.Vector3());
+        const center = box.getCenter(new THREE.Vector3());
+        const maxSize = Math.max(size.x, size.y, size.z) || 1;
+        const verticalFov = THREE.MathUtils.degToRad(camera.fov);
+        const horizontalFov = 2 * Math.atan(Math.tan(verticalFov / 2) * camera.aspect);
+        const fitHeight = size.y / (2 * Math.tan(verticalFov / 2));
+        const fitWidth = size.x / (2 * Math.tan(horizontalFov / 2));
+        const fitDepth = size.z * 0.8;
+        const distance = Math.max(fitHeight, fitWidth, fitDepth, maxSize * 0.35) * readCameraPadding(viewer.dataset.cameraPadding);
+
+        model.position.sub(center);
+        model.position.x += readModelOffset(viewer.dataset.modelOffsetX) * maxSize;
+        model.position.y += readModelOffset(viewer.dataset.modelOffsetY) * maxSize;
+        model.position.z += readModelOffset(viewer.dataset.modelOffsetZ) * maxSize;
+        camera.near = maxSize / 100;
+        camera.far = distance * 20;
+        camera.position.set(distance * 0.06, distance * 0.14, distance);
         camera.updateProjectionMatrix();
+
+        controls.target.set(0, 0, 0);
+        controls.update();
       }
 
-      if ('ResizeObserver' in window) {
-        instance.resizeObserver = new ResizeObserver(resize);
-        instance.resizeObserver.observe(viewer);
-      } else {
-        const handleWindowResize = () => resize();
-        window.addEventListener('resize', handleWindowResize);
-        instance.removeResizeListener = () => {
-          window.removeEventListener('resize', handleWindowResize);
-        };
+      function disposeMaterial(material) {
+        Object.keys(material).forEach((key) => {
+          const value = material[key];
+          if (value && value.isTexture) value.dispose();
+        });
+        material.dispose();
       }
 
-      mounted.set(viewer, instance);
-      activeViewers.add(instance);
-      resize();
+      function pixelateTexture(texture) {
+        if (!texture || !texture.isTexture) return;
 
-      loader.load(src, (gltf) => {
-        instance.model = gltf.scene;
-        instance.model.traverse((child) => {
-          if (child.isMesh) {
-            child.castShadow = false;
-            child.receiveShadow = false;
-            const materials = Array.isArray(child.material) ? child.material : [child.material];
-            materials.filter(Boolean).forEach((material) => {
-              if ('envMapIntensity' in material) {
-                material.envMapIntensity = materialEnvIntensity;
-              }
-              polishMetalMaterial(material, viewer, materialEnvIntensity);
-              if (lowQuality && 'flatShading' in material) {
-                material.flatShading = true;
-              }
-              if (lowQuality) {
-                [
-                  material.map,
-                  material.normalMap,
-                  material.roughnessMap,
-                  material.metalnessMap,
-                  material.emissiveMap,
-                  material.aoMap
-                ].forEach(pixelateTexture);
-              }
-              material.needsUpdate = true;
-            });
+        texture.magFilter = THREE.NearestFilter;
+        texture.minFilter = THREE.NearestMipmapNearestFilter;
+        texture.needsUpdate = true;
+      }
+
+      function disposeObject(object) {
+        object.traverse((child) => {
+          if (child.geometry) child.geometry.dispose();
+          if (Array.isArray(child.material)) {
+            child.material.forEach(disposeMaterial);
+          } else if (child.material) {
+            disposeMaterial(child.material);
           }
         });
-        scene.add(instance.model);
-        fitModel(instance.model, camera, controls, viewer);
-        viewer.classList.add('three-model--loaded');
-      }, undefined, () => {
+      }
+
+      function disposeViewer(viewer) {
+        const instance = mounted.get(viewer);
+        if (!instance) return;
+
+        activeViewers.delete(instance);
+        if (instance.resizeObserver) {
+          instance.resizeObserver.disconnect();
+        }
+        if (instance.removeResizeListener) {
+          instance.removeResizeListener();
+        }
+        instance.controls.dispose();
+        if (instance.model) {
+          disposeObject(instance.model);
+        }
+        if (instance.environment) {
+          instance.environment.dispose();
+        }
+        instance.renderer.dispose();
+        viewer.innerHTML = '';
+        mounted.delete(viewer);
+      }
+
+      function createLights(scene, intensity = 1) {
+        const hemi = new THREE.HemisphereLight(0xfffbf0, 0x171717, 1.45 * intensity);
+        const key = new THREE.DirectionalLight(0xffffff, 3.1 * intensity);
+        const rim = new THREE.DirectionalLight(0xcfe0ff, 1.6 * intensity);
+        const fill = new THREE.DirectionalLight(0xffead1, 0.95 * intensity);
+        const top = new THREE.DirectionalLight(0xffffff, 1.15 * intensity);
+
+        key.position.set(-3.5, 5, 4.5);
+        rim.position.set(4, 3, -5);
+        fill.position.set(3.5, 1.8, 3);
+        top.position.set(0, 6, 0.5);
+        scene.add(hemi, key, rim, fill, top);
+      }
+
+      function createJewelryLights(scene, intensity = 1) {
+        const sparkleLeft = new THREE.PointLight(0xffffff, 3.2 * intensity, 9);
+        const sparkleRight = new THREE.PointLight(0xdce9ff, 2.7 * intensity, 9);
+        const frontGlow = new THREE.PointLight(0xfff7e8, 2.4 * intensity, 8);
+
+        sparkleLeft.position.set(-2.4, 2.6, 3.2);
+        sparkleRight.position.set(2.6, 1.7, 2.4);
+        frontGlow.position.set(0, -1.4, 4);
+        scene.add(sparkleLeft, sparkleRight, frontGlow);
+      }
+
+      function polishMetalMaterial(material, viewer, materialEnvIntensity) {
+        if (!viewer.hasAttribute('data-polished-silver')) return;
+
+        const silver = readHexColor(viewer.dataset.metalColor, 0xd8dde2);
+        const roughness = readViewerNumber(viewer.dataset.metalRoughness, 0.08);
+        const envIntensity = readViewerNumber(viewer.dataset.envIntensity, Math.max(materialEnvIntensity, 4.2));
+
+        material.color = material.color || new THREE.Color();
+        material.color.setHex(silver);
+        material.map = null;
+        material.metalnessMap = null;
+        material.roughnessMap = null;
+        material.emissiveMap = null;
+        material.aoMap = null;
+
+        if ('metalness' in material) material.metalness = 1;
+        if ('roughness' in material) material.roughness = roughness;
+        if ('envMapIntensity' in material) material.envMapIntensity = envIntensity;
+        if ('clearcoat' in material) material.clearcoat = 1;
+        if ('clearcoatRoughness' in material) material.clearcoatRoughness = 0.04;
+      }
+
+      function mountThreeModel(viewer) {
+        if (!viewer) return null;
+
+        const lowQuality = shouldUseLowQuality(viewer);
+        const src = getModelSource(viewer, lowQuality);
+        if (!src) return null;
+
         disposeViewer(viewer);
-        showModelFallback(viewer);
-      });
+        viewer.classList.remove('three-model--error', 'three-model--loaded');
+        viewer.classList.add('three-model', 'three-model--loading');
+        viewer.querySelectorAll('canvas').forEach((canvas) => canvas.remove());
 
-      return instance;
-    }
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(35, 1, 0.01, 1000);
+        const renderer = new THREE.WebGLRenderer({
+          antialias: !lowQuality,
+          alpha: true,
+          powerPreference: lowQuality ? 'low-power' : 'high-performance'
+        });
+        const controls = new OrbitControls(camera, renderer.domElement);
+        const pmrem = new THREE.PMREMGenerator(renderer);
+        const env = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+        const prefersControls = viewer.hasAttribute('data-camera-controls');
+        const autoRotate = viewer.hasAttribute('data-auto-rotate');
+        const lightIntensity = readViewerNumber(viewer.dataset.lightIntensity, 1);
+        const materialEnvIntensity = readViewerNumber(viewer.dataset.envIntensity, 1.35);
+        const renderScale = readRenderScale(viewer.dataset.renderScale, lowQuality);
 
-    function animate() {
-      const delta = clock.getDelta();
+        scene.environment = env;
+        createLights(scene, lightIntensity);
+        if (viewer.hasAttribute('data-jewelry-lighting')) {
+          createJewelryLights(scene, lightIntensity);
+        }
 
-      activeViewers.forEach((instance) => {
-        if (!document.body.contains(instance.viewer)) {
-          disposeViewer(instance.viewer);
+        pmrem.dispose();
+        renderer.setClearColor(0x000000, 0);
+        renderer.setPixelRatio(lowQuality ? 1 : Math.min(window.devicePixelRatio || 1, 2));
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = readViewerNumber(viewer.dataset.toneExposure, 1.2);
+        renderer.domElement.setAttribute('aria-label', viewer.dataset.modelAlt || '3D model');
+        renderer.domElement.setAttribute('role', 'img');
+        viewer.appendChild(renderer.domElement);
+
+        controls.enablePan = false;
+        controls.enableDamping = true;
+        controls.enableZoom = !viewer.hasAttribute('data-disable-zoom');
+        controls.enabled = prefersControls;
+
+        const instance = {
+          viewer,
+          scene,
+          camera,
+          renderer,
+          controls,
+          environment: env,
+          model: null,
+          autoRotate,
+          rotationSpeed: readRotationSpeed(viewer.dataset.rotationSpeed),
+          renderScale,
+          resizeObserver: null,
+          removeResizeListener: null
+        };
+
+        function resize() {
+          const rect = viewer.getBoundingClientRect();
+          const width = Math.max(1, Math.round(rect.width));
+          const height = Math.max(1, Math.round(rect.height));
+          const renderWidth = Math.max(1, Math.round(width * instance.renderScale));
+          const renderHeight = Math.max(1, Math.round(height * instance.renderScale));
+
+          renderer.setSize(renderWidth, renderHeight, false);
+          camera.aspect = width / height;
+          camera.updateProjectionMatrix();
+        }
+
+        if ('ResizeObserver' in window) {
+          instance.resizeObserver = new ResizeObserver(resize);
+          instance.resizeObserver.observe(viewer);
+        } else {
+          const handleWindowResize = () => resize();
+          window.addEventListener('resize', handleWindowResize);
+          instance.removeResizeListener = () => {
+            window.removeEventListener('resize', handleWindowResize);
+          };
+        }
+
+        mounted.set(viewer, instance);
+        activeViewers.add(instance);
+        resize();
+
+        loader.load(src, (gltf) => {
+          instance.model = gltf.scene;
+          instance.model.traverse((child) => {
+            if (child.isMesh) {
+              child.castShadow = false;
+              child.receiveShadow = false;
+              const materials = Array.isArray(child.material) ? child.material : [child.material];
+              materials.filter(Boolean).forEach((material) => {
+                if ('envMapIntensity' in material) {
+                  material.envMapIntensity = materialEnvIntensity;
+                }
+                polishMetalMaterial(material, viewer, materialEnvIntensity);
+                if (lowQuality && 'flatShading' in material) {
+                  material.flatShading = true;
+                }
+                if (lowQuality) {
+                  [
+                    material.map,
+                    material.normalMap,
+                    material.roughnessMap,
+                    material.metalnessMap,
+                    material.emissiveMap,
+                    material.aoMap
+                  ].forEach(pixelateTexture);
+                }
+                material.needsUpdate = true;
+              });
+            }
+          });
+          scene.add(instance.model);
+          fitModel(instance.model, camera, controls, viewer);
+          viewer.classList.remove('three-model--loading');
+          viewer.classList.add('three-model--loaded');
+        }, undefined, () => {
+          disposeViewer(viewer);
+          showModelFallback(viewer);
+        });
+
+        return instance;
+      }
+
+      function animate() {
+        if (!activeViewers.size) {
+          isAnimating = false;
           return;
         }
 
-        if (instance.model && instance.autoRotate) {
-          instance.model.rotation.y += instance.rotationSpeed * delta;
-        }
+        const delta = clock.getDelta();
 
-        instance.controls.update();
-        instance.renderer.render(instance.scene, instance.camera);
+        activeViewers.forEach((instance) => {
+          if (!document.body.contains(instance.viewer)) {
+            disposeViewer(instance.viewer);
+            return;
+          }
+
+          if (instance.model && instance.autoRotate) {
+            instance.model.rotation.y += instance.rotationSpeed * delta;
+          }
+
+          instance.controls.update();
+          instance.renderer.render(instance.scene, instance.camera);
+        });
+
+        requestAnimationFrame(animate);
+      }
+
+      function startAnimation() {
+        if (isAnimating) return;
+
+        isAnimating = true;
+        clock.getDelta();
+        requestAnimationFrame(animate);
+      }
+
+      runtime = {
+        dispose: disposeViewer,
+        has: (viewer) => mounted.has(viewer),
+        mount: mountThreeModel,
+        startAnimation
+      };
+
+      return runtime;
+    }).catch((error) => {
+      runtimePromise = null;
+      throw error;
+    });
+
+    return runtimePromise;
+  }
+
+  function isMounted(viewer) {
+    return Boolean(runtime && runtime.has(viewer));
+  }
+
+  function disposeViewer(viewer) {
+    if (!viewer) return;
+    if (lazyObserver) lazyObserver.unobserve(viewer);
+    pendingViewers.delete(viewer);
+
+    if (runtime) {
+      runtime.dispose(viewer);
+    }
+  }
+
+  function mountThreeModel(viewer) {
+    if (!viewer || loadingViewers.has(viewer) || isMounted(viewer)) return Promise.resolve(null);
+
+    if (lazyObserver) lazyObserver.unobserve(viewer);
+    pendingViewers.delete(viewer);
+    loadingViewers.add(viewer);
+    showModelPreview(viewer);
+
+    return loadThreeRuntime()
+      .then((api) => {
+        if (!document.body.contains(viewer)) return null;
+
+        const instance = api.mount(viewer);
+        api.startAnimation();
+        return instance;
+      })
+      .catch(() => {
+        showModelFallback(viewer);
+        return null;
+      })
+      .finally(() => {
+        loadingViewers.delete(viewer);
       });
+  }
 
-      requestAnimationFrame(animate);
+  function queueModelMount(viewer) {
+    if (!viewer || isMounted(viewer) || pendingViewers.has(viewer) || loadingViewers.has(viewer)) return;
+
+    showModelPreview(viewer);
+    hintModelConnection(viewer, true);
+
+    if (shouldLoadOnInteraction(viewer)) {
+      queueInteractionMount(viewer);
+      return;
     }
 
-    function mountAll() {
-      document.querySelectorAll(modelViewerSelector).forEach(mountThreeModel);
+    if (!viewer.hasAttribute('data-model-viewport') || !lazyObserver || viewer.hasAttribute('data-model-eager') || viewer.closest('.product-left')) {
+      mountThreeModel(viewer);
+      return;
     }
+
+    pendingViewers.add(viewer);
+    lazyObserver.observe(viewer);
+  }
+
+  function shouldLoadOnInteraction(viewer) {
+    return Boolean(
+      viewer
+      && viewer.closest('.image-card')
+      && !viewer.closest('.product-left')
+      && viewer.hasAttribute('data-model-lazy')
+      && !viewer.hasAttribute('data-model-eager')
+      && !viewer.hasAttribute('data-model-viewport')
+    );
+  }
+
+  function queueInteractionMount(viewer) {
+    if (!viewer || interactionViewers.has(viewer)) return;
+
+    const trigger = viewer.closest('.image-card') || viewer;
+    const load = () => mountThreeModel(viewer);
+
+    interactionViewers.add(viewer);
+    trigger.addEventListener('pointerenter', load, { once: true });
+    trigger.addEventListener('focusin', load, { once: true });
+    trigger.addEventListener('touchstart', load, { once: true, passive: true });
+  }
+
+  function mountAll() {
+    document.querySelectorAll(modelViewerSelector).forEach(queueModelMount);
+  }
+
+  (async () => {
+    await whenReady();
+
+    const viewers = document.querySelectorAll(modelViewerSelector);
+    if (!viewers.length) {
+      window.dispatchEvent(new Event(readyEventName));
+      return;
+    }
+
+    viewers.forEach(showModelPreview);
+    viewers.forEach((viewer) => {
+      hintModelConnection(viewer, true);
+    });
+    registerModelCache(viewers);
+
+    if (!browserHasWebGL()) {
+      viewers.forEach((viewer) => {
+        showModelFallback(viewer);
+      });
+      window.dispatchEvent(new Event(readyEventName));
+      return;
+    }
+
+    lazyObserver = 'IntersectionObserver' in window
+      ? new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting && entry.intersectionRatio <= 0) return;
+
+          observer.unobserve(entry.target);
+          mountThreeModel(entry.target);
+        });
+      }, {
+        rootMargin: '260px 0px',
+        threshold: 0.01
+      })
+      : null;
 
     window.ICZZThreeModels = {
       mount: mountThreeModel,
       mountAll,
+      queue: queueModelMount,
       dispose: disposeViewer
     };
 
     mountAll();
     window.addEventListener('iczz-three-mount', mountAll);
     window.dispatchEvent(new Event(readyEventName));
-    animate();
   })().catch(() => {
     document.querySelectorAll(modelViewerSelector).forEach((viewer) => {
       showModelFallback(viewer);
