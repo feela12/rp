@@ -56,6 +56,191 @@ function clampCartQuantity(value) {
   return Math.min(APP_CART_MAX_QUANTITY, Math.max(1, quantity));
 }
 
+// Cart page
+onReady(() => {
+  const itemsContainer = document.querySelector('.items-container');
+  const summaryPrice = document.querySelector('.summary-price');
+  if (!itemsContainer || !summaryPrice) return;
+
+  const euro = String.fromCharCode(8364);
+  const productCatalog = [
+    { name: 'A GREAT CHAOS CHAIN - REPLICA', url: 'product1.html' },
+    { name: 'RICK OWENS SS20 BRUTALIST CHAIN', url: 'product2.html' },
+    { name: 'RICK OWENS DRKSHDW', url: 'product3.html' },
+    { name: 'MAISON MARGIELA FUTURE', url: 'product4.html' },
+    { name: 'YZY WET TANK TOP', url: 'product5.html' },
+    { name: 'XO PENDANT - THE WEEKND REPLICA', url: 'product6.html' },
+    { name: 'GRADUATION - ACTION FIGURE', url: 'product7.html' },
+    { name: 'GRADUATION CD', url: 'product8.html' },
+    { name: 'BULLY CD', url: 'product9.html' }
+  ];
+  const productUrlMap = Object.fromEntries(productCatalog.map((product) => [product.name, product.url]));
+
+  function getCart() {
+    try {
+      return JSON.parse(localStorage.getItem('cart')) || [];
+    } catch (error) {
+      return [];
+    }
+  }
+
+  function saveCart(cart) {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }
+
+  function getProductUrl(product) {
+    return product.url || productUrlMap[product.name] || '#';
+  }
+
+  function updatePrices() {
+    let total = 0;
+
+    itemsContainer.querySelectorAll('.item-row').forEach((row) => {
+      const price = Number.parseInt(row.querySelector('.item-price').textContent, 10) || 0;
+      const input = row.querySelector('.qty-input');
+      const quantity = clampCartQuantity(input.value);
+      const itemTotal = price * quantity;
+
+      input.value = quantity;
+      row.querySelector('.total-price').textContent = `${itemTotal} ${euro}`;
+      total += itemTotal;
+    });
+
+    summaryPrice.textContent = `${total} ${euro}`;
+  }
+
+  function updateCartQuantity(input) {
+    const row = input.closest('.item-row');
+    if (!row) return;
+
+    const quantity = clampCartQuantity(input.value);
+    const productName = row.querySelector('.cart-product-link').textContent;
+    const cart = getCart();
+    const cartItem = cart.find((item) => item.name === productName);
+
+    input.value = quantity;
+
+    if (cartItem) {
+      cartItem.quantity = quantity;
+      saveCart(cart);
+    }
+  }
+
+  function removeItem(button) {
+    const row = button.closest('.item-row');
+    if (!row) return;
+
+    const productName = row.querySelector('.cart-product-link').textContent;
+    const cart = getCart().filter((item) => item.name !== productName);
+    saveCart(cart);
+
+    row.style.opacity = '0';
+    row.style.transform = 'scale(0.8)';
+
+    window.setTimeout(() => {
+      row.remove();
+      loadCart();
+    }, 300);
+  }
+
+  function createCartRow(product) {
+    const price = Number(product.price) || 0;
+    const quantity = clampCartQuantity(product.quantity);
+    const productUrl = getProductUrl(product);
+    const row = document.createElement('div');
+
+    product.quantity = quantity;
+    row.className = 'item-row';
+    row.innerHTML = `
+      <div class="item-image"><img src="${product.image}" alt="Product"></div>
+      <section class="itemcart">
+        <a class="cart-product-link" href="${productUrl}">${product.name}</a>
+        <p class="item-price">${price} ${euro}</p>
+      </section>
+      <div class="quantity-control">
+        <button class="qty-btn" type="button" data-cart-action="decrease">-</button>
+        <input type="number" class="qty-input" value="${quantity}" min="1" max="${APP_CART_MAX_QUANTITY}">
+        <button class="qty-btn" type="button" data-cart-action="increase">+</button>
+      </div>
+      <div class="item-total"><p class="total-price">${price * quantity} ${euro}</p></div>
+      <button class="bin-button" type="button" data-cart-action="remove"><img src="../images/icons/trash.svg" class="binb" alt="Remove"></button>
+    `;
+
+    return row;
+  }
+
+  function loadCart() {
+    const cart = getCart();
+    const emptyMessage = itemsContainer.querySelector('.cart-empty-message');
+
+    itemsContainer.querySelectorAll('.item-row').forEach((row) => row.remove());
+    if (emptyMessage) {
+      emptyMessage.remove();
+    }
+
+    if (!cart.length) {
+      itemsContainer.insertAdjacentHTML('beforeend', '<p class="cart-empty-message" style="text-align:center;padding:40px;font-size:20px">YOUR CART IS EMPTY</p>');
+      summaryPrice.textContent = `0 ${euro}`;
+      return;
+    }
+
+    cart.forEach((product) => {
+      itemsContainer.appendChild(createCartRow(product));
+    });
+
+    saveCart(cart);
+    updatePrices();
+  }
+
+  itemsContainer.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-cart-action]');
+    if (!button) return;
+
+    const action = button.dataset.cartAction;
+
+    if (action === 'remove') {
+      removeItem(button);
+      return;
+    }
+
+    const input = action === 'increase'
+      ? button.previousElementSibling
+      : button.nextElementSibling;
+
+    if (!input || !input.classList.contains('qty-input')) return;
+
+    if (action === 'increase') {
+      input.value = clampCartQuantity(clampCartQuantity(input.value) + 1);
+      updateCartQuantity(input);
+      updatePrices();
+      return;
+    }
+
+    if (Number.parseInt(input.value, 10) <= 1) {
+      removeItem(button.closest('.item-row').querySelector('[data-cart-action="remove"]'));
+      return;
+    }
+
+    input.value = clampCartQuantity(Number.parseInt(input.value, 10) - 1);
+    updateCartQuantity(input);
+    updatePrices();
+  });
+
+  itemsContainer.addEventListener('input', (event) => {
+    if (!event.target.classList.contains('qty-input')) return;
+    updateCartQuantity(event.target);
+    updatePrices();
+  });
+
+  itemsContainer.addEventListener('change', (event) => {
+    if (!event.target.classList.contains('qty-input')) return;
+    updateCartQuantity(event.target);
+    updatePrices();
+  });
+
+  loadCart();
+});
+
 // 3D product viewers
 (() => {
   const readyEventName = 'iczz-three-ready';

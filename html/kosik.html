@@ -98,203 +98,44 @@
     <p class="recommendations-kicker">OFTEN BOUGHT TOGETHER</p>
     <h2>COMPLETE THE LOOK</h2>
   </div>
-  <div class="recommendations-grid"></div>
-</section>
-
-<script>
-const euro = String.fromCharCode(8364);
-const CART_MAX_QUANTITY = 80;
-const productCatalog = [
-  { name: 'A GREAT CHAOS CHAIN - REPLICA', price: 800, image: '../images/products/3chaos.png', url: 'product1.html' },
-  { name: 'RICK OWENS SS20 BRUTALIST CHAIN', price: 1200, image: '../images/products/chain1.jpeg', url: 'product2.html' },
-  { name: 'RICK OWENS DRKSHDW', price: 2500, image: '../images/products/DRK.png', url: 'product3.html' },
-  { name: 'MAISON MARGIELA FUTURE', price: 999, image: '../images/products/margiela1.png', url: 'product4.html' },
-  { name: 'YZY WET TANK TOP', price: 20, image: '../images/products/yeezywet1.png', url: 'product5.html' },
-  { name: 'XO PENDANT - THE WEEKND REPLICA', price: 500, image: '../images/products/XOprod.png', url: 'product6.html' }
-];
-
-const productUrlMap = Object.fromEntries(productCatalog.map((product) => [product.name, product.url]));
-
-function getCart() {
-  return JSON.parse(localStorage.getItem('cart')) || [];
-}
-
-function saveCart(cart) {
-  localStorage.setItem('cart', JSON.stringify(cart));
-}
-
-function normalizeQuantity(value) {
-  const quantity = parseInt(value, 10);
-  if (Number.isNaN(quantity)) {
-    return 1;
-  }
-
-  return Math.min(CART_MAX_QUANTITY, Math.max(1, quantity));
-}
-
-function getProductUrl(product) {
-  return product.url || productUrlMap[product.name] || '#';
-}
-
-function loadCart() {
-  const cart = getCart();
-  const itemsContainer = document.querySelector('.items-container');
-  const emptyMessage = itemsContainer.querySelector('.cart-empty-message');
-
-  itemsContainer.querySelectorAll('.item-row').forEach((row) => row.remove());
-  if (emptyMessage) {
-    emptyMessage.remove();
-  }
-
-  if (!cart.length) {
-    itemsContainer.insertAdjacentHTML('beforeend', '<p class="cart-empty-message" style="text-align:center;padding:40px;font-size:20px">YOUR CART IS EMPTY</p>');
-    document.querySelector('.summary-price').textContent = '0 ' + euro;
-    renderRecommendations(cart);
-    return;
-  }
-
-  cart.forEach((product) => {
-    const price = Number(product.price) || 0;
-    const quantity = normalizeQuantity(product.quantity);
-    product.quantity = quantity;
-    const productUrl = getProductUrl(product);
-    const row = document.createElement('div');
-    row.className = 'item-row';
-    row.innerHTML = `<div class="item-image"><img src="${product.image}" alt="Product"></div><section class="itemcart"><a class="cart-product-link" href="${productUrl}">${product.name}</a><p class="item-price">${price} ${euro}</p></section><div class="quantity-control"><button class="qty-btn" onclick="decQty(this)">-</button><input type="number" class="qty-input" value="${quantity}" min="1" max="${CART_MAX_QUANTITY}" oninput="updCart(this);updPrices()" onchange="updCart(this);updPrices()"><button class="qty-btn" onclick="incQty(this)">+</button></div><div class="item-total"><p class="total-price">${price * quantity} ${euro}</p></div><button class="bin-button" onclick="remItem(this)"><img src="../images/icons/trash.svg" class="binb" alt="Remove"></button>`;
-    itemsContainer.appendChild(row);
-  });
-
-  saveCart(cart);
-  updPrices();
-  renderRecommendations(cart);
-}
-
-function updCart(input) {
-  const row = input.closest('.item-row');
-  const quantity = normalizeQuantity(input.value);
-  const cart = getCart();
-  const productName = row.querySelector('.itemcart a').textContent;
-  const cartItem = cart.find((item) => item.name === productName);
-
-  input.value = quantity;
-
-  if (cartItem) {
-    cartItem.quantity = quantity;
-    saveCart(cart);
-  }
-}
-
-function remItem(button) {
-  const row = button.closest('.item-row');
-  const productName = row.querySelector('.itemcart a').textContent;
-  let cart = getCart();
-
-  cart = cart.filter((item) => item.name !== productName);
-  saveCart(cart);
-
-  row.style.opacity = '0';
-  row.style.transform = 'scale(0.8)';
-
-  setTimeout(() => {
-    row.remove();
-    updPrices();
-    loadCart();
-  }, 300);
-}
-
-function incQty(button) {
-  const input = button.previousElementSibling;
-  input.value = normalizeQuantity(normalizeQuantity(input.value) + 1);
-  updCart(input);
-  updPrices();
-}
-
-function decQty(button) {
-  const input = button.nextElementSibling;
-
-  if (parseInt(input.value, 10) <= 1) {
-    remItem(button.closest('.item-row').querySelector('.bin-button'));
-    return;
-  }
-
-  input.value = parseInt(input.value, 10) - 1;
-  updCart(input);
-  updPrices();
-}
-
-function updPrices() {
-  let total = 0;
-
-  document.querySelectorAll('.item-row').forEach((row) => {
-    const price = parseInt(row.querySelector('.item-price').textContent, 10);
-    const quantity = normalizeQuantity(row.querySelector('.qty-input').value);
-    const itemTotal = price * quantity;
-
-    row.querySelector('.total-price').textContent = itemTotal + ' ' + euro;
-    total += itemTotal;
-  });
-
-  document.querySelector('.summary-price').textContent = total + ' ' + euro;
-}
-
-function addRecommendedToCart(productName) {
-  const product = productCatalog.find((item) => item.name === productName);
-  if (!product) {
-    return;
-  }
-
-  const cart = getCart();
-  const existing = cart.find((item) => item.name === product.name);
-
-  if (existing) {
-    existing.quantity = normalizeQuantity(normalizeQuantity(existing.quantity) + 1);
-  } else {
-    cart.push({
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      url: product.url,
-      quantity: 1
-    });
-  }
-
-  saveCart(cart);
-  loadCart();
-}
-
-function renderRecommendations(cart) {
-  const container = document.querySelector('.recommendations-grid');
-  if (!container) {
-    return;
-  }
-
-  const inCart = new Set(cart.map((item) => item.name));
-  const recommendations = productCatalog.filter((product) => !inCart.has(product.name)).slice(0, 3);
-
-  if (!recommendations.length) {
-    container.innerHTML = '<p class="recommendations-empty">You already have our top picks in your cart.</p>';
-    return;
-  }
-
-  container.innerHTML = recommendations.map((product) => `
+  <div class="recommendations-grid">
     <article class="recommendation-card">
-      <a class="recommendation-image-link" href="${product.url}">
-        <img src="${product.image}" alt="${product.name}">
-      </a>
-      <div class="recommendation-copy">
-        <a class="recommendation-title" href="${product.url}">${product.name}</a>
-        <p class="recommendation-price">${product.price} ${euro}</p>
+      <div class="recommendation-image-link">
+        <a href="product6.html">
+        <img src="../images/products/XOprod.png" alt="XO chain">
+        </a>
       </div>
-      <button class="recommendation-btn" type="button" onclick="addRecommendedToCart('${product.name.replace(/'/g, "\\'")}')">ADD TO CART</button>
+      <div class="recommendation-copy">
+        <p class="recommendation-title">XO CHAIN</p>
+        <p class="recommendation-price">500 &euro;</p>
+      </div>
     </article>
-  `).join('');
-}
 
-window.addEventListener('load', loadCart);
-</script>
+    <article class="recommendation-card">
+      <div class="recommendation-image-link">
+        <a href="product8.html">
+        <img src="../images/products/gradrek.png" alt="Graduation CD">
+        </a>
+      </div>
+      <div class="recommendation-copy">
+        <p class="recommendation-title">GRADUATION CD</p>
+        <p class="recommendation-price">15 &euro;</p>
+      </div>
+    </article>
 
-
-
+    <article class="recommendation-card">
+      <div class="recommendation-image-link">
+        <a href="product1.html">
+        <img src="../images/products/3chaos.png" alt="Chaos chain">
+        </a>
+      </div>
+      <div class="recommendation-copy">
+        <p class="recommendation-title">CHAOS CHAIN</p>
+        <p class="recommendation-price">800 &euro;</p>
+      </div>
+    </article>
+  </div>
+</section>
 
 <footer class="footer">
     <hr class="line">
