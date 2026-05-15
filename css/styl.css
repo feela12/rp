@@ -3312,7 +3312,9 @@ body.fullscreen-open {
 .dark .recommendation-title,
 .dark .recommendation-price,
 .dark .recommendations-header h2,
-.dark .recommendations-kicker,
+.dark .recommendations-kicker {
+  color: #fff;
+}
 .dark .cart-product-link:focus-visible {
   outline-color: #fff;
 }
