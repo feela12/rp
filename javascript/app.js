@@ -1534,6 +1534,53 @@ window.showPopup = () => {
 };
 
 onReady(() => {
+  const checkoutButton = document.querySelector('#checkout-button');
+  const checkoutStatus = document.querySelector('#checkout-status');
+  const checkoutSignin = document.querySelector('.checkout-signin');
+  const checkoutLoginForm = document.querySelector('.checkout-login-form');
+
+  if (checkoutButton && checkoutStatus && checkoutSignin && checkoutLoginForm) {
+    let signedInEmail = sessionStorage.getItem('iczzDemoUser');
+
+    const showSignedInState = () => {
+      checkoutButton.textContent = 'CONTINUE TO CHECKOUT';
+      checkoutStatus.textContent = `Signed in as ${signedInEmail}. Your cart is ready.`;
+    };
+
+    if (signedInEmail) showSignedInState();
+
+    checkoutLoginForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      signedInEmail = checkoutLoginForm.elements.email.value.trim();
+      sessionStorage.setItem('iczzDemoUser', signedInEmail);
+      showSignedInState();
+      checkoutStatus.textContent += ' You can continue with the checkout button.';
+      checkoutLoginForm.querySelector('.login-close-x')?.click();
+    });
+
+    checkoutButton.addEventListener('click', () => {
+      let cart = [];
+      try {
+        cart = JSON.parse(localStorage.getItem('cart')) || [];
+      } catch (_error) {
+        cart = [];
+      }
+
+      if (!cart.length) {
+        checkoutStatus.textContent = 'Your cart is empty.';
+        return;
+      }
+
+      if (!signedInEmail) {
+        checkoutStatus.textContent = 'Sign in to continue with checkout.';
+        checkoutSignin.click();
+        return;
+      }
+
+      checkoutStatus.textContent = `Signed in as ${signedInEmail}. The checkout is ready; shipping and payment are not set up yet.`;
+    });
+  }
+
   document.querySelectorAll('.login-form').forEach((form) => {
     form.addEventListener('submit', (event) => {
       event.preventDefault();
@@ -1565,7 +1612,7 @@ onReady(() => {
   const input = document.querySelector('.search-input');
   const image = document.getElementById('myImage');
   const addToCartButton = document.getElementById('addToCartBtn');
-  const accountTriggers = document.querySelectorAll('.acc[href="#popup"]');
+  const accountTriggers = document.querySelectorAll('.acc[href="#popup"], .checkout-signin[href="#popup"]');
   const accountPopups = document.querySelectorAll('.popup');
   let lastAccountTrigger = null;
 

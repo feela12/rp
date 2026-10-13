@@ -103,14 +103,17 @@
     
     <!-- Pravá strana - Popis, cena, tlačítko -->
     <div class="product-right">
-        <p class="nadpisc"><a href="product8.html">GRADUATION CD</a></p>
-        <p class="ricktext"> 
+        <p class="nadpisc"><a id="db-product-name" href="product8.html">GRADUATION CD</a></p>
+        <p class="ricktext" id="db-product-description"> 
          Graduation CD is a unique music album that combines the raw energy of punk rock with the introspective depth of indie music. Featuring a blend of aggressive guitar riffs, catchy melodies, and thought-provoking lyrics, this album captures the essence of youthful rebellion and self-discovery. Each track takes listeners on a journey through themes of identity, societal expectations, and the search for meaning in a chaotic world. With its dynamic sound and emotionally charged performances, Graduation CD is a must-listen for fans of both genres and anyone looking for music that resonates on a deeper level.
         </p>
-        <p class="cenovka">15 €</p>
+        <p class="cenovka" id="db-product-price">15 €</p>
         <button id="addToCartBtn" data-product-name="GRADUATION CD" data-product-price="15" data-product-image="../images/products/gradrek.png">ADD TO CART</button>
+        <p><a href="/admin-product.html">Upravit tento produkt</a></p>
     </div>
 </section>
+
+<script src="/javascript/product8-db.js" defer></script>
 
 
 <footer class="footer">

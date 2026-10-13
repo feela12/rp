@@ -32,7 +32,7 @@
             </div>
         </div>
 
-        <form class="login-form">
+        <form class="login-form checkout-login-form">
             <input type="email" placeholder="EMAIL ADDRESS" class="login-input" required>
             <input type="password" placeholder="PASSWORD" class="login-input" required>
             <label class="login-remember">
@@ -87,8 +87,10 @@
   <div class="email-container">
     <input type="email" class="email-input" placeholder="Enter your email..." required>
   </div>
-  <button class="checkout">CHECKOUT</button>
+  <button class="checkout" id="checkout-button" type="button">CHECKOUT</button>
+  <a class="checkout-signin" href="#popup">Already have an account? Sign in</a>
 </section>
+<p class="checkout-status" id="checkout-status" role="status" aria-live="polite"></p>
 
 <section class="cart-recommendations">
   <div class="recommendations-header">
