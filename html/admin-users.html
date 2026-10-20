@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Správa uživatelů | ICZZ</title>
+  <style>
+    body { max-width: 900px; margin: 40px auto; padding: 0 20px; font: 16px/1.5 system-ui, sans-serif; color: #222; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; border-bottom: 1px solid #ccc; padding: 9px; }
+    button { cursor: pointer; }
+  </style>
+</head>
+<body>
+  <p><a href="/">← Domů</a> · <a href="/admin-product.html">Správa produktu</a></p>
+  <h1>Uživatelé</h1>
+  <p id="status" role="status"></p>
+  <table>
+    <thead><tr><th>Uživatelské jméno</th><th>Role</th><th>Vytvořen</th><th></th></tr></thead>
+    <tbody id="users"></tbody>
+  </table>
+  <script src="/javascript/admin-users.js" defer></script>
+</body>
+</html>

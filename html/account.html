@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Můj účet | ICZZ</title>
+  <link rel="icon" type="image/x-icon" href="/images/logos/logogo.png">
+  <link rel="stylesheet" href="/css/account.css">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
+  <script src="/javascript/account.js" defer></script>
+</head>
+<body class="account-page">
+  <header class="account-topbar">
+    <a class="account-back" href="/" aria-label="Zpět do obchodu">← <span>ZPĚT DO OBCHODU</span></a>
+    <a class="account-wordmark" href="/" aria-label="ICZZ domů"><img src="/images/logos/logogo.png" alt="ICZZ"></a>
+    <div class="account-top-actions">
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Přepnout barevný režim"><img id="account-theme-icon" src="/images/icons/moon-line.svg" alt=""><span id="theme-label">SVĚTLÝ REŽIM</span></button>
+      <span class="account-top-label">MEMBER ACCESS / 01</span>
+    </div>
+  </header>
+
+  <aside class="logo-carousel logo-carousel-left" aria-hidden="true">
+    <div class="logo-carousel-track">
+      <div class="logo-carousel-set">
+        <img src="/images/logos/logogo.png" alt=""><img src="/images/logos/logogo.png" alt=""><img src="/images/logos/logogo.png" alt=""><img src="/images/logos/logogo.png" alt=""><img src="/images/logos/logogo.png" alt="">
+      </div>
+      <div class="logo-carousel-set">
+        <img src="/images/logos/logogo.png" alt=""><img src="/images/logos/logogo.png" alt=""><img src="/images/logos/logogo.png" alt=""><img src="/images/logos/logogo.png" alt=""><img src="/images/logos/logogo.png" alt="">
+      </div>
+    </div>
+  </aside>
+  <aside class="logo-carousel logo-carousel-right" aria-hidden="true">
+    <div class="logo-carousel-track">
+      <div class="logo-carousel-set">
+        <img src="/images/logos/logogo.png" alt=""><img src="/images/logos/logogo.png" alt=""><img src="/images/logos/logogo.png" alt=""><img src="/images/logos/logogo.png" alt=""><img src="/images/logos/logogo.png" alt="">
+      </div>
+      <div class="logo-carousel-set">
+        <img src="/images/logos/logogo.png" alt=""><img src="/images/logos/logogo.png" alt=""><img src="/images/logos/logogo.png" alt=""><img src="/images/logos/logogo.png" alt=""><img src="/images/logos/logogo.png" alt="">
+      </div>
+    </div>
+  </aside>
+
+  <main class="account-shell">
+    <section class="account-hero" aria-labelledby="account-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-line"></span> PRIVATE MEMBER SPACE</p>
+        <h1 id="account-title">YOUR<br><em>PROFILE</em></h1>
+        <p class="hero-note">Váš účet. Vaše pravidla.<br>Spravujte přístup ke svému ICZZ profilu.</p>
+      </div>
+      <div class="member-card" tabindex="0" aria-label="Interaktivní stříbrná členská karta ICZZ">
+        <div class="card-top"><span>ICZZ / MEMBER</span><span>EST. MMXXIV</span></div>
+        <div class="card-mark" aria-hidden="true"><span id="profile-initial">I</span><i></i><b></b></div>
+        <div class="card-bottom"><div><small>ACCOUNT HOLDER</small><strong id="profile-username">Načítám…</strong></div><span class="member-role" id="profile-role">MEMBER</span></div>
+      </div>
+      <span class="hero-index" aria-hidden="true">ICZZ&nbsp; / &nbsp;ACCOUNT</span>
+    </section>
+
+    <section class="settings-section" aria-labelledby="settings-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">ACCOUNT CONTROL <span>— 01</span></p><h2 id="settings-title">Nastavení účtu</h2></div>
+        <p class="section-aside">ZMĚNY SE ULOŽÍ DO VAŠEHO PROFILU</p>
+      </div>
+
+      <form id="account-form" class="settings-form">
+        <div class="form-block identity-block">
+          <div class="block-number">01</div>
+          <div class="block-content">
+            <h3>Identita</h3>
+            <p class="block-description">Uživatelské jméno, které používáte při přihlášení.</p>
+            <label for="username">Uživatelské jméno</label>
+            <input id="username" name="username" autocomplete="username" pattern="[A-Za-z][A-Za-z0-9_.-]{2,49}" minlength="3" maxlength="50" required>
+          </div>
+          <span class="field-mark" aria-hidden="true">✳</span>
+        </div>
+
+        <div class="form-block password-block">
+          <div class="block-number">02</div>
+          <div class="block-content">
+            <h3>Zabezpečení</h3>
+            <p class="block-description">Pro změnu hesla vyplňte všechna tři pole. Hesla ukládáme zabezpečeně jako hash.</p>
+            <div class="password-grid">
+              <div><label for="current-password">Současné heslo</label><input id="current-password" name="currentPassword" type="password" autocomplete="current-password"></div>
+              <div><label for="new-password">Nové heslo</label><input id="new-password" name="newPassword" type="password" autocomplete="new-password" minlength="10" maxlength="128"></div>
+              <div><label for="confirm-password">Nové heslo znovu</label><input id="confirm-password" name="confirmPassword" type="password" autocomplete="new-password" minlength="10" maxlength="128"></div>
+            </div>
+          </div>
+          <span class="field-mark lock-mark" aria-hidden="true">✧</span>
+        </div>
+
+        <div class="form-actions">
+          <p id="account-status" role="status" aria-live="polite"></p>
+          <button class="save-button" type="submit"><span>ULOŽIT ZMĚNY</span><b>↗</b></button>
+        </div>
+      </form>
+    </section>
+
+    <section class="account-footer">
+      <div class="footer-links" id="admin-links" hidden><a href="/admin-product.html">SPRÁVA PRODUKTŮ ↗</a><a href="/admin-users.html">SPRÁVA ČLENŮ ↗</a></div>
+      <div class="logout-row"><div><span class="logout-dot"></span><span>PŘIHLÁŠENÁ RELACE</span></div><button id="logout-button" type="button">ODHLÁSIT SE <span>↗</span></button></div>
+      <p class="account-footnote">ICZZ MEMBERSHIP <span>•</span> AUTHENTICATED ACCESS</p>
+    </section>
+  </main>
+</body>
+</html>

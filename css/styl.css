@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap');
 * {
   margin: 0;
   padding: 0;
@@ -399,6 +400,17 @@ text-transform: uppercase;
 .search{position:absolute;right:calc(var(--header-account-right) + var(--header-icon-size) + var(--header-icon-size) + var(--header-control-gap) + var(--header-control-gap));z-index:9999;display:flex;align-items:center;justify-content:flex-end;cursor:pointer;transform-origin:right center;transition:.3s ease;width:var(--header-icon-size)}
 .search img{order:2;transition:transform .5s ease-in-out}
 .acc img,.search img,#icon{width:var(--header-icon-size);height:var(--header-icon-size)}
+.acc .account-initial{position:relative;width:var(--header-icon-size);height:var(--header-icon-size);display:block;overflow:visible;background:linear-gradient(180deg,#fff 0%,#a6abb2 22%,#fff 35%,#666d75 49%,#f7f8f9 63%,#9299a1 78%,#fff 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;-webkit-text-stroke:.5px rgba(245,248,252,.82);font:700 45px/var(--header-icon-size) "Cormorant Garamond",Georgia,serif;text-align:center;filter:drop-shadow(0 1px 1px #17191c) drop-shadow(0 0 1px #17191c);transition:transform .2s ease,filter .2s ease}
+.acc .account-initial:after{content:"✦";position:absolute;top:2px;right:3px;color:#fff;font:10px/1 Arial,sans-serif;-webkit-text-fill-color:#fff;-webkit-text-stroke:0;text-shadow:0 0 4px #fff}
+html.account-known .acc img{display:none!important}
+html.account-known .acc .account-initial[hidden]{display:block}
+html.account-known .acc .account-initial:before{content:var(--account-initial)}
+.acc:hover .account-initial{transform:scale(1.06);filter:drop-shadow(0 1px 2px #17191c) drop-shadow(0 0 3px #17191c)}
+body.dark .acc .account-initial{filter:drop-shadow(0 1px 1px #fff) drop-shadow(0 0 2px #fff)}
+body.dark .acc:hover .account-initial{filter:drop-shadow(0 1px 1px #fff) drop-shadow(0 0 5px #fff)}
+.acc img[hidden],.acc .account-initial[hidden]{display:none}
+.acc .account-link-label{position:absolute;top:calc(100% - 3px);left:50%;transform:translateX(-50%);color:#a4a9af;font:8px/1 "IBM Plex Mono",monospace;letter-spacing:.12em;white-space:nowrap;text-align:center;opacity:.82}
+.acc .account-link-label[hidden]{display:none}
 .kos img{width:var(--header-cart-width);height:var(--header-icon-size)}
 .acc img,.search img,.kos img,#icon{display:block}
 .header-logo{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:var(--header-logo-width);height:var(--header-logo-height);object-fit:contain;z-index:1001}
@@ -3040,7 +3052,15 @@ body.fullscreen-open {
   transform: translateY(-50%);
   cursor: pointer;
   z-index: 9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:var(--header-icon-size);
+  min-height:24px;
 }
+.sunmoon .theme-label{color:#656a70;font:7px/1 "IBM Plex Mono",monospace;letter-spacing:.09em;white-space:nowrap;pointer-events:none}
+body.dark .sunmoon .theme-label{color:#b7bbc0}
+.sunmoon:focus-visible{outline:1px solid #9299a1;outline-offset:4px}
 .rights{
   font-family:"IBM Plex Mono", monospace, bold;
   font-size: clamp(0.72rem, 1.5vw, 0.95rem);

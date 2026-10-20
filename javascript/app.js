@@ -1463,11 +1463,16 @@ function smoothScrollElementTo(element, targetLeft, duration = 760) {
 
 function syncThemeIcon() {
   const icon = document.getElementById('icon');
-  if (!icon) return;
-
-  icon.src = document.body.classList.contains('dark')
-    ? '../images/icons/sun.svg'
-    : '../images/icons/moon.svg';
+  const isDark = document.body.classList.contains('dark');
+  if (icon) {
+    icon.src = isDark
+      ? '../images/icons/sun-line.svg'
+      : '../images/icons/moon-line.svg';
+  }
+  const label = document.querySelector('.sunmoon .theme-label');
+  if (label) label.textContent = isDark ? 'SVĚTLÝ REŽIM' : 'TMAVÝ REŽIM';
+  const toggle = document.querySelector('.sunmoon');
+  if (toggle) toggle.setAttribute('aria-label', isDark ? 'Přepnout na světlý režim' : 'Přepnout na tmavý režim');
 }
 
 function applySavedTheme() {
@@ -1601,9 +1606,15 @@ onReady(() => {
 onReady(() => {
   applySavedTheme();
 
-  const themeToggle = document.getElementById('icon');
+  const themeToggle = document.querySelector('.sunmoon');
   if (themeToggle) {
     themeToggle.addEventListener('click', window.toggleDarkMode);
+    themeToggle.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        window.toggleDarkMode();
+      }
+    });
   }
 });
 
@@ -1746,6 +1757,7 @@ onReady(() => {
 
   accountTriggers.forEach((trigger) => {
     trigger.addEventListener('click', (event) => {
+      if (trigger.getAttribute('href') !== '#popup') return;
       event.preventDefault();
       openAccountPopup(document.getElementById('popup'), trigger);
     });

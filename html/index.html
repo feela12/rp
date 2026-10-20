@@ -6,8 +6,11 @@
   <title>ICZZ</title>
   <link rel="icon" type="image/x-icon" href="../images/logos/logogo.png">
   <link rel="stylesheet" href="../css/styl.css">
+  <script src="../javascript/auth-hint.js"></script>
   <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&display=swap" rel="stylesheet">
 <script src="../javascript/app.js" defer></script>
+<script src="../javascript/auth.js" defer></script>
 </head>
 
 <body>
@@ -22,8 +25,9 @@
       </a>
 
       <!-- ACCOUNT -->
-      <a href="#popup" class="acc" aria-label="Otevrit prihlaseni">
-        <img src="../images/icons/user.svg" height="50" width="55" alt="ucet">
+      <a href="#popup" class="acc" aria-label="Otevřít účet">
+        <img class="account-user-icon" src="../images/icons/user-line.svg" height="50" width="55" alt="">
+        <span class="account-initial" aria-hidden="true" hidden></span>
       </a>
 
       <!-- popup okno for prihlaseni -->
@@ -38,14 +42,11 @@
             </div>
           </div>
           
-          <form class="login-form">
-            <input type="email" placeholder="EMAIL ADDRESS" class="login-input" required>
-            <input type="password" placeholder="PASSWORD" class="login-input" required>
-            <label class="login-remember">
-              <input type="checkbox" name="remember">
-              <span>REMEMBER ME</span>
-            </label>
-            <button type="submit" class="login-submit">LOG IN</button>
+          <form class="login-form" id="auth-form">
+            <input type="text" name="username" placeholder="USERNAME" class="login-input" autocomplete="username" pattern="[A-Za-z][A-Za-z0-9_.-]{2,49}" minlength="3" maxlength="50" required>
+            <input type="password" name="password" placeholder="PASSWORD (MIN. 10 CHARACTERS)" class="login-input" autocomplete="current-password" minlength="10" maxlength="128" required>
+            <p id="auth-status" role="status" aria-live="polite"></p>
+            <button type="submit" class="login-submit" id="auth-submit">LOG IN</button>
           </form>
 
           <div class="login-divider"><span>OR CONTINUE WITH</span></div>
@@ -56,26 +57,26 @@
           </div>
           
           <div class="login-extra">
-            <p class="review-text login-footnote">DON'T HAVE AN ACCOUNT? <a href="#">SIGN UP</a></p>
+            <p class="review-text login-footnote" id="auth-switch-copy">DON'T HAVE AN ACCOUNT? <a href="#" id="auth-switch">SIGN UP</a></p>
+            <p id="auth-admin-links" hidden><a href="/admin-product.html">Správa produktu</a> · <a href="/admin-users.html">Správa uživatelů</a></p>
+            <button type="button" id="auth-logout" hidden>Odhlásit se</button>
           </div>
         </div>
       </div>
 
       <!-- kosik cart -->
       <a href="kosik.html" class="kos">
-        <img src="../images/icons/kosik.svg" height="50px" width="60px" alt="kosik">
+        <img src="../images/icons/kosik-line.svg" height="50px" width="60px" alt="kosik">
       </a>
 
       <!-- vyhledavani -->
       <div class="search" id="mysearch">
-        <img src="../images/icons/lupa.svg" alt="Search" width="50" height="50">
+        <img src="../images/icons/lupa-line.svg" alt="Search" width="50" height="50">
       </div>
       <input type="text" class="search-input" placeholder="Search...">
 
       <!-- prepinac tmavy/svetly rezim -->
-      <div class="sunmoon">
-        <img id="icon" src="../images/icons/moon.svg" height="50px" width="50px" top="50px" alt="rezim">
-      </div>
+      <div class="sunmoon" role="button" tabindex="0" aria-label="Toggle dark mode"><span class="theme-label">TMAV&#221; RE&#381;IM</span></div>
     </section>
   </header>
 
