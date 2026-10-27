@@ -10,7 +10,7 @@
   --header-cart-width: 60px;
   --header-logo-width: 118px;
   --header-logo-height: 72px;
-  --header-bar-height: 88px;
+  --header-bar-height: 82px;
   --header-control-gap: 20px;
   --header-account-right: 95px;
   --header-cart-right: 24px;
@@ -339,8 +339,6 @@ text-transform: uppercase;
   width: 100% !important;
   height: 100% !important;
   display: block;
-  image-rendering: crisp-edges;
-  image-rendering: pixelated;
 }
 .three-model__fallback-image {
   position: absolute;
@@ -2091,6 +2089,9 @@ body.fullscreen-open {
   float: none;
   text-align: center;
 }
+.product-right .loyalty-reward{display:inline-flex;align-items:center;vertical-align:middle;margin-left:12px;padding:7px 10px;border:1px solid rgba(145,151,159,.62);border-radius:3px;background:linear-gradient(115deg,rgba(36,40,45,.92),rgba(137,144,152,.92) 48%,rgba(48,53,59,.96));box-shadow:0 3px 10px rgba(0,0,0,.2),inset 0 1px rgba(255,255,255,.3);color:#f5f6f7;font:600 10px/1.2 "IBM Plex Mono",monospace;letter-spacing:.08em;white-space:nowrap;transform:translateY(-.35em)}
+.product-right .cenovka[hidden],.product-right .loyalty-reward[hidden]{display:none}
+.dark .product-right .loyalty-reward{border-color:rgba(230,234,239,.38);background:linear-gradient(115deg,#17191c,#727982 48%,#202327);box-shadow:0 3px 12px rgba(255,255,255,.08),inset 0 1px rgba(255,255,255,.35);color:#fff}
 .product-right #addToCartBtn {
   font-size: 24px;
   padding: 15px 30px;
@@ -2105,6 +2106,7 @@ body.fullscreen-open {
   float: none;
   margin: 0;
 }
+.product-right #addToCartBtn:disabled{opacity:.55;cursor:wait;filter:grayscale(.45)}
 .product-right #addToCartBtn:hover {
   background-color: #333;
 }
@@ -3057,10 +3059,14 @@ body.fullscreen-open {
   justify-content:center;
   width:var(--header-icon-size);
   min-height:24px;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 .sunmoon .theme-label{color:#656a70;font:7px/1 "IBM Plex Mono",monospace;letter-spacing:.09em;white-space:nowrap;pointer-events:none}
 body.dark .sunmoon .theme-label{color:#b7bbc0}
 .sunmoon:focus-visible{outline:1px solid #9299a1;outline-offset:4px}
+.fixed-section a:has(.header-logo){-webkit-tap-highlight-color:transparent;user-select:none}
+.header-logo{-webkit-user-drag:none;user-select:none}
 .rights{
   font-family:"IBM Plex Mono", monospace, bold;
   font-size: clamp(0.72rem, 1.5vw, 0.95rem);
@@ -4004,6 +4010,22 @@ body.dark .sunmoon .theme-label{color:#b7bbc0}
   height:auto;
   filter:none;
 }
+.footer-session-status{
+  flex:0 0 100%;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding-top:18px;
+  border-top:1px solid rgba(0,0,0,.18);
+  color:#666b70;
+  font:9px "IBM Plex Mono",monospace;
+  letter-spacing:.13em;
+}
+.footer-session-status button{margin-left:auto;padding:0;border:0;background:none;color:#555a60;font:10px "IBM Plex Mono",monospace;letter-spacing:.12em;cursor:pointer}
+.footer-session-status button:hover{color:#111}
+.footer-session-status button span{padding-left:8px;color:#303438}
+.footer-session-status[hidden]{display:none}
+.footer-session-dot{width:6px;height:6px;border-radius:50%;background:#66836f;box-shadow:0 0 8px #b9d4c2}
 .dark .footer{
   border-color:rgba(255,255,255,0.18);
   background:
@@ -4037,6 +4059,10 @@ body.dark .sunmoon .theme-label{color:#b7bbc0}
   border-color:#fff;
   background:rgba(255,255,255,0.16);
 }
+.dark .footer-session-status{border-top-color:rgba(255,255,255,.24);color:#777}
+.dark .footer-session-status button{color:#b6b6b6}
+.dark .footer-session-status button:hover{color:#fff}
+.dark .footer-session-status button span{color:#fff}
 #addToCartBtn,
 .product-right #addToCartBtn{
   position:relative;
@@ -4101,4 +4127,51 @@ body.dark .sunmoon .theme-label{color:#b7bbc0}
   .footer > a{
     margin:0 4px;
   }
+}
+
+/* Keep every site header aligned with the account page. */
+.fixed-section{
+  height:82px;
+  padding:8px clamp(22px,6vw,90px);
+  background:rgba(255,255,255,.76);
+  -webkit-backdrop-filter:blur(12px) saturate(145%);
+  backdrop-filter:blur(12px) saturate(145%);
+  border-color:rgba(0,0,0,.18);
+  border-width:0 0 1px;
+  border-radius:0;
+}
+.fixed-section .acc img,.fixed-section .search img,.fixed-section .kos img,.fixed-section #icon{filter:brightness(0)}
+.dark .fixed-section{background-color:rgba(0,0,0,.68);border-color:rgba(255,255,255,.12)}
+.dark .fixed-section .acc img,.dark .fixed-section .search img,.dark .fixed-section .kos img,.dark .fixed-section #icon{filter:invert(1)}
+.header-back-link{
+  left:clamp(22px,6vw,90px);
+  min-height:38px;
+  max-width:none;
+  padding:7px 0;
+  border:0;
+  border-radius:0;
+  color:#a7a7a7;
+  background:transparent;
+  font-size:10px;
+  font-weight:400;
+  letter-spacing:.15em;
+  text-align:left;
+  transform:translateY(-50%);
+}
+.header-back-link:hover{color:#fff;background:transparent;border-color:transparent;transform:translateY(-50%)}
+.header-back-link:focus-visible{outline:1px solid currentColor;outline-offset:5px}
+.dark .header-back-link{color:#a7a7a7}
+.dark .header-back-link:hover{color:#fff;background:transparent;border-color:transparent}
+@media(max-width:760px){
+  .fixed-section{height:68px;padding:7px 18px;border-width:0 0 1px;border-radius:0}
+  .header-back-link{left:18px;top:50%;min-height:32px;max-width:120px;padding:5px 0;font-size:8px;letter-spacing:.1em;transform:translateY(-50%)}
+  .header-back-link:hover{transform:translateY(-50%)}
+  .search,.acc,.kos,.sunmoon{top:50%;transform:translateY(-50%)}
+  header{height:68px}
+}
+@media(max-width:430px){
+  .fixed-section{height:68px;padding:6px 12px}
+  .header-back-link{left:12px;max-width:96px;min-height:28px;padding:4px 0;font-size:7px;letter-spacing:.07em}
+  .search,.acc,.kos,.sunmoon{top:50%;transform:translateY(-50%)}
+  header{height:68px}
 }

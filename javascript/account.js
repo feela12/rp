@@ -58,13 +58,11 @@ logoutButton.addEventListener('click', async () => {
 initializeAccount().catch(() => { window.location.replace('/#popup'); });
 
 const themeToggle = document.querySelector('#theme-toggle');
-const themeIcon = document.querySelector('#account-theme-icon');
 const themeLabel = document.querySelector('#theme-label');
 
 function applyAccountTheme(mode) {
   const isDark = mode === 'dark';
   document.body.classList.toggle('dark', isDark);
-  themeIcon.src = isDark ? '/images/icons/sun-line.svg' : '/images/icons/moon-line.svg';
   themeLabel.textContent = isDark ? 'SVĚTLÝ REŽIM' : 'TMAVÝ REŽIM';
   themeToggle.setAttribute('aria-label', isDark ? 'Přepnout na světlý režim' : 'Přepnout na tmavý režim');
 }

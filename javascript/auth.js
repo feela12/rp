@@ -1,4 +1,6 @@
 const accountLink = document.querySelector('.acc');
+const sessionIndicator = document.querySelector('#footer-session-status');
+const footerLogoutButton = document.querySelector('#footer-logout-button');
 const userIcon = accountLink?.querySelector('img');
 let initialIcon = accountLink?.querySelector('.account-initial');
 let accountLabel = accountLink?.querySelector('.account-link-label');
@@ -18,6 +20,7 @@ if (accountLink && userIcon && !initialIcon) {
 }
 
 function updateAccountIcon(user) {
+  if (sessionIndicator) sessionIndicator.hidden = !user;
   if (!accountLink || !userIcon || !initialIcon) return;
   if (user) {
     try { localStorage.setItem('iczz_username', user.username); } catch {}
@@ -41,6 +44,11 @@ function updateAccountIcon(user) {
   document.documentElement.classList.remove('account-known');
   document.documentElement.style.removeProperty('--account-initial');
 }
+
+footerLogoutButton?.addEventListener('click', async () => {
+  await fetch('/api/logout', { method: 'POST' });
+  updateAccountIcon(null);
+});
 
 accountLink?.addEventListener('click', (event) => {
   if (!accountLink.classList.contains('is-authenticated')) return;

@@ -22,10 +22,23 @@ BEGIN
     Username NVARCHAR(50) NOT NULL,
     PasswordHash NVARCHAR(255) NOT NULL,
     Role NVARCHAR(10) NOT NULL CONSTRAINT DF_Users_Role DEFAULT N'user',
+    LoyaltyPoints INT NOT NULL CONSTRAINT DF_Users_LoyaltyPoints DEFAULT (0),
     CreatedAt DATETIME2 NOT NULL CONSTRAINT DF_Users_CreatedAt DEFAULT SYSUTCDATETIME(),
     CONSTRAINT UQ_Users_Username UNIQUE (Username),
-    CONSTRAINT CK_Users_Role CHECK (Role IN (N'user', N'admin'))
+    CONSTRAINT CK_Users_Role CHECK (Role IN (N'user', N'admin')),
+    CONSTRAINT CK_Users_LoyaltyPoints CHECK (LoyaltyPoints >= 0)
   );
+END;
+
+-- Migrate existing databases and initialize existing accounts with zero points.
+IF COL_LENGTH(N'dbo.Users', N'LoyaltyPoints') IS NULL
+BEGIN
+  ALTER TABLE dbo.Users
+    ADD LoyaltyPoints INT NOT NULL
+      CONSTRAINT DF_Users_LoyaltyPoints DEFAULT (0) WITH VALUES;
+
+  ALTER TABLE dbo.Users
+    ADD CONSTRAINT CK_Users_LoyaltyPoints CHECK (LoyaltyPoints >= 0);
 END;
 
 -- Vloží produkty, které v tabulce ještě nejsou. Existující záznamy nemění.

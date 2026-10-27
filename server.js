@@ -56,11 +56,22 @@ function startSession(response, user) {
 }
 
 async function bootstrapAdmin() {
+  const sql = require('mssql');
+  const pool = await getPool();
+  await pool.request().query(`
+    IF COL_LENGTH(N'dbo.Users', N'LoyaltyPoints') IS NULL
+    BEGIN
+      ALTER TABLE dbo.Users
+        ADD LoyaltyPoints INT NOT NULL
+          CONSTRAINT DF_Users_LoyaltyPoints DEFAULT (0) WITH VALUES;
+      ALTER TABLE dbo.Users
+        ADD CONSTRAINT CK_Users_LoyaltyPoints CHECK (LoyaltyPoints >= 0);
+    END;
+  `);
+
   const username = process.env.ADMIN_USERNAME?.trim();
   const password = process.env.ADMIN_PASSWORD;
   if (!username || !password) return console.warn('Admin bootstrap skipped: set ADMIN_USERNAME and ADMIN_PASSWORD in .env.');
-  const sql = require('mssql');
-  const pool = await getPool();
   const found = await pool.request().input('username', sql.NVarChar(50), username).query('SELECT Id FROM dbo.Users WHERE Username = @username');
   if (found.recordset.length) return;
   const passwordHash = await hashPassword(password);
@@ -196,26 +207,31 @@ app.get('/account.html', (request, response) => {
   response.sendFile(path.join(projectRoot, 'html', 'account.html'));
 });
 
-app.get('/api/products/graduation-cd', async (_request, response) => {
+app.get('/api/products/:slug', async (request, response) => {
+  response.set('Cache-Control', 'no-store, no-cache, must-revalidate');
+  const pagePath = request.params.slug === 'graduation-cd' ? 'product8.html' : `${request.params.slug}.html`;
+  if (!/^product(?:[1-9]|10)\.html$/.test(pagePath)) return response.status(404).json({ error: 'Produkt nebyl nalezen.' });
   try {
     const pool = await getPool();
     const result = await pool.request()
-      .input('pagePath', require('mssql').NVarChar(150), 'product8.html')
+      .input('pagePath', require('mssql').NVarChar(150), pagePath)
       .query(`SELECT Id AS id, Name AS name, Description AS description,
                      Price AS price, ImagePath AS imagePath, PagePath AS pagePath
               FROM dbo.Products WHERE PagePath = @pagePath`);
 
     if (!result.recordset[0]) {
-      return response.status(404).json({ error: 'Graduation CD was not found. Run database/setup.sql first.' });
+      return response.status(404).json({ error: 'Produkt nebyl nalezen. Spusť database/setup.sql.' });
     }
     response.json(result.recordset[0]);
   } catch (error) {
-    console.error('Could not load Graduation CD:', error.message);
+    console.error('Could not load product:', error.message);
     response.status(503).json({ error: 'Could not load product. Check the SQL Server setup.' });
   }
 });
 
-app.put('/api/products/graduation-cd', requireAdmin, async (request, response) => {
+app.put('/api/products/:slug', requireAdmin, async (request, response) => {
+  const pagePath = request.params.slug === 'graduation-cd' ? 'product8.html' : `${request.params.slug}.html`;
+  if (!/^product(?:[1-9]|10)\.html$/.test(pagePath)) return response.status(404).json({ error: 'Produkt nebyl nalezen.' });
   const { name, description, price, imagePath } = request.body;
   const parsedPrice = Number(price);
   if (typeof name !== 'string' || !name.trim() || typeof description !== 'string' ||
@@ -228,7 +244,7 @@ app.put('/api/products/graduation-cd', requireAdmin, async (request, response) =
     const sql = require('mssql');
     const pool = await getPool();
     const result = await pool.request()
-      .input('pagePath', sql.NVarChar(150), 'product8.html')
+      .input('pagePath', sql.NVarChar(150), pagePath)
       .input('name', sql.NVarChar(150), name.trim())
       .input('description', sql.NVarChar(sql.MAX), description.trim())
       .input('price', sql.Decimal(10, 2), parsedPrice)
@@ -242,11 +258,11 @@ app.put('/api/products/graduation-cd', requireAdmin, async (request, response) =
               WHERE PagePath = @pagePath`);
 
     if (!result.recordset[0]) {
-      return response.status(404).json({ error: 'Graduation CD was not found. Run database/setup.sql first.' });
+      return response.status(404).json({ error: 'Produkt nebyl nalezen. Spusť database/setup.sql.' });
     }
     response.json(result.recordset[0]);
   } catch (error) {
-    console.error('Could not save Graduation CD:', error.message);
+    console.error('Could not save product:', error.message);
     response.status(503).json({ error: 'Could not save product. Check the SQL Server setup.' });
   }
 });

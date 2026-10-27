@@ -1,5 +1,16 @@
 const form = document.querySelector('#product-form');
 const statusText = document.querySelector('#status');
+const productSelect = document.querySelector('#product-select');
+const backLink = document.querySelector('#back-link');
+const requestedProduct = new URLSearchParams(location.search).get('product');
+if (requestedProduct && Array.from(productSelect.options).some((option) => option.value === requestedProduct)) {
+  productSelect.value = requestedProduct;
+}
+
+function endpoint() {
+  const apiSlug = productSelect.value === 'product8' ? 'graduation-cd' : productSelect.value;
+  return `/api/products/${encodeURIComponent(apiSlug)}`;
+}
 
 function showProduct(product) {
   document.querySelector('#product-id').textContent = product.id;
@@ -7,18 +18,24 @@ function showProduct(product) {
   form.elements.description.value = product.description;
   form.elements.price.value = product.price;
   form.elements.imagePath.value = product.imagePath;
+  backLink.href = `/${product.pagePath}`;
+  backLink.textContent = `← Zpět na ${product.name}`;
 }
 
 async function loadProduct() {
+  statusText.textContent = 'Načítám produkt…';
   try {
-    const response = await fetch('/api/products/graduation-cd');
+    const response = await fetch(endpoint(), { cache: 'no-store' });
     const product = await response.json();
     if (!response.ok) throw new Error(product.error || 'Produkt se nepodařilo načíst.');
     showProduct(product);
+    statusText.textContent = '';
   } catch (error) {
     statusText.textContent = error.message;
   }
 }
+
+productSelect.addEventListener('change', loadProduct);
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -27,7 +44,7 @@ form.addEventListener('submit', async (event) => {
   payload.price = Number(payload.price);
 
   try {
-    const response = await fetch('/api/products/graduation-cd', {
+    const response = await fetch(endpoint(), {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),

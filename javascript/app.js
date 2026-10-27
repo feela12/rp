@@ -17,6 +17,39 @@ const whenReady = () => new Promise((resolve) => onReady(resolve));
 const APP_CART_MAX_QUANTITY = 80;
 
 onReady(() => {
+  const priceElement = document.querySelector('.product-right .cenovka');
+  const cartButton = document.querySelector('#addToCartBtn');
+  if (!priceElement || !cartButton) return;
+
+  let reward = priceElement.querySelector('.loyalty-reward');
+  if (!reward) {
+    reward = document.createElement('span');
+    reward.className = 'loyalty-reward';
+    priceElement.append(reward);
+  }
+
+  const updateReward = () => {
+    if (!reward.isConnected) priceElement.append(reward);
+    const priceValue = cartButton.dataset.productPrice;
+    const price = Number(priceValue);
+    if (!priceValue.trim() || !Number.isFinite(price) || price < 0) {
+      reward.hidden = true;
+      return;
+    }
+    const points = Math.floor(price * 111);
+    const text = `+${new Intl.NumberFormat('cs-CZ').format(points)} BOD\u016E`;
+    if (reward.textContent !== text) reward.textContent = text;
+    reward.hidden = false;
+  };
+
+  updateReward();
+  const observer = new MutationObserver(updateReward);
+  observer.observe(priceElement, { childList: true, subtree: true, characterData: true });
+  observer.observe(cartButton, { attributes: true, attributeFilter: ['data-product-price'] });
+  document.addEventListener('product-price-updated', updateReward);
+});
+
+onReady(() => {
   document.querySelectorAll('#uvod .image-gallery > .image-card').forEach((item, index) => {
     item.classList.add('scroll-reveal', 'high-demand-reveal');
     item.style.setProperty('--reveal-delay', `${index * 140}ms`);
@@ -288,8 +321,7 @@ onReady(() => {
   }
 
   function shouldUseLowQuality(viewer) {
-    if (viewer.hasAttribute('data-high-quality')) return false;
-    return true;
+    return viewer.hasAttribute('data-low-quality');
   }
 
   function getModelSource(viewer, lowQuality) {
@@ -524,14 +556,6 @@ onReady(() => {
         material.dispose();
       }
 
-      function pixelateTexture(texture) {
-        if (!texture || !texture.isTexture) return;
-
-        texture.magFilter = THREE.NearestFilter;
-        texture.minFilter = THREE.NearestMipmapNearestFilter;
-        texture.needsUpdate = true;
-      }
-
       function disposeObject(object) {
         object.traverse((child) => {
           if (child.geometry) child.geometry.dispose();
@@ -716,19 +740,6 @@ onReady(() => {
                   material.envMapIntensity = materialEnvIntensity;
                 }
                 polishMetalMaterial(material, viewer, materialEnvIntensity);
-                if (lowQuality && 'flatShading' in material) {
-                  material.flatShading = true;
-                }
-                if (lowQuality) {
-                  [
-                    material.map,
-                    material.normalMap,
-                    material.roughnessMap,
-                    material.metalnessMap,
-                    material.emissiveMap,
-                    material.aoMap
-                  ].forEach(pixelateTexture);
-                }
                 material.needsUpdate = true;
               });
             }
